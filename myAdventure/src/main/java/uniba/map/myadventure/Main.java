@@ -55,18 +55,8 @@ public class Main extends javax.swing.JFrame {
         JTitolo.setText("jLabel2");
 
         JHelp.setText("Help");
-        JHelp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JHelpActionPerformed(evt);
-            }
-        });
 
         JSuggerimento.setText("Suggerimento");
-        JSuggerimento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JSuggerimentoActionPerformed(evt);
-            }
-        });
 
         JMappa.setText("Mappa");
 
@@ -109,14 +99,6 @@ public class Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void JHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JHelpActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_JHelpActionPerformed
-
-    private void JSuggerimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JSuggerimentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_JSuggerimentoActionPerformed
 
     /**
      * @param args the command line arguments

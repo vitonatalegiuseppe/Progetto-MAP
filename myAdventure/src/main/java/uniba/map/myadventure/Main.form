@@ -103,17 +103,11 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Help"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JHelpActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="JSuggerimento">
       <Properties>
         <Property name="text" type="java.lang.String" value="Suggerimento"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JSuggerimentoActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="JMappa">
       <Properties>
