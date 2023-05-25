@@ -11,7 +11,7 @@ import java.util.Set;
  *
  * @author Sensei Tequila
  */
-public class Parse {
+public class Parser {
     private final Set<String> stopwords;
 
     public Parser(Set<String> stopwords) {

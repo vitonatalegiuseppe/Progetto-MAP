@@ -56,8 +56,8 @@ public class Command {
         return hash;
     }
 
-    
-    public boolean equals(Object obj) {
+    @Override
+    public boolean equals(java.lang.Object obj) {
         if (this == obj) {
             return true;
         }
@@ -70,9 +70,6 @@ public class Command {
         final Command other = (Command) obj;
         return this.type == other.type;
     }
-
-   
-
 }
 
     
