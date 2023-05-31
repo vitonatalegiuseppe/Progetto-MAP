@@ -130,6 +130,57 @@ public class FireHouseGame extends GameDescription {
         getRooms().add(hall);
         getRooms().add(bathroom);
         getRooms().add(yourRoom);
+        
+         //obejcts primo piano
+        
+        // ingresso
+        Object portaNord = new Object(1, "porta nord", "Una porta chissa se si può aprire?");
+        //entryway.getObjects().add(portaNord);
+        portaNord.setOpen(true);
+        Object portaSud = new Object(2,"porta sud", "Sembrerebbe la porta di ingresso, chissà se si può aprire");
+        //entryway.getObjects().add(portaSud);
+        portaSud.setOpen(false);
+        
+        // ripostiglio
+        Object portaRipostiglioCorridoio = new Object (3, "Porta", "Una porta chissa se si può aprire?");
+        //closet.getObjects().add(portaRipostiglioCorridioio);
+        portaRipostiglioCorridoio.setOpen(true);
+        ObjectContainer generator = new ObjectContainer(4, "generatore","Un generatore molto silenzioso, chissà se funziona");
+        //closet.getObjectsContainer().add(generator);
+        generator.setLook("Guardando meglio ti accorgi che manca il carburante");
+        generator.setOpenable(true);
+        Object reservoir = new Object(5,"serbatoio","contenitore per la benzina");
+        reservoir.setFillable(true);
+        generator.add(reservoir);
+        ObjectContainer rack = new ObjectContainer(6, "scaffale", "uno scaffale dove al suo interno sembra ci siano degli oggetti");
+        //closet.getObjectContainer().add(rack);
+        Object rope = new Object(7,"corda","una corda molto resistente");
+        rope.setPickupable(true);
+        Object Scotch = new Object(8,"nasto adesivo", "un ssemplice nastro adesivo");
+        Scotch.setPickupable(true);
+        Object fuel = new Object(9,"tanica di benzina", "una tanica di benzina piena");
+        fuel.setPickupable(true);
+        Object hammer = new Object(10, "martello", "un martello molto pratico per ottime martellate");
+        hammer.setPickupable(true);
+        Object nails = new Object(11, "chiodi","Dei chiodi molto utili se si ha un martello");
+        nails.setPickupable(true);
+        Object bucket = new Object(12,"secchio","un secchio utile se c'è dell'acqua da prendere");
+        bucket.setPickupable(true);
+        Object crowbar = new Object(13,"piede di porco","un piede di porco utile per qualsiasi idea vi passi per la testa");
+        crowbar.setPickupable(true);
+        rack.add(rope);
+        rack.add(Scotch);
+        rack.add(fuel);
+        rack.add(hammer);
+        rack.add(nails);
+        rack.add(bucket);
+        rack.add(crowbar);
+        //TODO: da verificare se inserire i singoli oggetti contenuti nell'oggetto contenitore deve esere inseriti singolarmente nella stanza
+        // sala da pranzo
+        Object DiningRoomDoor = new Object(14,"porta sala da pranzo","una porta chissà se si può aprire");
+        DiningRoomDoor.setOpen(true);
+        //DiningRoom.getObjects().add(DiningRoomDoor);
+        
        
         //obejcts
         Object battery = new Object(1, "batteria", "Un pacco di batterie, chissà se sono cariche.");

@@ -32,6 +32,8 @@ public class Object {
 
     private boolean push = false;
     
+   
+    
      public Object(int id) {
         this.id = id;
     }
