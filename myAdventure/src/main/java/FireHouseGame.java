@@ -50,13 +50,43 @@ public class FireHouseGame extends GameDescription {
         //secondo piano
         Room badroomGirl = new Room(0, "Camera da letto della figlia", "Sei nella camera da letto di una bambina.\n Non ci sono altri ingressi o uscite, vedi un letto con il comodino,"
                 + " un armadio la cui anta è aperta: si intravedono abiti da bambina. Infine c'è un mobile con uno specchio.");
-         Room badroomBoy = new Room(0, "Camera da letto del figlio", "Sei nella camera da letto di un bambino.\n Non ci sono altri ingressi o uscite, c'è un armadio, un letto, un comodino e una scrivania");
-         badroomBoy.setLook("Osservando meglio la stanza la tua attenzione cade sulla scrivania: noti che ci sono delle foto.");
-                
-                
-                
-                
-                
+        Room badroomBoy = new Room(1, "Camera da letto del figlio", "Sei nella camera da letto di un bambino.\n Non ci sono altri ingressi o uscite, c'è un armadio, un letto, un comodino e una scrivania");
+        badroomBoy.setLook("Osservando meglio la stanza la tua attenzione cade sulla scrivania: noti che ci sono delle foto.");
+        
+        //ground floor
+        Room stair = new Room(1, "Scale", "e' una stanza completamente spoglia: non ci sono arrede di alcun tipo. L'unica cosa che contiene sono le sclae che portano al piano superiore.");
+        stair.setVisible(false);
+        Room hall2 = new Room(3, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e nord il corridoio prosegue. A sud trovi un cancello; mentre a ovest una porta aperta.");
+        Room hall3 = new Room(3, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        
+        //TODO: Ricordarsi di inserire questa descrizione quando entra la prima volta nel primo corridoio: Aprendo porta ti trovi sotto a un porticato che percorre tutto il perimetro del cortile. Da dove ti trovi riesci a vedere che dal sotto il porticato si trovano diversi ingressi a varie stanze. 
+        Room hall4 = new Room(4, "Corridoio", "Sei nel corridoio. di per se non c'e' niente di particolare. Riesci a vedere il giardino. A nord, infatti, trovi il suo entrata, mentre a sud hai la prota per"
+                + " andare nell'ingresso. A est e ovest il corridoio prosegue.");        
+        Room hall5 = new Room(5, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        
+        Room hall6 = new Room(6, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        Room hall7 = new Room(7, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        Room hall8 = new Room(8, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        Room hall9 = new Room(9, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        Room hall10 = new Room(10, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        Room hall11 = new Room(11, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        Room hall12 = new Room(12, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        Room hall13 = new Room(13, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        Room hall14 = new Room(14, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        Room hall15 = new Room(15, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        Room hall16 = new Room(16, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        Room hall17 = new Room(17, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        Room hall18 = new Room(18, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        Room hall19 = new Room(19, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e ovest il corridoio prosegue.");
+        
+        Room entryway = new Room(19, "Ingresso", "Sei nell'ingresso. Guardandoti intorno non noti niente di particolare. È un ingresso come tanti: c’è un tappeto con sopra un tavolino, alle pareti ci sono "
+                + "dei quadri e il tipico lampadario dell’epoca. A nord c’è una porta mentre sulla parete sud c'e' la porta dell'ingresso principale e ci sono un paio di finestre: entrambe però sono sbarrate. "
+                + "(Ti sarebbe piaciuto fuggire così in fretta?!!!).");
+        Room yard = new Room();
+        Room closet = new Room();
+        Room bathroom1 = new Room();
+        
+        
         Room hall = new Room(0, "Corridoio", "Sei appena tornato a casa e non sai cosa fare.\nTi ricordi che non hai ancora aperto quel fantastico regalo di tua zia Lina.\n"
                 + " Sarà il caso di cercarlo e di giocarci!");
         hall.setLook("Sei nel corridoio, a nord vedi il bagno, a sud il soggiorno e ad ovest la tua cameretta, forse il gioco sarà lì?");
@@ -69,7 +99,24 @@ public class FireHouseGame extends GameDescription {
         bathroom.setLook("Vedo delle batterie sul mobile alla destra del lavandino.");
         Room yourRoom = new Room(4, "La tua cameratta", "Finalmente la tua cameretta!\nQuesto luogo ti è così famigliare...ma non ricordi dove hai messo il nuovo regalo di zia Lina.");
         yourRoom.setLook("C'è un armadio bianco, di solito ci conservi i tuoi giochi.");
+        
         //map
+        entryway.setNorth(hall4);
+        hall2.setEast(hall3);
+        hall2.setWest(bathroom1);
+        hall3.setEast(hall4);
+        hall3.setWest(hall2);
+        hall4.setNorth(yard);
+        hall4.setSouth(entryway);
+        hall4.setEast(hall5);
+        hall4.setWest(hall3);
+        hall5.setEast(hall6);
+        hall5.setWest(hall4);
+        hall3.setEast(hall4);
+        hall3.setWest(hall2);
+        
+        
+        
         kitchen.setEast(livingRoom);
         livingRoom.setNorth(hall);
         livingRoom.setWest(kitchen);
@@ -83,6 +130,7 @@ public class FireHouseGame extends GameDescription {
         getRooms().add(hall);
         getRooms().add(bathroom);
         getRooms().add(yourRoom);
+       
         //obejcts
         Object battery = new Object(1, "batteria", "Un pacco di batterie, chissà se sono cariche.");
         battery.setAlias(new String[]{"batterie", "pile", "pila"});

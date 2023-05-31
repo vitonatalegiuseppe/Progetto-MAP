@@ -17,7 +17,7 @@ public class Room {
 
     private String description;
 
-    private String look;
+    private String look = "Non c'è nulla di interessante qui.";
 
     private boolean visible = true;
 
