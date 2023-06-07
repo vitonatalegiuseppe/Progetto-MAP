@@ -45,20 +45,13 @@ public class FireHouseGame extends GameDescription {
         Command push = new Command(CommandType.PUSH, "premi");
         push.setAlias(new String[]{"spingi", "attiva"});
         getCommands().add(push);
+        
         //Rooms
-        
-        //secondo piano
-        Room bedroomGirl = new Room(0, "Camera da letto della figlia", "Sei nella camera da letto di una bambina.\n Non ci sono altri ingressi o uscite, vedi un letto con il comodino,"
-                + " un armadio la cui anta è aperta: si intravedono abiti da bambina. Infine c'è un mobile con uno specchio.");
-        Room bedroomBoy = new Room(1, "Camera da letto del figlio", "Sei nella camera da letto di un bambino.\n Non ci sono altri ingressi o uscite, c'è un armadio, un letto, un comodino e una scrivania");
-        bedroomBoy.setLook("Osservando meglio la stanza la tua attenzione cade sulla scrivania: noti che ci sono delle foto.");
-        
         //ground floor
         Room stair = new Room(1, "Scale", "É una stanza completamente spoglia: non ci sono arredi di alcun tipo. L'unica cosa che contiene sono le scale che portano al piano superiore.");
         stair.setVisible(false);
         Room hall2 = new Room(3, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A ovest e a nord il corridoio prosegue. A sud trovi un cancello; mentre a est una porta aperta.");
         Room hall3 = new Room(3, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e a ovest il corridoio prosegue.");
-        
         // TODO: Ricordarsi di inserire questa descrizione quando entra la prima volta nel primo corridoio: Aprendo porta ti trovi sotto a un porticato che percorre tutto il perimetro del cortile. Da dove ti trovi riesci a vedere che dal sotto il porticato si trovano diversi ingressi a varie stanze. 
         Room hall4 = new Room(4, "Corridoio", "Sei nel corridoio. di per se non c'e' niente di particolare. Riesci a vedere il giardino. A nord, infatti, trovi il suo entrata, mentre a sud hai la prota per"
                 + " andare nell'ingresso. A est e ovest il corridoio prosegue.");        
@@ -115,6 +108,67 @@ public class FireHouseGame extends GameDescription {
         yard.setLook("Guardando meglio, la prima cosa che ti balza all’occhio è un enorme cilindro che sembra alto circa 3 metri al cui interno c’è una chiave esposta. Ti rendi conto anche che una parte del cortile"
                 + " è coperta da un balcone che sembra essere l’affaccio di qualche stanza del primo piano.");
         
+        //secondo piano
+        Room stairs_2 = new Room(31, "Scale", "Salendo ti ritrovi un’ampia stanza da cui, ben presto, capisci che si tratta di un corridoio che circonda l’intero palazzo.");
+        stairs_2.setLook("C'è ben poco arredamento: un tappeto posizionato al centro della stanza sembra percorrere l’intero corridoio, ci sono delle sculture.");
+        stairs_2.setVisible(false);
+        Room hall2_2 = new Room(32, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri. C'è anche una finestra."
+                + " A ovest e a nord il corridoio prosegue. A sud vai verso le scale.");
+        hall2_2.setVisible(false);
+        Room hall3_2 = new Room(33, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
+                + " A ovest e a est il corridoio prosegue. A sud vai verso le scale.");
+        hall3_2.setVisible(false);
+        Room hall4_2 = new Room(34, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri. C'è anche una finestra."
+                + " A ovest e a est il corridoio prosegue. A nord vi è l'ingresso di una stanza.");
+        hall4_2.setVisible(false);
+        Room hall5_2 = new Room(35, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso. A sud, dove dovrebbe esserci l'ingresso per la torre c’è una scultura. "
+                + " A ovest e a est il corridoio prosegue.");
+        hall5_2.setLook("La scultura raffigura un dio greco in una posa particolare: è in piedi con il braccio sinistro che regge uno scudo, mentre il braccio desto mantiene una spada sollevata.");
+        hall5_2.setVisible(false);
+        
+        Room hall3_2 = new Room(33, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
+                + " A ovest e a est il corridoio prosegue. A sud vai verso le scale");
+        hall3_2.setVisible(false);
+         Room hall3_2 = new Room(33, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
+                + " A ovest e a est il corridoio prosegue. A sud vai verso le scale");
+        hall3_2.setVisible(false); 
+        Room hall3_2 = new Room(33, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
+                + " A ovest e a est il corridoio prosegue. A sud vai verso le scale");
+        hall3_2.setVisible(false);
+         Room hall3_2 = new Room(33, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
+                + " A ovest e a est il corridoio prosegue. A sud vai verso le scale");
+        hall3_2.setVisible(false);
+         Room hall3_2 = new Room(33, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
+                + " A ovest e a est il corridoio prosegue. A sud vai verso le scale");
+        hall3_2.setVisible(false);
+         Room hall3_2 = new Room(33, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
+                + " A ovest e a est il corridoio prosegue. A sud vai verso le scale");
+        hall3_2.setVisible(false);
+         Room hall3_2 = new Room(33, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
+                + " A ovest e a est il corridoio prosegue. A sud vai verso le scale");
+        hall3_2.setVisible(false);
+         Room hall3_2 = new Room(33, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
+                + " A ovest e a est il corridoio prosegue. A sud vai verso le scale");
+        hall3_2.setVisible(false);
+         Room hall3_2 = new Room(33, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
+                + " A ovest e a est il corridoio prosegue. A sud vai verso le scale");
+        hall3_2.setVisible(false);
+         Room hall3_2 = new Room(33, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
+                + " A ovest e a est il corridoio prosegue. A sud vai verso le scale");
+        hall3_2.setVisible(false);
+        
+        Room anteroom = new Room(51, "Anticamera", "La prima cosa che ti colpisce entrando è l’enorme finestrone aperto che affaccia sul cortile. "
+                + "Ad entrambi i lati della stanza ci sono delle porte, una chiusa e l’altra aperta. Al centro ci sono dei divani posti intorno ad un tavolino da caffè su cui ci sono delle riviste di abiti da sposa. ");
+        anteroom.setVisible(false);
+        Room bedroomGirl = new Room(25, "Camera da letto della figlia", "Sei nella camera da letto di una bambina.\n Non ci sono altri ingressi o uscite, vedi un letto con il comodino,"
+                + " un armadio la cui anta è aperta: si intravedono abiti da bambina. Infine c'è un mobile con uno specchio.");
+        bedroomGirl.setVisible(false);
+        Room bedroomBoy = new Room(22, "Camera da letto del figlio", "Sei nella camera da letto di un bambino.\n Non ci sono altri ingressi o uscite, c'è un armadio, un letto, un comodino e una scrivania");
+        bedroomBoy.setLook("Osservando meglio la stanza la tua attenzione cade sulla scrivania: noti che ci sono delle foto.");
+        bedroomBoy.setVisible(false);
+        Room balconyAnteroom = new Room(61, "Balcone anticamera", "Affacciandoti dal balcone riesci a vdere l'intero cortile e il balcone difronte. li però la finestra sembra chiusa."
+                + "A sud trovi l'ingresso alla stanza.");
+        balconyAnteroom.setVisible(false);
 
         /*TODO: Capire come gestire il fatto delle stanze illuminate e buie
         una possibile idea è ampliare il costruttore delle stane aggiungendo un
@@ -189,6 +243,31 @@ public class FireHouseGame extends GameDescription {
         yard.setWest(hall8);
         yard.setEast(hall17);
         //TODO stanzadellaservitù.setSouth(hall14);
+        
+        stairs_2.setNorth(hall2_2);
+        hall2_2.setNorth(hall20_2);
+        hall2_2.setSouth(stairs_2);
+        hall2_2.setWest(hall3_2);
+        hall3_2.setSouth(stairs_2);
+        hall3_2.setWest(hall4_2);
+        hall3_2.setEast(hall2_2);
+        hall4_2.setEast(hall3_2);
+        hall4_2.setWest(hall5_2);
+        hall4_2.setNorth(anteroom);
+        hall5_2.setWest(hall6_2);
+        hall5_2.setEast(hall4_2);
+        hall5_2.setSouth(tower);
+        
+        
+        anteroom.setNorth(balconyAnteroom);
+        anteroom.setSouth(hall4_2);
+        anteroom.setWest(bedroomBoy);
+        anteroom.setEast(bedroomGirl);
+        bedroomGirl.setWest(anteroom);
+        bedroomBoy.setEast(anteroom);
+        
+        tower.setNorth(hall5_2);
+        
         
         getRooms().add(kitchen);
         getRooms().add(livingroom);
