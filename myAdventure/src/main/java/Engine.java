@@ -40,7 +40,7 @@ public class Engine {
         System.out.println("================================");
         System.out.println(game.getCurrentRoom().getName());
         System.out.println();
-        System.out.println(game.getCurrentRoom().getDescription());
+        System.out.println(game.getCurrentRoom().getDescDay());
         System.out.println();
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {

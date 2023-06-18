@@ -15,10 +15,12 @@ public class Room {
 
     private String name;
 
-    private String description;
+    private String descNight;
+    
+    private String descDay;
 
     private String look = "Non c'è nulla di interessante qui.";
-
+    
     private boolean visible = true;
 
     private Room south = null;
@@ -36,10 +38,11 @@ public class Room {
         this.id = id;
     }
 
-    public Room(int id, String name, String description) {
+    public Room(int id, String name, String descDay, String descNight) {
         this.id = id;
         this.name = name;
-        this.description = description;
+        this.descDay = descDay;
+        this.descNight = descNight;
     }
 
     public String getName() {
@@ -50,12 +53,20 @@ public class Room {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescDay() {
+        return descDay;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescDay(String descDay) {
+        this.descDay = descDay;
+    }
+    
+    public String getDescNight() {
+        return descNight;
+    }
+
+    public void setDescNight(String descNight) {
+        this.descNight = descNight;
     }
 
     public boolean isVisible() {
@@ -65,7 +76,7 @@ public class Room {
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
-
+    
     public Room getSouth() {
         return south;
     }
@@ -98,7 +109,7 @@ public class Room {
         this.west = west;
     }
     
-     public String getLook() {
+    public String getLook() {
         return look;
     }
 
