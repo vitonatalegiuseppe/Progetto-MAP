@@ -32,6 +32,28 @@ public class Object {
 
     private boolean push = false;
     
+    private boolean fillable = false;
+    
+    private String look = "Non noti niente di particolare"; 
+    
+    public boolean isfillabel() {
+        return fillable;
+    }
+
+    public void setfillable(boolean fillable) {
+        this.fillable = fillable;
+    }
+    
+    
+     public String getLook() {
+        return look;
+    }
+
+    public void setLook(String look) {
+        this.look = look;
+    }
+    
+    
      public Object(int id) {
         this.id = id;
     }
