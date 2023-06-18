@@ -24,7 +24,7 @@ public class Object {
 
     private boolean openable = false;
 
-    private boolean pickupable = true;
+    private boolean pickupable = false;
 
     private boolean pushable = false;
 
@@ -32,7 +32,7 @@ public class Object {
 
     private boolean push = false;
     
-   
+    private String look = true;
     
      public Object(int id) {
         this.id = id;
@@ -128,6 +128,10 @@ public class Object {
         return id;
     }
     
+    public void setLook(String look) {
+        this.look = look;
+    }
+   
     @Override
     public int hashCode() {
         int hash = 7;

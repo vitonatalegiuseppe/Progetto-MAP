@@ -135,53 +135,236 @@ public class FireHouseGame extends GameDescription {
         
         // ingresso
         Object portaNord = new Object(1, "porta nord", "Una porta chissa se si può aprire?");
-        //entryway.getObjects().add(portaNord);
+        portaNord.setPickupable(false);
+        portaNord.setPushable(false);
+        portaNord.setPush(false);
         portaNord.setOpen(true);
+        //entryway.getObjects().add(portaNord);
         Object portaSud = new Object(2,"porta sud", "Sembrerebbe la porta di ingresso, chissà se si può aprire");
-        //entryway.getObjects().add(portaSud);
         portaSud.setOpen(false);
+        portaSud.setOpenable(false);
+        portaSud.setPickupable(false);
+        portaSud.setPushable(false);
+        portaSud.setPush(false);
+        //entryway.getObjects().add(portaSud);
         
         // ripostiglio
-        Object portaRipostiglioCorridoio = new Object (3, "Porta", "Una porta chissa se si può aprire?");
-        //closet.getObjects().add(portaRipostiglioCorridioio);
-        portaRipostiglioCorridoio.setOpen(true);
-        ObjectContainer generator = new ObjectContainer(4, "generatore","Un generatore molto silenzioso, chissà se funziona");
-        //closet.getObjectsContainer().add(generator);
-        generator.setLook("Guardando meglio ti accorgi che manca il carburante");
-        generator.setOpenable(true);
-        Object reservoir = new Object(5,"serbatoio","contenitore per la benzina");
-        reservoir.setFillable(true);
-        generator.add(reservoir);
-        ObjectContainer rack = new ObjectContainer(6, "scaffale", "uno scaffale dove al suo interno sembra ci siano degli oggetti");
-        //closet.getObjectContainer().add(rack);
-        Object rope = new Object(7,"corda","una corda molto resistente");
-        rope.setPickupable(true);
+        Object Closetdor = new Object (3, "Porta", "Una porta chissa se si può aprire?");
+        Closetdor.setOpen(true);
+        Closetdor.setPickupable(false);
+        Closetdor.setPushable(false);
+        Closetdor.setOpenable(false);
+        Closetdor.setPush(false);
+        //Closet.getObjects().add(Closetdor);
+        ObjectContainer Generator = new ObjectContainer(4, "generatore","Un generatore molto silenzioso, chissà se funziona");
+        Generator.setLook("Guardando meglio ti accorgi che manca il carburante");
+        Generator.setPickupable(false);
+        Generator.setPushable(false);
+        Generator.setPush(false);
+        //closet.getObjectsContainer().add(Generator);
+        Object Reservoir = new Object(5,"serbatoio","contenitore per la benzina");
+        Reservoir.setFillable(true);
+        Reservoir.setPushable(false);
+        Reservoir.setPush(true);
+        Reservoir.setPickupable(false);
+        Generator.add(Reservoir);
+        ObjectContainer Rack = new ObjectContainer(6, "scaffale", "uno scaffale dove al suo interno sembra ci siano degli oggetti");
+        Rack.setPushable(false);
+        Rack.setPush(false);
+        Rack.setPickupable(false);
+        //closet.getObjectContainer().add(Rack);
+        Object Rope = new Object(7,"corda","una corda molto resistente");
+        Rope.setPushable(false);
+        Rope.setPush(false);
+        Rope.setOpenable(false);
+        Rope.setOpen(false);
         Object Scotch = new Object(8,"nasto adesivo", "un ssemplice nastro adesivo");
-        Scotch.setPickupable(true);
-        Object fuel = new Object(9,"tanica di benzina", "una tanica di benzina piena");
-        fuel.setPickupable(true);
-        Object hammer = new Object(10, "martello", "un martello molto pratico per ottime martellate");
-        hammer.setPickupable(true);
-        Object nails = new Object(11, "chiodi","Dei chiodi molto utili se si ha un martello");
-        nails.setPickupable(true);
-        Object bucket = new Object(12,"secchio","un secchio utile se c'è dell'acqua da prendere");
-        bucket.setPickupable(true);
-        Object crowbar = new Object(13,"piede di porco","un piede di porco utile per qualsiasi idea vi passi per la testa");
-        crowbar.setPickupable(true);
-        rack.add(rope);
-        rack.add(Scotch);
-        rack.add(fuel);
-        rack.add(hammer);
-        rack.add(nails);
-        rack.add(bucket);
-        rack.add(crowbar);
+        Scotch.setPushable(false);
+        Scotch.setPush(false);
+        Scotch.setOpenable(false);
+        Scotch.setOpen(false);
+        Object Fuel = new Object(9,"tanica di benzina", "una tanica di benzina piena");
+        Fuel.setPushable(false);
+        Fuel.setPush(false);
+        Fuel.setOpenable(false);
+        Fuel.setOpen(false);
+        Object Hammer = new Object(10, "martello", "un martello molto pratico per ottime martellate");
+        Hammer.setPushable(false);
+        Hammer.setPush(false);
+        Hammer.setOpenable(false);
+        Hammer.setOpen(false);
+        Object Nails = new Object(11, "chiodi","Dei chiodi molto utili se si ha un martello");
+        Nails.setPushable(false);
+        Nails.setPush(false);
+        Nails.setOpenable(false);
+        Nails.setOpen(false);
+        Object Bucket = new Object(12,"secchio","un secchio utile se c'è dell'acqua da prendere");
+        Bucket.setPushable(false);
+        Bucket.setPush(false);
+        Bucket.setOpenable(false);
+        Bucket.setOpen(false);
+        Object Crowbar = new Object(13,"piede di porco","un piede di porco utile per qualsiasi idea vi passi per la testa");
+        Crowbar.setPushable(false);
+        Crowbar.setPush(false);
+        Crowbar.setOpenable(false);
+        Crowbar.setOpenable(false);
+        Crowbar.setOpen(false);
+        Rack.add(Rope);
+        Rack.add(Scotch);
+        Rack.add(Fuel);
+        Rack.add(Hammer);
+        Rack.add(Nails);
+        Rack.add(Bucket);
+        Rack.add(Crowbar);
         //TODO: da verificare se inserire i singoli oggetti contenuti nell'oggetto contenitore deve esere inseriti singolarmente nella stanza
+       
         // sala da pranzo
         Object DiningRoomDoor = new Object(14,"porta sala da pranzo","una porta chissà se si può aprire");
-        DiningRoomDoor.setOpen(true);
-        //DiningRoom.getObjects().add(DiningRoomDoor);
+        DiningRoomDoor.setPushable(false);
+        DiningRoomDoor.setPush(false);
+        DiningRoomDoor.setPickupable(false);
+        // DiningRoom.getObjects().add(DiningRoomDoor);
+        // TODO: il cibo all'interno dei piatti è avvelenato e il personaggio perde una vita
+        Object Dishes = new Object(15, "piatti","dei piatti con ancora del cibo al loro interno, chissà se è buono");
+        Dishes.setPickupable(true);
+        //DiningRoom.getObjects().add(Dishes);
+        Object Silverware = new Object(16,"posate","Utili per afferrare cosa c'è nel piatto");
+        Silverware.setPushable(false);
+        Silverware.setPush(false);
+        Silverware.
+        //DinningRoom.getObjects().add(Silverware);
+        Object Glasses = new Object(17,"bicchieri","Utili per bere qualsiasi fluido ");
+        //DinningRoom.getObjects().add(Glasses);
+        Object Napkins = new Object(18,"tovaglioli","Utili per pulirsi");
+        //DinningRoom.getObjects().add(Napkins);
+        Object Candles = new Object(19,"candele","Ottime per illuminare e scaldare un ambiente");
+        //DinningRoom.getObjects().add(Candles);
+        ObjectContainer Butler = new ObjectContainer(20,"magiordomo","si chiama Ambrogio ed è il magiordomo di questo castello, al collo ha appesa una chiave e sembra essere non intenzionato a dartela");
+        //DinningRoom.getObjects().add(Butler);
+        //TODO: definire le azioni che si possono fare con il maggiordomo
+        Object key1 = new Object(21,"chiave","una chiave che probabilmente può aprire una serratura");        
+        key1.setPickupable(true);
+        Butler.add(key1);
         
+        //ogetti biblioteca
+        
+        Object Card = new Object(22,"bigliettino","");
+        Card.setPickupable(true);
+        //TODO: inserire gli indovinelli che ti conducono alla chiave
+        //Library.getObjects().add(Card);
+        //TODO: se c'è tempo ampliare i libri dello scaffale e aggiungere nome del libro
+        ObjectContainer Bookcase = new Object(23,"scaffale di libri","nome libro");
+         //Library.getObjects().add(Bookcase);
+        Object Book1 = new Object(24,"libro","questo libro sembra essere piu pulito rispetto a gli altri"); 
+        Book1.setPickupable(true);
+        Bookcase.add(Book1);
+        ObjectContainer Secretbox = new ObjectContainer(25,"scompartimento segreto","al suo interno c'è una chiave insieme ad odere di qualcosa andato a male,"
+         + " sembra che qualcuno ci abbia lasciato il pranzo");
+        Secretbox.setOpen(false);
+        //Library.getObjects().add(Secretbox);
+        Object key2 = new Object(26,"chiave","una chiave utile per aprire una serratura, chissà quale");
+        key2.setPickupable(true);
+        Secretbox.add(key2);
        
+        //ogetti soggiorno
+        
+        Object Torch = new Object(27,"fiaccola","una fiaccolaa spenta, in presenza di fuoco potrebbe tornarti utile per illuminare il cammino"
+        + "e non calpestare qualcosa di spiacevole");
+        Torch.setPickupable(true);
+        Torch.setPushable(true);
+        //Livingroom.getObjects().add(Torch);
+        Object Chimney = new Object(28,"camino","un bel caminetto con del fuoco accesso, she hai con te delle salsicce puoi fare un ottimo spuntino");
+        //Livingroom.getObjects().add(Chimney);
+        Object Mail = new Object(29,"lettera","");
+        Mail.setPickupable(true);
+        //TODO: inserire la descrizione della lettera
+        //Livingroom.getObjects().add(Mail);
+        Object key3 = new Object(30,"chiave","una chiave utile per aprire una serratura, chissà quale");
+        key3.setPickupable(true);
+        //Livingroom.getObjects().add(key3);
+        
+        
+        //oggetti dispensa
+        
+        Object Foodstocks = new Object(33,"scorte di viveri","qui c'è del cibo per sfamare l'africa");
+        //Foodstorage.getObjects().add(Foodstocks);
+        Object Winecellar = new Object(34,"cantina di vini","una preziosa scorta di vini profumati ed inebrianti ottimi per le migliori feste da palazzo");
+        //Foodstorage.getObjects().add(Winecellar);
+        ObjectContainer Winebottle = new ObjectContainer(35,"bottiglia di vino","sembra che al suo intenro ci sia una chiave");
+        Winebottle.setOpen(false);
+        //Foodstorage.getObjects().add(Winebottle);
+        //TODO: inserire le zioni che puo effettuare con la bottiglia
+        Object key4 = new Object(35,"chiave","una chiave utile per aprire una serratura, chissà quale");
+        key4.setPickupable(true);
+        Winebottle.add(key4);
+       
+        //oggetti stanza della servitu
+        Object Wardrobe = new Object(36,"guardaroba","un semplice armadio dove al suo interno contiene dei vestiti ");
+        //Servantsroom.getObjects().add(Wardrobe);
+        Object NightTable = new Object(37,"comodino","un semplice comodino usato dalla servitu per deporre gli ogetti, ma sembra sia vuoto");
+        //Servantsroom.getObjects().add(NightTable);
+        Object Diary = new Object(38,"diario","un diario molto importante per la persona che lo custodiva");
+        //Servantsroom.getObjects().add(Diary);
+        
+        //ogetti armeria
+        
+        Object Rifle = new Object(39,"fucile","un ottima arma per incutere timore a chi hai di fronte, inutile se mancano le munizioni");
+        //Armoryroom.getObjects().add(Rifle);
+        Object Glock17 = new Object(40,"pistola","un arma abbastanza pratica per eliminare i tuoi nemici, ma a senza munizione puoi usarla come martello");
+        //Armoryroom.getObjects().add(Glock17);
+        Object Spear = new Object(41,"lancia","un arma usata nell'era glaciale per abbattere i mammut, ottima per il suo periodo storico");
+        //Armoryroom.getObjects().add(Spear);
+        Object Sword = new Object(42,"spada","ottima nelle grandi battaglie, questa sembra sia salda al muro");
+        //Armoryroom.getObjects().add(Sword);
+        Object key5 = new Object(43,"chiave","una chiave utile per aprire una serratura, chissà quale"); 
+        //Armoryroom.getObjects().add(key5);
+        Object Guardian = new Object(44,"guardiano","Lui è Robert il guardiano di questo castello, a lui non sfugge nulla, neanche quando dorme");
+        //Armoryroom.getObjects().add(Guardian);
+        Object GrapplingHook = new Object(45,"rampino","un oggetto che se lanciato si aggrappa ovunque, ma inutile senza una corda");
+        //TODO: inserire l'azione che unisce gli oggetti e modificare la descrizione del rampino
+        //Armoryroom.getObjects().add(GrapplingHook);
+        
+        // oggetti bagno
+        
+        Object Ghost = new Object(46,"fantasma","un anima in pena che sembra sia molto affezzionata a questa stanza, chissa cosa c'è che richiama la sua attenzione");
+        //Bathroom.getObjects().add.(Ghost);
+        Object key6 = new Object(47,"chiave","una chiave utile per aprire una serratura, chissà quale"); 
+        //Bathroom.getObjects().add.(key6);
+        
+        //scale che portano al secondo piano
+        
+        Object Gate = new Object(48,"cancello","questo cancello ti blocca la strada, trova la chiave che lo apre o trova un altro modo per oltrepassarlo");
+        //Stairs.getObjects().add(Gate);
+        
+        //corridioio secondo piano
+        
+        Object Ares = new Object(49,"scultura di ares","un scultura molto bella che raffigura ares il dio della guerra");
+        
+        //studio secondo piano
+        
+        Object Mail2 = new Object(50,"lettera","Caro james, se stai leggendo questa lettera vuole dire che sono fuggito, mi avevano quasi preso quei maledetti cosacchi,"
+                + " menumale che mio nonno fece costruire un passaggio segreto per fuggire dal castello dove sgattaiolava da sua moglie per andare a trovare le sue giovani amiche del bordello,"
+                + "inoltre questo passaggio portava in cima ad una torre dove nascondeva la sua collezione di vini, il passaggio è raffigurato in un quadro, trova l'ingresso e portami una di quelle bottiglie,"
+                + "ti aspetto fuori dalle mura del castello, mi raccomando james non dimenticarti le bottiglie!");  
+        //StudyRoom.getObjects().add(Mail2);
+        Object Square = new Object(51,"quadro","il quadro raffigura la statua di ares il dio della guerra con un braccio abbassato");
+        //StudyRoom.getObjects().add(Square);
+        
+        //bagno secondo piano
+        
+        Object Square2 = new Object(52,"quadro","il quadro raffigura una persona che si arrampica sul balcone dal cortile del castello, usando un rampino, un tizio molto abile");
+        
+        // oggetti camera padronaria secondo piano
+        // MasterBadroom.getObjects().add.();
+        //TODO: inserire oggetti camera padronaria
+        
+        //oggetti torre 
+        Object MisterX = new Object(53,"MisterX","si presenta con una benda all'occhio, un barbone non curata e un fare minaccioso, il classico tipo losco da non farti mai nemico"); 
+        //Tower.getObjects().add(MisterX);
+        Object Stecy = new Object(54,"Stecy","una bella ragazza con dei lineamenti del viso armoniosi e proporzionati con occhi grandi e luminosi, la classica ragazza acqua e sapone");
+        //Tower.getObjects().add(Stecy);
+
+
         //obejcts
         Object battery = new Object(1, "batteria", "Un pacco di batterie, chissà se sono cariche.");
         battery.setAlias(new String[]{"batterie", "pile", "pila"});
