@@ -12,14 +12,14 @@ import java.util.Set;
  *
  * @author giuse
  */
-public class Engine {
+public class Engine2 {
    
 
     private final GameDescription game;
 
     private Parser parser;
 
-    public Engine(GameDescription game) {
+    public Engine2(GameDescription game) {
         this.game = game;
         try {
             this.game.init();
@@ -62,7 +62,7 @@ public class Engine {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Engine engine = new Engine(new FireHouseGame());
+        Engine2 engine = new Engine2(new AdventureCastleGame());
         engine.execute();
     }
 //jhbfgjhkjnkm,
