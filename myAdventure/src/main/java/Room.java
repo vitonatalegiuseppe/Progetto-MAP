@@ -31,7 +31,7 @@ public class Room {
 
     private Room west = null;
     
-    private final List<Object> objects=new ArrayList<>();
+    private final List<Object> objects = new ArrayList<>();
 
     
     public Room(int id) {
