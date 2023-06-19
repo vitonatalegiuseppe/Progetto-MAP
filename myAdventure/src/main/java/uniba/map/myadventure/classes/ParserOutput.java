@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
+package uniba.map.myadventure.classes;
+
 /**
  *
  * @author Sensei Tequila
@@ -10,16 +12,16 @@
 public class ParserOutput {
     private Command command;
 
-    private Object object;
+    private ObjectAdv object;
     
-    private Object invObject;
+    private ObjectAdv invObject;
 
-    public ParserOutput(Command command, Object object) {
+    public ParserOutput(Command command, ObjectAdv object) {
         this.command = command;
         this.object = object;
     }
 
-    public ParserOutput(Command command, Object object, Object invObejct) {
+    public ParserOutput(Command command, ObjectAdv object, ObjectAdv invObejct) {
         this.command = command;
         this.object = object;
         this.invObject = invObejct;
@@ -33,19 +35,19 @@ public class ParserOutput {
         this.command = command;
     }
 
-    public Object getObject() {
+    public ObjectAdv getObject() {
         return object;
     }
 
-    public void setObject(Object object) {
+    public void setObject(ObjectAdv object) {
         this.object = object;
     }
 
-    public Object getInvObject() {
+    public ObjectAdv getInvObject() {
         return invObject;
     }
 
-    public void setInvObject(Object invObject) {
+    public void setInvObject(ObjectAdv invObject) {
         this.invObject = invObject;
     }
 }

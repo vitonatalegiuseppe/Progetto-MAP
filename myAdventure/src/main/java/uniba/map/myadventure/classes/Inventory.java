@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+package uniba.map.myadventure.classes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,21 +14,21 @@ import java.util.List;
     
     public class Inventory {
 
-    private List<Object> list = new ArrayList<>();
+    private List<ObjectAdv> list = new ArrayList<>();
 
-    public List<Object> getList() {
+    public List<ObjectAdv> getList() {
         return list;
     }
 
-    public void setList(List<Object> list) {
+    public void setList(List<ObjectAdv> list) {
         this.list = list;
     }
 
-    public void add(Object o) {
+    public void add(ObjectAdv o) {
         list.add(o);
     }
 
-    public void remove(Object o) {
+    public void remove(ObjectAdv o) {
         list.remove(o);
     }
 }

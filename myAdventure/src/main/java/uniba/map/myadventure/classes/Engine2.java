@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
+package uniba.map.myadventure.classes;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
