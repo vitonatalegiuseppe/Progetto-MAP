@@ -7,6 +7,7 @@ package uniba.map.myadventure.classes;
 
 import java.io.PrintStream;
 import java.util.Iterator;
+import java.util.Scanner;
 
 /**
  * @author pierpaolo
@@ -56,7 +57,7 @@ public class AdventureCastleGame extends GameDescription {
         Room hall2 = new Room(3, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A ovest e a nord il corridoio prosegue. A sud trovi un cancello; mentre a est una porta aperta.", darkHall);
         Room hall3 = new Room(3, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e a ovest il corridoio prosegue.",darkHall);
         // TODO: Ricordarsi di inserire questa descrizione quando entra la prima volta nel primo corridoio: Aprendo porta ti trovi sotto a un porticato che percorre tutto il perimetro del cortile. Da dove ti trovi riesci a vedere che dal sotto il porticato si trovano diversi ingressi a varie stanze. 
-        Room hall4 = new Room(4, "Corridoio", "Sei nel corridoio. di per se non c'e' niente di particolare. Riesci a vedere il giardino. A nord, infatti, trovi il suo entrata, mentre a sud hai la prota per"
+        Room hall4 = new Room(4, "Corridoio", "Sei nel corridoio. Di per se non c'e' niente di particolare. Riesci a vedere il giardino. A nord, infatti, trovi la sua entrata, mentre a sud hai la porta per"
                 + " andare nell'ingresso. A est e ovest il corridoio prosegue.", darkHall);        
         Room hall5 = new Room(5, "Corridoio", "Sei nel corridoio. Riesci a vedere il cortile. A est e a ovest il corridoio prosegue.", darkHall);
         Room hall6 = new Room(6, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A nord, sud ed est il corridoio prosegue.", darkHall);
@@ -76,9 +77,9 @@ public class AdventureCastleGame extends GameDescription {
         Room hall17 = new Room(17, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A nord e a sud il corridoio prosegue. A est c'è lingresso di una stanza, mentre a ovest l'ingresso al cortile.", darkHall);
         Room hall18 = new Room(18, "Corridoio", "Sei nel corridoio. Riesci a vedere il cortile. A est e ovest il corridoio prosegue.", darkHall);
         Room hall19 = new Room(30, "Corridoio", "Sei nel corridoio. A nord il corridoio prosegue. A sud e ovest vedi una porta.", darkHall);
-        Room entryway = new Room(19, "Ingresso", "Sei nell'ingresso. Guardandoti intorno non noti niente di particolare. È un ingresso come tanti: c’è un tappeto con sopra un tavolino, alle pareti ci sono "
-                + "dei quadri e il tipico lampadario dell’epoca. A nord c'è una porta mentre sulla parete sud c'è la porta dell'ingresso principale e ci sono un paio di finestre: entrambe però sono sbarrate. "
-                + "(Ti sarebbe piaciuto fuggire così in fretta?!!!).",darkRoom);
+        Room entryway = new Room(19, "Ingresso", "Sei nell'ingresso. Guardandoti intorno non noti niente di particolare. È un ingresso come tanti: c’è un tappeto con sopra un tavolino,\n"
+                + "alle pareti ci sono dei quadri e il tipico lampadario dell’epoca. A nord c'è una porta mentre sulla parete sud c'è la porta dell'ingresso principale \n"
+                + "e ci sono un paio di finestre: entrambe però sono sbarrate. (Ti sarebbe piaciuto fuggire così in fretta?!!!).",darkRoom);
         Room closet = new Room(20, "Ripostiglio", "Illuminando la stanza vedi che c'è uno scaffale sul lato, mentre infondo alla stanza vedi quello che sembra un generatore. Ovviamente a Nord trovi l'ingresso da cui sei entrato", darkRoom);
         Room library = new Room(21, "Biblioteca", "Entrando ti trovi difronte un tavolo. Vi è un'unica grande libreria che segue le pareti dell'intera stanza. A est c'è la porta da cui sei entrato alla cui destra "
                 + "c’è un mobile con sopra un grande libro: “Registro dei libri”.", darkRoom);
@@ -367,13 +368,13 @@ public class AdventureCastleGame extends GameDescription {
         //obejcts primo piano
         
         // ingresso
-        ObjectAdv portaNord = new ObjectAdv(1, "porta nord", "Una porta chissa se si può aprire?");
+        ObjectAdv portaNord = new ObjectAdv(1, "portaNord", "Una porta chissa se si può aprire?");
         portaNord.setPickupable(false);
         portaNord.setPushable(false);
         portaNord.setPush(false);
         portaNord.setOpen(true);
         entryway.getObjects().add(portaNord);
-        ObjectAdv portaSud = new ObjectAdv(2,"porta sud", "Sembrerebbe la porta di ingresso, chissà se si può aprire");
+        ObjectAdv portaSud = new ObjectAdv(2, "portaSud", "Sembrerebbe la porta di ingresso, chissà se si può aprire");
         portaSud.setOpen(false);
         portaSud.setOpenable(false);
         portaSud.setPickupable(false);
