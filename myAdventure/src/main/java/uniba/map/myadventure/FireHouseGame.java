@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import uniba.map.myadventure.Command;
 import java.io.PrintStream;
 import java.util.Iterator;
 
