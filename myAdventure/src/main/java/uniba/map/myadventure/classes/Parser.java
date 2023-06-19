@@ -1,4 +1,6 @@
 
+package uniba.map.myadventure.classes;
+
 import java.util.List;
 import java.util.Set;
 
@@ -27,7 +29,7 @@ public class Parser {
         return -1;
     }
     
-    private int checkForObject(String token, List<Object> obejcts) {
+    private int checkForObject(String token, List<ObjectAdv> obejcts) {
         for (int i = 0; i < obejcts.size(); i++) {
             if (obejcts.get(i).getName().equals(token) || obejcts.get(i).getAlias().contains(token)) {
                 return i;
@@ -36,7 +38,7 @@ public class Parser {
         return -1;
     }
     
-    public ParserOutput parse(String command, List<Command> commands, List<Object> objects, List<Object> inventory) {
+    public ParserOutput parse(String command, List<Command> commands, List<ObjectAdv> objects, List<ObjectAdv> inventory) {
         List<String> tokens = Utils.parseString(command, stopwords);
         if (!tokens.isEmpty()) {
             int ic = checkForCommand(tokens.get(0), commands);

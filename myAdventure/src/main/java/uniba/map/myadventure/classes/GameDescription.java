@@ -1,12 +1,13 @@
-
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
+package uniba.map.myadventure.classes;
+
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -17,7 +18,7 @@ public abstract class GameDescription {
 
     private final List<Command> commands = new ArrayList<>();
 
-    private final List<Object> inventory = new ArrayList<>();
+    private final List<ObjectAdv> inventory = new ArrayList<>();
 
     private Room currentRoom;
 
@@ -37,7 +38,7 @@ public abstract class GameDescription {
         this.currentRoom = currentRoom;
     }
 
-    public List<Object> getInventory() {
+    public List<ObjectAdv> getInventory() {
         return inventory;
     }
 

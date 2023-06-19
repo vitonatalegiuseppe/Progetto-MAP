@@ -2,6 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
+package uniba.map.myadventure.classes;
+
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -31,7 +34,7 @@ public class Room {
 
     private Room west = null;
     
-    private final List<Object> objects = new ArrayList<>();
+    private final List<ObjectAdv> objects = new ArrayList<>();
 
     
     public Room(int id) {
@@ -117,7 +120,7 @@ public class Room {
         this.look = look;
     }
     
-    public List<Object> getObjects() {
+    public List<ObjectAdv> getObjects() {
         return objects;
     }
 

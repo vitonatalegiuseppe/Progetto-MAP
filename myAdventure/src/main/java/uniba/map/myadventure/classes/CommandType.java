@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
+package uniba.map.myadventure.classes;
+
 /**
  *
  * @author giuse

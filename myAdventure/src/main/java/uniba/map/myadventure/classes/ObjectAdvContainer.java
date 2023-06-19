@@ -2,6 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+package uniba.map.myadventure.classes;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -9,39 +11,39 @@ import java.util.Set;
  *
  * @author giuse
  */
-public class ObjectContainer extends Object{
+public class ObjectAdvContainer extends ObjectAdv{
     
-    private List<Object> list = new ArrayList<>();
+    private List<ObjectAdv> list = new ArrayList<>();
 
-    public ObjectContainer(int id) {
+    public ObjectAdvContainer(int id) {
         super(id);
     }
 
-    public ObjectContainer(int id, String name) {
+    public ObjectAdvContainer(int id, String name) {
         super(id, name);
     }
 
-    public ObjectContainer(int id, String name, String description) {
+    public ObjectAdvContainer(int id, String name, String description) {
         super(id, name, description);
     }
 
-    public ObjectContainer(int id, String name, String description, Set<String> alias) {
+    public ObjectAdvContainer(int id, String name, String description, Set<String> alias) {
         super(id, name, description, alias);
     }
 
-    public List<Object> getList() {
+    public List<ObjectAdv> getList() {
         return list;
     }
 
-    public void setList(List<Object> list) {
+    public void setList(List<ObjectAdv> list) {
         this.list = list;
     }
 
-    public void add(Object o) {
+    public void add(ObjectAdv o) {
         list.add(o);
     }
 
-    public void remove(Object o) {
+    public void remove(ObjectAdv o) {
         list.remove(o);
     }
     

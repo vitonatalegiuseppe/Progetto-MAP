@@ -1,4 +1,6 @@
 
+package uniba.map.myadventure.classes;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +14,7 @@ import java.util.Set;
  *
  * @author giuse
  */
-public class Object {
+public class ObjectAdv {
     
     private final int id;
 
@@ -54,22 +56,22 @@ public class Object {
     }
     
     
-     public Object(int id) {
+     public ObjectAdv(int id) {
         this.id = id;
     }
 
-    public Object(int id, String name) {
+    public ObjectAdv(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Object(int id, String name, String description) {
+    public ObjectAdv(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
 
-    public Object(int id, String name, String description, Set<String> alias) {
+    public ObjectAdv(int id, String name, String description, Set<String> alias) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -156,7 +158,7 @@ public class Object {
     }
 
    
-    public boolean equals(Object obj) {
+    public boolean equals(ObjectAdv obj) {
         if (this == obj) {
             return true;
         }
@@ -166,7 +168,7 @@ public class Object {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Object other = (Object) obj;
+        final ObjectAdv other = (ObjectAdv) obj;
         if (this.id != other.id) {
             return false;
         }
