@@ -373,6 +373,7 @@ public class AdventureCastleGame extends GameDescription {
         portaNord.setPushable(false);
         portaNord.setPush(false);
         portaNord.setOpen(true);
+        portaNord.setAlias(new String[]{"porta"});
         entryway.getObjects().add(portaNord);
         ObjectAdv portaSud = new ObjectAdv(2, "portaSud", "Sembrerebbe la porta di ingresso, chissà se si può aprire");
         portaSud.setOpen(false);
@@ -380,218 +381,255 @@ public class AdventureCastleGame extends GameDescription {
         portaSud.setPickupable(false);
         portaSud.setPushable(false);
         portaSud.setPush(false);
+        portaSud.setAlias(new String[]{"porta"});
         entryway.getObjects().add(portaSud);
         
         // ripostiglio
-        ObjectAdv Closetdor = new ObjectAdv (3, "Porta", "Una porta chissa se si può aprire?");
-        Closetdor.setOpen(true);
-        Closetdor.setPickupable(false);
-        Closetdor.setPushable(false);
-        Closetdor.setOpenable(false);
-        Closetdor.setPush(false);
-        closet.getObjects().add(Closetdor);
-        ObjectAdvContainer Generator = new ObjectAdvContainer(4, "generatore","Un generatore molto silenzioso, chissà se funziona");
-        Generator.setLook("Guardando meglio ti accorgi che manca il carburante");
-        Generator.setPickupable(false);
-        Generator.setPushable(false);
-        Generator.setPush(false);
-        closet.getObjects().add(Generator);
-        ObjectAdv Reservoir = new ObjectAdv(5,"serbatoio","contenitore per la benzina");
-        Reservoir.setfillable(true);
-        Reservoir.setPushable(false);
-        Reservoir.setPush(true);
-        Reservoir.setPickupable(false);
-        Generator.add(Reservoir);
-        ObjectAdvContainer Rack = new ObjectAdvContainer(6, "scaffale", "uno scaffale dove al suo interno sembra ci siano degli oggetti");
-        Rack.setPushable(false);
-        Rack.setPush(false);
-        Rack.setPickupable(false);
-        closet.getObjects().add(Rack);
-        ObjectAdv Rope = new ObjectAdv(7,"corda","una corda molto resistente");
-        Rope.setPushable(false);
-        Rope.setPush(false);
-        Rope.setOpenable(false);
-        Rope.setOpen(false);
-        ObjectAdv Scotch = new ObjectAdv(8,"nasto adesivo", "un ssemplice nastro adesivo");
-        Scotch.setPushable(false);
-        Scotch.setPush(false);
-        Scotch.setOpenable(false);
-        Scotch.setOpen(false);
-        ObjectAdv Fuel = new ObjectAdv(9,"tanica di benzina", "una tanica di benzina piena");
-        Fuel.setPushable(false);
-        Fuel.setPush(false);
-        Fuel.setOpenable(false);
-        Fuel.setOpen(false);
-        ObjectAdv Hammer = new ObjectAdv(10, "martello", "un martello molto pratico per ottime martellate");
-        Hammer.setPushable(false);
-        Hammer.setPush(false);
-        Hammer.setOpenable(false);
-        Hammer.setOpen(false);
-        ObjectAdv Nails = new ObjectAdv(11, "chiodi","Dei chiodi molto utili se si ha un martello");
-        Nails.setPushable(false);
-        Nails.setPush(false);
-        Nails.setOpenable(false);
-        Nails.setOpen(false);
-        ObjectAdv Bucket = new ObjectAdv(12,"secchio","un secchio utile se c'è dell'acqua da prendere");
-        Bucket.setPushable(false);
-        Bucket.setPush(false);
-        Bucket.setOpenable(false);
-        Bucket.setOpen(false);
-        ObjectAdv Crowbar = new ObjectAdv(13,"piede di porco","un piede di porco utile per qualsiasi idea vi passi per la testa");
-        Crowbar.setPushable(false);
-        Crowbar.setPush(false);
-        Crowbar.setOpenable(false);
-        Crowbar.setOpenable(false);
-        Crowbar.setOpen(false);
-        Rack.add(Rope);
-        Rack.add(Scotch);
-        Rack.add(Fuel);
-        Rack.add(Hammer);
-        Rack.add(Nails);
-        Rack.add(Bucket);
-        Rack.add(Crowbar);
+        ObjectAdv closetDoor = new ObjectAdv (3, "Porta", "Una porta chissa se si può aprire?");
+        closetDoor.setOpen(true);
+        closetDoor.setPickupable(false);
+        closetDoor.setAlias(new String[]{"porta"});
+        closet.getObjects().add(closetDoor);
+        ObjectAdvContainer generator = new ObjectAdvContainer(4, "generatore","Un generatore molto silenzioso, chissà se funziona");
+        generator.setLook("Guardando meglio ti accorgi che manca il carburante");
+        generator.setPickupable(true);
+        generator.setAlias(new String[]{"motore","alternatore"});
+        closet.getObjects().add(generator);
+        ObjectAdv reservoir = new ObjectAdv(5,"serbatoio","contenitore per la benzina");
+        reservoir.setfillable(true);
+        reservoir.setPushable(false);
+        reservoir.setPush(true);
+        reservoir.setPickupable(false);
+        reservoir.setAlias(new String[]{"contenitore"});
+        generator.add(reservoir);
+        ObjectAdvContainer rack = new ObjectAdvContainer(6, "scaffale", "uno scaffale dove al suo interno sembra ci sono chiodi, martello, corda, nastro, carburante, secchio, palanghino");
+        rack.setPickupable(false);
+        rack.setAlias(new String[]{"mobile","mensola"});
+        closet.getObjects().add(rack);
+        ObjectAdv rope = new ObjectAdv(7,"corda","una corda molto resistente");
+        rope.setPushable(false);
+        rope.setPush(false);
+        rope.setOpenable(false);
+        rope.setOpen(false);
+        rope.setAlias(new String[]{"laccio","fune"});
+        ObjectAdv scotch = new ObjectAdv(8,"scotch", "un ssemplice nastro adesivo");
+        scotch.setPushable(false);
+        scotch.setPush(false);
+        scotch.setOpenable(false);
+        scotch.setOpen(false);
+        scotch.setAlias(new String[]{"nastro"});
+        ObjectAdv fuel = new ObjectAdv(9,"benzina", "una tanica di benzina piena");
+        fuel.setPushable(false);
+        fuel.setPush(false);
+        fuel.setOpenable(false);
+        fuel.setOpen(false);
+        fuel.setAlias(new String[]{"carburante","tanica","combustibile"});
+        ObjectAdv hammer = new ObjectAdv(10, "martello", "un martello molto pratico per ottime martellate");
+        hammer.setPushable(false);
+        hammer.setPush(false);
+        hammer.setOpenable(false);
+        hammer.setOpen(false);
+        hammer.setAlias(new String[]{"mazzola"});
+        ObjectAdv nails = new ObjectAdv(11, "chiodi","Dei chiodi molto utili se si ha un martello");
+        nails.setPushable(false);
+        nails.setPush(false);
+        nails.setOpenable(false);
+        nails.setOpen(false);
+        nails.setAlias(new String[]{"puntine","viti"});
+        ObjectAdv bucket = new ObjectAdv(12,"secchio","un secchio utile se c'è dell'acqua da prendere");
+        bucket.setPushable(false);
+        bucket.setPush(false);
+        bucket.setOpenable(false);
+        bucket.setOpen(false);
+        bucket.setAlias(new String[]{"bidone"});
+        ObjectAdv crowbar = new ObjectAdv(13,"palanghino","un palanghino utile per qualsiasi idea di scasso vi passi per la testa");
+        crowbar.setPushable(false);
+        crowbar.setPush(false);
+        crowbar.setOpenable(false);
+        crowbar.setOpenable(false);
+        crowbar.setOpen(false);
+        crowbar.setAlias(new String[]{"leva"});
+        rack.add(rope);
+        rack.add(scotch);
+        rack.add(fuel);
+        rack.add(hammer);
+        rack.add(nails);
+        rack.add(bucket);
+        rack.add(crowbar);
         //TODO: da verificare se inserire i singoli oggetti contenuti nell'oggetto contenitore deve esere inseriti singolarmente nella stanza
        
         // sala da pranzo
-        ObjectAdv DiningRoomDoor = new ObjectAdv(14,"porta sala da pranzo","una porta chissà se si può aprire");
-        DiningRoomDoor.setPushable(false);
-        DiningRoomDoor.setPush(false);
-        DiningRoomDoor.setPickupable(false);
-        diningroom.getObjects().add(DiningRoomDoor);
+        ObjectAdv diningRoomDoor = new ObjectAdv(14,"porta sala da pranzo","una porta chissà se si può aprire");
+        diningRoomDoor.setPushable(false);
+        diningRoomDoor.setPush(false);
+        diningRoomDoor.setPickupable(false);
+        diningRoomDoor.setAlias(new String[]{"porta"});
+        diningroom.getObjects().add(diningRoomDoor);
         // TODO: il cibo all'interno dei piatti è avvelenato e il personaggio perde una vita
-        ObjectAdv Dishes = new ObjectAdv(15, "piatti","dei piatti con ancora del cibo al loro interno, chissà se è buono");
-        Dishes.setPickupable(true);
-        diningroom.getObjects().add(Dishes);
-        ObjectAdv Silverware = new ObjectAdv(16,"posate","Utili per afferrare cosa c'è nel piatto");
-        Silverware.setPushable(false);
-        Silverware.setPush(false);
-        diningroom.getObjects().add(Silverware);
-        ObjectAdv Glasses = new ObjectAdv(17,"bicchieri","Utili per bere qualsiasi fluido ");
-        diningroom.getObjects().add(Glasses);
-        ObjectAdv Napkins = new ObjectAdv(18,"tovaglioli","Utili per pulirsi");
-        diningroom.getObjects().add(Napkins);
-        ObjectAdv Candles = new ObjectAdv(19,"candele","Ottime per illuminare e scaldare un ambiente");
-        diningroom.getObjects().add(Candles);
-        ObjectAdvContainer Butler = new ObjectAdvContainer(20,"magiordomo","si chiama Ambrogio ed è il magiordomo di questo castello, al collo ha appesa una chiave e sembra essere non intenzionato a dartela");
-        diningroom.getObjects().add(Butler);
+        ObjectAdv dishes = new ObjectAdv(15, "piatti","dei piatti con ancora del cibo al loro interno, chissà se è buono");
+        dishes.setPickupable(false);
+        dishes.setAlias(new String[]{"stoviglie","porcellane"});
+        diningroom.getObjects().add(dishes);
+        ObjectAdv silverware = new ObjectAdv(16,"posate","Utili per afferrare cosa c'è nel piatto");
+        silverware.setPickupable(false);
+        silverware.setAlias(new String[]{"argenteria"});
+        diningroom.getObjects().add(silverware);
+        ObjectAdv glasses = new ObjectAdv(17,"bicchieri","Utili per bere qualsiasi fluido ");
+        glasses.setAlias(new String[]{"calici","tazze"});
+        diningroom.getObjects().add(glasses);
+        ObjectAdv candles = new ObjectAdv(19,"candele","Ottime per illuminare e scaldare un ambiente");
+        candles.setAlias(new String[]{"lumino"});
+        diningroom.getObjects().add(candles);
+        ObjectAdvContainer butler = new ObjectAdvContainer(20,"magiordomo","si chiama Ambrogio ed è il magiordomo di questo castello, al collo ha appesa una chiave e sembra essere non intenzionato a dartela");
+        butler.setAlias(new String[]{"cameriere"});
+        diningroom.getObjects().add(butler);
         //TODO: definire le azioni che si possono fare con il maggiordomo
         ObjectAdv key1 = new ObjectAdv(21,"chiave","una chiave che probabilmente può aprire una serratura");        
         key1.setPickupable(true);
-        Butler.add(key1);
+        portaSud.setAlias(new String[]{"chiavi"});
+        butler.add(key1);
         
         //ogetti biblioteca
         
-        ObjectAdv Card = new ObjectAdv(22,"bigliettino","");
-        Card.setPickupable(true);
+        ObjectAdv card = new ObjectAdv(22,"bigliettino","");
+        card.setPickupable(true);
+        card.setAlias(new String[]{"foglio","lettera"});
         //TODO: inserire gli indovinelli che ti conducono alla chiave
-        library.getObjects().add(Card);
+        library.getObjects().add(card);
         //TODO: se c'è tempo ampliare i libri dello scaffale e aggiungere nome del libro
-        ObjectAdvContainer Bookcase = new ObjectAdvContainer(23,"scaffale di libri","nome libro");
-        library.getObjects().add(Bookcase);
-        ObjectAdv Book1 = new ObjectAdv(24,"libro","questo libro sembra essere piu pulito rispetto a gli altri"); 
-        Book1.setPickupable(true);
-        Bookcase.add(Book1);
-        ObjectAdvContainer Secretbox = new ObjectAdvContainer(25,"scompartimento segreto","al suo interno c'è una chiave insieme ad odere di qualcosa andato a male,"
+        ObjectAdvContainer bookcase = new ObjectAdvContainer(23,"scaffale","nome libro");
+        library.getObjects().add(bookcase);
+        portaSud.setAlias(new String[]{"libreria",});
+        ObjectAdv book1 = new ObjectAdv(24,"libro","questo libro sembra essere piu pulito rispetto a gli altri"); 
+        book1.setPickupable(true);
+        book1.setAlias(new String[]{"testo"});
+        bookcase.add(book1);
+        ObjectAdvContainer secretbox = new ObjectAdvContainer(25,"scompartimento","al suo interno c'è una chiave insieme ad odere di qualcosa andato a male,"
          + " sembra che qualcuno ci abbia lasciato il pranzo");
-        Secretbox.setOpen(false);
-        library.getObjects().add(Secretbox);
+        secretbox.setOpen(false);
+        portaSud.setAlias(new String[]{"ripostiglio","nascondiglio"});
+        library.getObjects().add(secretbox);
         ObjectAdv key2 = new ObjectAdv(26,"chiave","una chiave utile per aprire una serratura, chissà quale");
-        key2.setPickupable(true);
-        Secretbox.add(key2);
+        key2.setAlias(new String[]{"chiave"});
+        secretbox.add(key2);
        
         //ogetti soggiorno
         
-        ObjectAdv Torch = new ObjectAdv(27,"fiaccola","una fiaccolaa spenta, in presenza di fuoco potrebbe tornarti utile per illuminare il cammino"
+        ObjectAdv torch = new ObjectAdv(27,"fiaccola","una fiaccolaa spenta, in presenza di fuoco potrebbe tornarti utile per illuminare il cammino"
         + "e non calpestare qualcosa di spiacevole");
-        Torch.setPickupable(true);
-        Torch.setPushable(true);
-        livingroom.getObjects().add(Torch);
-        ObjectAdv Chimney = new ObjectAdv(28,"camino","un bel caminetto con del fuoco accesso, she hai con te delle salsicce puoi fare un ottimo spuntino");
-        livingroom.getObjects().add(Chimney);
-        ObjectAdv Mail = new ObjectAdv(29,"lettera","");
-        Mail.setPickupable(true);
+        torch.setAlias(new String[]{"torcia"});
+        livingroom.getObjects().add(torch);
+        ObjectAdv chimney = new ObjectAdv(28,"camino","un bel caminetto con del fuoco accesso, she hai con te delle salsicce puoi fare un ottimo spuntino");
+        livingroom.getObjects().add(chimney);
+        chimney.setAlias(new String[]{"stufa","caminetto"});
+        ObjectAdv mail = new ObjectAdv(29,"lettera","");
+        mail.setAlias(new String[]{"busta"});
         //TODO: inserire la descrizione della lettera
-        livingroom.getObjects().add(Mail);
+        livingroom.getObjects().add(mail);
         ObjectAdv key3 = new ObjectAdv(30,"chiave","una chiave utile per aprire una serratura, chissà quale");
         key3.setPickupable(true);
+        key3.setAlias(new String[]{"chiave"});
         livingroom.getObjects().add(key3);
         
         
         //oggetti dispensa
         
-        ObjectAdv Foodstocks = new ObjectAdv(33,"scorte di viveri","qui c'è del cibo per sfamare l'africa");
-        lander.getObjects().add(Foodstocks);
-        ObjectAdv Winecellar = new ObjectAdv(34,"cantina di vini","una preziosa scorta di vini profumati ed inebrianti ottimi per le migliori feste da palazzo");
-        lander.getObjects().add(Winecellar);
-        ObjectAdvContainer Winebottle = new ObjectAdvContainer(35,"bottiglia di vino","sembra che al suo intenro ci sia una chiave");
-        Winebottle.setOpen(false);
-        lander.getObjects().add(Winebottle);
+        ObjectAdv foodstocks = new ObjectAdv(33,"scorte","qui c'è del cibo per sfamare l'africa");
+        portaSud.setAlias(new String[]{"viveri","dispensa"});
+        lander.getObjects().add(foodstocks);
+        ObjectAdv winecellar = new ObjectAdv(34,"cantina","una preziosa scorta di vini profumati ed inebrianti ottimi per le migliori feste da palazzo");
+        portaSud.setAlias(new String[]{"deposito","scantinato"});
+        lander.getObjects().add(winecellar);
+        ObjectAdvContainer winebottle = new ObjectAdvContainer(35,"bottiglia","sembra che al suo intenro ci sia una chiave");
+        winebottle.setOpen(false);
+        winebottle.setOpenable(true);
+        winebottle.setAlias(new String[]{"vino"});
+        lander.getObjects().add(winebottle);
         //TODO: inserire le zioni che puo effettuare con la bottiglia
         ObjectAdv key4 = new ObjectAdv(35,"chiave","una chiave utile per aprire una serratura, chissà quale");
         key4.setPickupable(true);
-        Winebottle.add(key4);
+        key4.setAlias(new String[]{"chiave"});
+        winebottle.add(key4);
        
         //oggetti stanza della servitu
-        ObjectAdv Diary = new ObjectAdv(38,"diario","un diario molto importante per la persona che lo custodiva");
-        roomOfDebris.getObjects().add(Diary);
+        ObjectAdv diary = new ObjectAdv(38,"diario","un diario molto importante per la persona che lo custodiva");
+        diary.setAlias(new String[]{"agenda"});
+        roomOfDebris.getObjects().add(diary);
         
         //ogetti armeria
         
-        ObjectAdv Rifle = new ObjectAdv(39,"fucile","un ottima arma per incutere timore a chi hai di fronte, inutile se mancano le munizioni");
-        armory.getObjects().add(Rifle);
-        ObjectAdv Glock17 = new ObjectAdv(40,"pistola","un arma abbastanza pratica per eliminare i tuoi nemici, ma a senza munizione puoi usarla come martello");
-        armory.getObjects().add(Glock17);
-        ObjectAdv Spear = new ObjectAdv(41,"lancia","un arma usata nell'era glaciale per abbattere i mammut, ottima per il suo periodo storico");
-        armory.getObjects().add(Spear);
-        ObjectAdv Sword = new ObjectAdv(42,"spada","ottima nelle grandi battaglie, questa sembra sia salda al muro");
-        armory.getObjects().add(Sword);
+        ObjectAdv rifle = new ObjectAdv(39,"fucile","un ottima arma per incutere timore a chi hai di fronte, inutile se mancano le munizioni");
+        rifle.setAlias(new String[]{"carabina"});
+        armory.getObjects().add(rifle);
+        ObjectAdv glock17 = new ObjectAdv(40,"pistola","un arma abbastanza pratica per eliminare i tuoi nemici, ma a senza munizione puoi usarla come martello");
+        glock17.setAlias(new String[]{"revolver"});
+        armory.getObjects().add(glock17);
+        ObjectAdv spear = new ObjectAdv(41,"lancia","un arma usata nell'era glaciale per abbattere i mammut, ottima per il suo periodo storico");
+        spear.setAlias(new String[]{"giavellotto"});
+        armory.getObjects().add(spear);
+        ObjectAdv sword = new ObjectAdv(42,"spada","ottima nelle grandi battaglie, questa sembra sia salda al muro");
+        sword.setAlias(new String[]{"lama"});
+        armory.getObjects().add(sword);
         ObjectAdv key5 = new ObjectAdv(43,"chiave","una chiave utile per aprire una serratura, chissà quale"); 
+        key5.setAlias(new String[]{"chiave"});
         armory.getObjects().add(key5);
-        ObjectAdv Guardian = new ObjectAdv(44,"guardiano","Lui è Robert il guardiano di questo castello, a lui non sfugge nulla, neanche quando dorme");
-        armory.getObjects().add(Guardian);
+        ObjectAdv guardian = new ObjectAdv(44,"guardiano","Lui è Robert il guardiano di questo castello, a lui non sfugge nulla, neanche quando dorme");
+        guardian.setAlias(new String[]{"custode","sorvegliante"});
+        armory.getObjects().add(guardian);
         ObjectAdv GrapplingHook = new ObjectAdv(45,"rampino","un oggetto che se lanciato si aggrappa ovunque, ma inutile senza una corda");
         //TODO: inserire l'azione che unisce gli oggetti e modificare la descrizione del rampino
         armory.getObjects().add(GrapplingHook);
         
         // oggetti bagno
         
-        ObjectAdv Ghost = new ObjectAdv(46,"fantasma","un anima in pena che sembra sia molto affezzionata a questa stanza, chissa cosa c'è che richiama la sua attenzione");
-        bathroom1.getObjects().add(Ghost);
+        ObjectAdv ghost = new ObjectAdv(46,"fantasma","un anima in pena che sembra sia molto affezzionata a questa stanza, chissa cosa c'è che richiama la sua attenzione");
+        ghost.setAlias(new String[]{"spettro"});
+        bathroom1.getObjects().add(ghost);
         ObjectAdv key6 = new ObjectAdv(47,"chiave","una chiave utile per aprire una serratura, chissà quale"); 
+        key6.setAlias(new String[]{"chiave"});
         bathroom1.getObjects().add(key6);
         
         //scale che portano al secondo piano
         
-        ObjectAdv Gate = new ObjectAdv(48,"cancello","questo cancello ti blocca la strada, trova la chiave che lo apre o trova un altro modo per oltrepassarlo");
-        stairs.getObjects().add(Gate);
+        ObjectAdv gate = new ObjectAdv(48,"cancello","questo cancello ti blocca la strada, trova la chiave che lo apre o trova un altro modo per oltrepassarlo");
+        gate.setAlias(new String[]{"inferiata"});
+        stairs.getObjects().add(gate);
         
         //corridioio secondo piano
         
-        ObjectAdv Ares = new ObjectAdv(49,"scultura di ares","un scultura molto bella che raffigura ares il dio della guerra");
-        hall5_2.getObjects().add(Ares);
+        ObjectAdv ares = new ObjectAdv(49,"scultura","un scultura molto bella che raffigura ares il dio della guerra, Ares");
+        ares.setAlias(new String[]{"statua"});
+        hall5_2.getObjects().add(ares);
         //studio secondo piano
         
-        ObjectAdv Mail2 = new ObjectAdv(50,"lettera","Caro james, se stai leggendo questa lettera vuole dire che sono fuggito, mi avevano quasi preso quei maledetti cosacchi,"
+        ObjectAdv mail2 = new ObjectAdv(50,"lettera","Caro james, se stai leggendo questa lettera vuole dire che sono fuggito, mi avevano quasi preso quei maledetti cosacchi,"
                 + " menumale che mio nonno fece costruire un passaggio segreto per fuggire dal castello dove sgattaiolava da sua moglie per andare a trovare le sue giovani amiche del bordello,"
                 + "inoltre questo passaggio portava in cima ad una torre dove nascondeva la sua collezione di vini, il passaggio è raffigurato in un quadro, trova l'ingresso e portami una di quelle bottiglie,"
                 + "ti aspetto fuori dalle mura del castello, mi raccomando james non dimenticarti le bottiglie!");  
-        studio.getObjects().add(Mail2);
-        ObjectAdv Square = new ObjectAdv(51,"quadro","il quadro raffigura la statua di ares il dio della guerra con un braccio abbassato");
-        studio.getObjects().add(Square);
+        mail2.setAlias(new String[]{"biglietto"});
+        studio.getObjects().add(mail2);
+        ObjectAdv square = new ObjectAdv(51,"quadro","il quadro raffigura la statua di ares il dio della guerra con un braccio abbassato");
+        square.setAlias(new String[]{"dipinto"});
+        studio.getObjects().add(square);
         
         //bagno secondo piano
         
-        ObjectAdv Square2 = new ObjectAdv(52,"quadro","il quadro raffigura una persona che si arrampica sul balcone dal cortile del castello, usando un rampino, un tizio molto abile");
-        bathroom_2.getObjects().add(Square2);
+        ObjectAdv square2 = new ObjectAdv(52,"quadro","il quadro raffigura una persona che si arrampica sul balcone dal cortile del castello, usando un rampino, un tizio molto abile");
+        square2.setAlias(new String[]{"dipinto"});
+        bathroom_2.getObjects().add(square2);
+        
+        
         // oggetti camera padronaria secondo piano
         //main.getObjects().add.();
         //TODO: inserire oggetti camera padronaria
         
         //oggetti torre 
-        ObjectAdv MisterX = new ObjectAdv(53,"MisterX","si presenta con una benda all'occhio, un barbone non curata e un fare minaccioso, il classico tipo losco da non farti mai nemico"); 
-        tower.getObjects().add(MisterX);
-        ObjectAdv Stecy = new ObjectAdv(54,"Stecy","una bella ragazza con dei lineamenti del viso armoniosi e proporzionati con occhi grandi e luminosi, la classica ragazza acqua e sapone");
-        tower.getObjects().add(Stecy);
+        ObjectAdv misterX = new ObjectAdv(53,"MisterX","si presenta con una benda all'occhio, un barbone non curata e un fare minaccioso, il classico tipo losco da non farti mai nemico"); 
+        misterX.setAlias(new String[]{"boss","cattivo"});
+        tower.getObjects().add(misterX);
+        ObjectAdv stecy = new ObjectAdv(54,"Stecy","una bella ragazza con dei lineamenti del viso armoniosi e proporzionati con occhi grandi e luminosi, la classica ragazza acqua e sapone");
+        stecy.setAlias(new String[]{"ragazza"});
+        tower.getObjects().add(stecy);
         
         //set starting room
         setCurrentRoom(entryway);
@@ -639,12 +677,13 @@ public class AdventureCastleGame extends GameDescription {
                     out.println(o.getName() + ": " + o.getDescription());
                 }
             } else if (p.getCommand().getType() == CommandType.LOOK_AT) {
-                if (getCurrentRoom().getLook() != null) {
+                //TODO: andare ad eliminare l'attributo look nella classe oggetti
+                if(p.getObject() != null){
+                    out.println(p.getObject().getDescription());
+                }else if(getCurrentRoom().getLook() != null) {
                     out.println(getCurrentRoom().getLook());
-                } else {
-                    out.println("Non c'è niente di interessante qui.");
-                }
-            } else if (p.getCommand().getType() == CommandType.PICK_UP) {
+                } 
+            }else if (p.getCommand().getType() == CommandType.PICK_UP) {
                 if (p.getObject() != null) {
                     if (p.getObject().isPickupable()) {
                         getInventory().add(p.getObject());
