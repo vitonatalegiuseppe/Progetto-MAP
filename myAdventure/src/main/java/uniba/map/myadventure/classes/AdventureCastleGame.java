@@ -8,6 +8,7 @@ package uniba.map.myadventure.classes;
 import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.Scanner;
+import static uniba.map.myadventure.classes.Controller.doorcontroller;
 
 /**
  * @author pierpaolo
@@ -92,9 +93,9 @@ public class AdventureCastleGame extends GameDescription {
                 + " villa. A nord intravedi un ingresso verso un'altra stanza: forse la cucina. (Ah, ovviamente a est c'è la porta da cui sei entrato)", darkRoom);
         Room kitchen = new Room(24, "Cucina", "Niente di particolare. Una cucina come tante: credenze, forno, frigorifero e cassetti ci sono tutti. Sulla parete sud è presente un ingresso probabilmente verso"
                 + "la sala da pranzo, mentre sulla parete est c'è una porta che forse conduce alla dispensa.", darkRoom);
-        Room lander = new Room(25, "Dispensa", "La dispensa sembra ben rifornita. Oltre a sacchi di farina e vari salumi e formaggi puoi notare una piccola cantina di vini. A ovest dell'ingresso vi "
+        Room larder = new Room(25, "Dispensa", "La dispensa sembra ben rifornita. Oltre a sacchi di farina e vari salumi e formaggi puoi notare una piccola cantina di vini. A ovest dell'ingresso vi "
                 + "è una porta che conduce in un'altra stanza, mentre a sud vi è la porta che conduce al corridoio.", darkRoom);
-        lander.setLook("Osservando la cantina noti una bottiglia di vino al cui interno brilla una chiave.");
+        larder.setLook("Osservando la cantina noti una bottiglia di vino al cui interno brilla una chiave.");
         Room roomOfDebris = new Room(26, "Stanza crollata", "Praticamente è un cumulo di macerie. Non c’è niente se non pietre e qualche foglio/pezzo di carta.", darkRoom);
         Room armory = new Room(27, "Armeria", "Delle candele accese ti permettono di vedere. Oltre ad un’immensa collezione di fucili, pistole e lance puoi notare anche una serie di oggetti che non sono propriamente armi: caschi, armature, rampini,"
                 + " scarpe, occorrenti per giardinaggio, ecc. Inoltre, vedi anche delle panche. Alle tue spalle, sulla parete nord c'è l'ingresso da cui sei entrato. Ma ad attirare la tua attenzione"
@@ -209,7 +210,7 @@ public class AdventureCastleGame extends GameDescription {
         hall11.setEast(hall12);
         hall12.setEast(hall13);
         hall12.setWest(hall11);
-        hall13.setNorth(lander);
+        hall13.setNorth(larder);
         hall13.setSouth(yard);
         hall13.setEast(hall14);
         hall13.setWest(hall12);
@@ -235,9 +236,9 @@ public class AdventureCastleGame extends GameDescription {
         diningroom.setNorth(kitchen);
         diningroom.setEast(hall10);
         kitchen.setSouth(diningroom);
-        kitchen.setEast(lander);
-        lander.setWest(kitchen);
-        lander.setSouth(hall13);
+        kitchen.setEast(larder);
+        larder.setWest(kitchen);
+        larder.setSouth(hall13);
         armory.setWest(hall17);
         bathroom1.setWest(hall2);
         yard.setSouth(hall4);
@@ -327,7 +328,7 @@ public class AdventureCastleGame extends GameDescription {
         getRooms().add(bathroom1);
         getRooms().add(armory);
         getRooms().add(yard);
-        getRooms().add(lander);
+        getRooms().add(larder);
         getRooms().add(entryway);
         getRooms().add(library);
         getRooms().add(diningroom);
@@ -368,37 +369,22 @@ public class AdventureCastleGame extends GameDescription {
         //obejcts primo piano
         
         // ingresso
-        ObjectAdv portaNord = new ObjectAdv(1, "portaNord", "Una porta chissa se si può aprire?");
-        portaNord.setPickupable(false);
-        portaNord.setPushable(false);
-        portaNord.setPush(false);
-        portaNord.setOpen(true);
-        portaNord.setAlias(new String[]{"porta"});
-        entryway.getObjects().add(portaNord);
-        ObjectAdv portaSud = new ObjectAdv(2, "portaSud", "Sembrerebbe la porta di ingresso, chissà se si può aprire");
-        portaSud.setOpen(false);
-        portaSud.setOpenable(false);
-        portaSud.setPickupable(false);
-        portaSud.setPushable(false);
-        portaSud.setPush(false);
-        portaSud.setAlias(new String[]{"porta"});
-        entryway.getObjects().add(portaSud);
+       
+        ObjectAdv doorExit = new ObjectAdv(20, "porta uscita", "Sembrerebbe la porta di ingresso, chissà se si può aprire");
+        doorExit.setPickupable(false);
+        doorExit.setOpenable(true);
+        doorExit.setAlias(new String[]{"porta"});
+        closet.getObjects().add( doorExit);
         
         // ripostiglio
-        ObjectAdv closetDoor = new ObjectAdv (3, "Porta", "Una porta chissa se si può aprire?");
-        closetDoor.setOpen(true);
-        closetDoor.setPickupable(false);
-        closetDoor.setAlias(new String[]{"porta"});
-        closet.getObjects().add(closetDoor);
-        ObjectAdvContainer generator = new ObjectAdvContainer(4, "generatore","Un generatore molto silenzioso, chissà se funziona");
-        generator.setLook("Guardando meglio ti accorgi che manca il carburante");
-        generator.setPickupable(true);
+        
+        ObjectAdvContainer generator = new ObjectAdvContainer(4, "generatore","Un generatore molto silenzioso, guardando meglio ti accorgi che il serbatoio è vuoto ");
+        generator.setPickupable(false);
         generator.setAlias(new String[]{"motore","alternatore"});
         closet.getObjects().add(generator);
+        //TODO: stampare a video la frase dopo aver riempito il serbatoio di benzina "ottimo lavoro, sembra ci sia la corrente in tutto il castello"
         ObjectAdv reservoir = new ObjectAdv(5,"serbatoio","contenitore per la benzina");
         reservoir.setfillable(true);
-        reservoir.setPushable(false);
-        reservoir.setPush(true);
         reservoir.setPickupable(false);
         reservoir.setAlias(new String[]{"contenitore"});
         generator.add(reservoir);
@@ -407,10 +393,6 @@ public class AdventureCastleGame extends GameDescription {
         rack.setAlias(new String[]{"mobile","mensola"});
         closet.getObjects().add(rack);
         ObjectAdv rope = new ObjectAdv(7,"corda","una corda molto resistente");
-        rope.setPushable(false);
-        rope.setPush(false);
-        rope.setOpenable(false);
-        rope.setOpen(false);
         rope.setAlias(new String[]{"laccio","fune"});
         ObjectAdv scotch = new ObjectAdv(8,"scotch", "un ssemplice nastro adesivo");
         scotch.setPushable(false);
@@ -460,8 +442,6 @@ public class AdventureCastleGame extends GameDescription {
        
         // sala da pranzo
         ObjectAdv diningRoomDoor = new ObjectAdv(14,"porta sala da pranzo","una porta chissà se si può aprire");
-        diningRoomDoor.setPushable(false);
-        diningRoomDoor.setPush(false);
         diningRoomDoor.setPickupable(false);
         diningRoomDoor.setAlias(new String[]{"porta"});
         diningroom.getObjects().add(diningRoomDoor);
@@ -480,13 +460,13 @@ public class AdventureCastleGame extends GameDescription {
         ObjectAdv candles = new ObjectAdv(19,"candele","Ottime per illuminare e scaldare un ambiente");
         candles.setAlias(new String[]{"lumino"});
         diningroom.getObjects().add(candles);
-        ObjectAdvContainer butler = new ObjectAdvContainer(20,"magiordomo","si chiama Ambrogio ed è il magiordomo di questo castello, al collo ha appesa una chiave e sembra essere non intenzionato a dartela");
+        ObjectAdvContainer butler = new ObjectAdvContainer(2,"magiordomo","si chiama Ambrogio ed è il magiordomo di questo castello, al collo ha appesa una chiave e sembra essere non intenzionato a dartela");
         butler.setAlias(new String[]{"cameriere"});
         diningroom.getObjects().add(butler);
         //TODO: definire le azioni che si possono fare con il maggiordomo
         ObjectAdv key1 = new ObjectAdv(21,"chiave","una chiave che probabilmente può aprire una serratura");        
         key1.setPickupable(true);
-        portaSud.setAlias(new String[]{"chiavi"});
+        key1.setAlias(new String[]{"chiavi"});
         butler.add(key1);
         
         //ogetti biblioteca
@@ -499,7 +479,7 @@ public class AdventureCastleGame extends GameDescription {
         //TODO: se c'è tempo ampliare i libri dello scaffale e aggiungere nome del libro
         ObjectAdvContainer bookcase = new ObjectAdvContainer(23,"scaffale","nome libro");
         library.getObjects().add(bookcase);
-        portaSud.setAlias(new String[]{"libreria",});
+        bookcase.setAlias(new String[]{"libreria",});
         ObjectAdv book1 = new ObjectAdv(24,"libro","questo libro sembra essere piu pulito rispetto a gli altri"); 
         book1.setPickupable(true);
         book1.setAlias(new String[]{"testo"});
@@ -507,9 +487,9 @@ public class AdventureCastleGame extends GameDescription {
         ObjectAdvContainer secretbox = new ObjectAdvContainer(25,"scompartimento","al suo interno c'è una chiave insieme ad odere di qualcosa andato a male,"
          + " sembra che qualcuno ci abbia lasciato il pranzo");
         secretbox.setOpen(false);
-        portaSud.setAlias(new String[]{"ripostiglio","nascondiglio"});
+        secretbox.setAlias(new String[]{"ripostiglio","nascondiglio"});
         library.getObjects().add(secretbox);
-        ObjectAdv key2 = new ObjectAdv(26,"chiave","una chiave utile per aprire una serratura, chissà quale");
+        ObjectAdv key2 = new ObjectAdv(36,"chiave","una chiave utile per aprire una serratura, chissà quale");
         key2.setAlias(new String[]{"chiave"});
         secretbox.add(key2);
        
@@ -534,24 +514,34 @@ public class AdventureCastleGame extends GameDescription {
         
         //oggetti dispensa
         
+        ObjectAdv doorlarder = new ObjectAdv(31, "porta dispensa","una porta che collega a qualche stanza, chissa se si può aprire");
+        doorlarder.setOpenable(true);
+        doorlarder.setPickupable(false);
+        doorlarder.setAlias(new String[]{"porta"});
+        larder.getObjects().add(doorlarder);
+        kitchen.getObjects().add(doorlarder);
         ObjectAdv foodstocks = new ObjectAdv(33,"scorte","qui c'è del cibo per sfamare l'africa");
-        portaSud.setAlias(new String[]{"viveri","dispensa"});
-        lander.getObjects().add(foodstocks);
+        foodstocks.setAlias(new String[]{"viveri","dispensa"});
+        larder.getObjects().add(foodstocks);
         ObjectAdv winecellar = new ObjectAdv(34,"cantina","una preziosa scorta di vini profumati ed inebrianti ottimi per le migliori feste da palazzo");
-        portaSud.setAlias(new String[]{"deposito","scantinato"});
-        lander.getObjects().add(winecellar);
+        winecellar.setAlias(new String[]{"deposito","scantinato"});
+        larder.getObjects().add(winecellar);
         ObjectAdvContainer winebottle = new ObjectAdvContainer(35,"bottiglia","sembra che al suo intenro ci sia una chiave");
         winebottle.setOpen(false);
         winebottle.setOpenable(true);
         winebottle.setAlias(new String[]{"vino"});
-        lander.getObjects().add(winebottle);
-        //TODO: inserire le zioni che puo effettuare con la bottiglia
+        larder.getObjects().add(winebottle);
+        //TODO: inserire le azioni che puo effettuare con la bottiglia
         ObjectAdv key4 = new ObjectAdv(35,"chiave","una chiave utile per aprire una serratura, chissà quale");
-        key4.setPickupable(true);
         key4.setAlias(new String[]{"chiave"});
         winebottle.add(key4);
        
         //oggetti stanza della servitu
+        ObjectAdv doordebris = new ObjectAdv(26,"portaservitu","una porta chissa se puo essere aperta");
+        doordebris.setOpenable(true);
+        doordebris.setPickupable(false);
+        doordebris.setAlias(new String[]{"porta"});
+        roomOfDebris.getObjects().add(doordebris);
         ObjectAdv diary = new ObjectAdv(38,"diario","un diario molto importante per la persona che lo custodiva");
         diary.setAlias(new String[]{"agenda"});
         roomOfDebris.getObjects().add(diary);
@@ -592,8 +582,11 @@ public class AdventureCastleGame extends GameDescription {
         //scale che portano al secondo piano
         
         ObjectAdv gate = new ObjectAdv(48,"cancello","questo cancello ti blocca la strada, trova la chiave che lo apre o trova un altro modo per oltrepassarlo");
+        gate.setOpenable(true);
+        gate.setPickupable(false);
         gate.setAlias(new String[]{"inferiata"});
         stairs.getObjects().add(gate);
+        hall2.getObjects().add(gate);
         
         //corridioio secondo piano
         
@@ -645,29 +638,37 @@ public class AdventureCastleGame extends GameDescription {
             boolean move = false;
             if (p.getCommand().getType() == CommandType.NORD) {
                 if (getCurrentRoom().getNorth() != null) {
-                    setCurrentRoom(getCurrentRoom().getNorth());
-                    move = true;
+                    if(doorcontroller(getCurrentRoom(), getCurrentRoom().getNorth())){
+                        setCurrentRoom(getCurrentRoom().getNorth());
+                        move = true;
+                    }  
                 } else {
                     noroom = true;
                 }
             } else if (p.getCommand().getType() == CommandType.SOUTH) {
                 if (getCurrentRoom().getSouth() != null) {
-                    setCurrentRoom(getCurrentRoom().getSouth());
-                    move = true;
+                 if(doorcontroller(getCurrentRoom(), getCurrentRoom().getSouth())){
+                        setCurrentRoom(getCurrentRoom().getSouth());
+                        move = true;
+                    }  
                 } else {
                     noroom = true;
                 }
             } else if (p.getCommand().getType() == CommandType.EAST) {
                 if (getCurrentRoom().getEast() != null) {
-                    setCurrentRoom(getCurrentRoom().getEast());
-                    move = true;
+                if(doorcontroller(getCurrentRoom(), getCurrentRoom().getEast())){
+                        setCurrentRoom(getCurrentRoom().getEast());
+                        move = true;
+                    }  
                 } else {
                     noroom = true;
                 }
             } else if (p.getCommand().getType() == CommandType.WEST) {
                 if (getCurrentRoom().getWest() != null) {
-                    setCurrentRoom(getCurrentRoom().getWest());
-                    move = true;
+                    if(doorcontroller(getCurrentRoom(), getCurrentRoom().getWest())){
+                        setCurrentRoom(getCurrentRoom().getWest());
+                        move = true;
+                    }  
                 } else {
                     noroom = true;
                 }
