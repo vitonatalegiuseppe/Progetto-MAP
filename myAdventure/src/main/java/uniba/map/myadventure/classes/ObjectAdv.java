@@ -42,6 +42,8 @@ public class ObjectAdv {
     
     private boolean started = false;
     
+    private String descObjectOn = null;
+    
     public ObjectAdv(int id) {
         this.id = id;
     }
@@ -166,6 +168,13 @@ public class ObjectAdv {
 
     public void setStarted(boolean started) {
         this.started = started;
+    }
+    public String getDescObjectOn() {
+        return descObjectOn;
+    }
+
+    public void setDescObjectOn(String descObjectOn) {
+        this.descObjectOn= descObjectOn;
     }
     
     @Override
