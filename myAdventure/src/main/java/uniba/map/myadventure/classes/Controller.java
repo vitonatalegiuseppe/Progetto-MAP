@@ -9,29 +9,22 @@ package uniba.map.myadventure.classes;
  * @author giuse
  */
 public class Controller {
-   
-    public static boolean doorcontroller(Room currentRoom, Room nextRoom){
+
+    public static boolean doorcontroller(Room currentRoom, Room nextRoom) {
         boolean stato = true;
         ObjectAdv porta = new ObjectAdv(-2);
-       
-        for(ObjectAdv o: currentRoom.getObjects()){
-            if(o.getId()== currentRoom.getId()){
-                porta = o;
-            }  
+
+        for (ObjectAdv o : currentRoom.getObjects()) {
+            for (ObjectAdv b : nextRoom.getObjects()) {
+                if (o.equals(b)) {
+                    if (!porta.isOpen()) {
+                        return stato = false;
+                    }else{
+                        return stato;
+                    }
+                }
+            }
         }
-        
-        for(ObjectAdv o: nextRoom.getObjects()){
-            if(o.getId()== nextRoom.getId()){
-                porta = o;
-            }  
-        }
-        
-        if(!porta.isOpen()){
-            stato = false;
-            System.out.println("sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
-        }
-        
         return stato;
     }
-
 }

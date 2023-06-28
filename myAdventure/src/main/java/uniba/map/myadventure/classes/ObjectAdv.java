@@ -36,27 +36,13 @@ public class ObjectAdv {
     
     private boolean fillable = false;
     
-    private String look = "Non noti niente di particolare"; 
+    private boolean filled = false;
     
-    public boolean isfillabel() {
-        return fillable;
-    }
-
-    public void setfillable(boolean fillable) {
-        this.fillable = fillable;
-    }
+    private boolean startable = false;
     
+    private boolean started = false;
     
-     public String getLook() {
-        return look;
-    }
-
-    public void setLook(String look) {
-        this.look = look;
-    }
-    
-    
-     public ObjectAdv(int id) {
+    public ObjectAdv(int id) {
         this.id = id;
     }
 
@@ -148,6 +134,38 @@ public class ObjectAdv {
 
     public int getId() {
         return id;
+    }
+    
+    public boolean isFillable() {
+        return fillable;
+    }
+
+    public void setFillable(boolean fillable) {
+        this.fillable = fillable;
+    }
+    
+    public boolean getFill() {
+        return filled;
+    }
+
+    public void setFill(boolean filled) {
+        this.filled = filled;
+    }
+    
+    public boolean isStartable() {
+        return startable;
+    }
+
+    public void setStartable(boolean startable) {
+        this.startable = startable;
+    }
+    
+    public boolean getStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
     }
     
     @Override
