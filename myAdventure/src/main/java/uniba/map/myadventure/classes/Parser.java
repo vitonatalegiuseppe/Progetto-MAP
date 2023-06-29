@@ -40,20 +40,21 @@ public class Parser {
     
     public ParserOutput parse(String command, List<Command> commands, List<ObjectAdv> objects, List<ObjectAdv> inventory) {
         List<String> tokens = Utils.parseString(command, stopwords);
+        int ioinv = -1;
+        int ic = -1;
+        int io = -1;
+        
         if (!tokens.isEmpty()) {
-            int ic = checkForCommand(tokens.get(0), commands);
+            ic = checkForCommand(tokens.get(0), commands);
             if (ic > -1) {
                 if (tokens.size() > 1) {
-                    int io = checkForObject(tokens.get(1), objects);
-                    int ioinv = -1;
+                    io = checkForObject(tokens.get(1), objects);
                     if (io < 0 && tokens.size() > 2) {
                         io = checkForObject(tokens.get(2), objects);
                     }
-                    if (io < 0) {
-                        ioinv = checkForObject(tokens.get(1), inventory);
-                        if (ioinv < 0 && tokens.size() > 2) {
-                            ioinv = checkForObject(tokens.get(2), inventory);
-                        }
+                    ioinv = checkForObject(tokens.get(1), inventory);
+                    if (ioinv < 0 && tokens.size() > 2) {
+                        ioinv = checkForObject(tokens.get(2), inventory);
                     }
                     if (io > -1 && ioinv > -1) {
                         return new ParserOutput(commands.get(ic), objects.get(io), inventory.get(ioinv));

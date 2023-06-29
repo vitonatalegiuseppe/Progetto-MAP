@@ -4,17 +4,16 @@
  */
 package uniba.map.myadventure.classes;
 
+import java.util.List;
 import java.util.Random;
-
 
 /**
  *
  * @author giuse
  */
 public class Controller {
-    
-    public Controller(){
-        
+
+    public Controller() {
     }
 
     public boolean doorcontroller(Room currentRoom, Room nextRoom) {
@@ -26,7 +25,7 @@ public class Controller {
                 if (o.equals(b)) {
                     if (!porta.isOpen()) {
                         return stato = false;
-                    }else{
+                    } else {
                         return stato;
                     }
                 }
@@ -34,16 +33,21 @@ public class Controller {
         }
         return stato;
     }
-    
-    public boolean personHit(){
-        
+
+    public boolean personHit() {
+
         boolean hit = false;
         Random rand = new Random();
-        
+
         hit = rand.nextBoolean();
 
         return hit;
     }
-    
-   
+
+    public void consequenceOfHurl(ObjectAdv objectHurled, Room currentRoom, List<ObjectAdv> inv) {
+        if (!objectHurled.getFragile()) {
+            currentRoom.getObjects().add(objectHurled);
+        }
+        inv.remove(objectHurled);
+    }
 }
