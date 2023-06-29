@@ -4,13 +4,20 @@
  */
 package uniba.map.myadventure.classes;
 
+import java.util.Random;
+
+
 /**
  *
  * @author giuse
  */
 public class Controller {
+    
+    public Controller(){
+        
+    }
 
-    public static boolean doorcontroller(Room currentRoom, Room nextRoom) {
+    public boolean doorcontroller(Room currentRoom, Room nextRoom) {
         boolean stato = true;
         ObjectAdv porta = new ObjectAdv(-2);
 
@@ -27,4 +34,16 @@ public class Controller {
         }
         return stato;
     }
+    
+    public boolean personHit(){
+        
+        boolean hit = false;
+        Random rand = new Random();
+        
+        hit = rand.nextBoolean();
+
+        return hit;
+    }
+    
+   
 }
