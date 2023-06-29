@@ -616,7 +616,7 @@ public class AdventureCastleGame extends GameDescription {
         tower.getObjects().add(stecy);
 
         //set starting room
-        setCurrentRoom(entryway);
+        setCurrentRoom(diningroom);
     }
 
     @Override
@@ -689,7 +689,7 @@ public class AdventureCastleGame extends GameDescription {
                     if (p.getObject().isPickupable()) {
                         getInventory().add(p.getObject());
                         getCurrentRoom().getObjects().remove(p.getObject());
-                        out.println("Hai raccolto: " + p.getObject().getDescription());
+                        out.println("Hai raccolto: " + p.getObject().getName() + " - " + p.getObject().getDescription());
                     } else {
                         out.println("Non puoi raccogliere questo oggetto.");
                     }
@@ -781,84 +781,43 @@ public class AdventureCastleGame extends GameDescription {
                     }
                 } else {
                     out.println("Non ci sono oggetti che puoi avviare.");
-                }
+                } //TODO: una volta avviato il generatore dobbiamo settare la variabile visibale nelle stanze
             } else if (p.getCommand().getType() == CommandType.HURL) {
-                if (p.getInvObject() != null) {
-                    if (p.getInvObject().isPickupable()) {
-                        if (p.getObject() instanceof AdvPerson) {
+                if (p.getObject() != null) {
+                    if (p.getObject() instanceof AdvPerson) {
+                        if (p.getInvObject() != null) {
                             AdvPerson person = (AdvPerson) p.getObject();
-                            if (person.getId() == 2) {
-                                if (controller.personHit()) {
-                                    person.setLife(person.getLife() - 1);
-                                    out.println("Hai lanciato: " + p.getObject().getName() + "contro" + p.getObject().getName() + "colpendolo");
-                                    if (person.getLife() == 0) {
-                                        out.println("Hai sconfitto" + person.getName());
-                                        Iterator<ObjectAdv> it = person.getList().iterator();
-                                        while (it.hasNext()) {
-                                            ObjectAdv next = it.next();
-                                            getCurrentRoom().getObjects().add(next);
-                                            out.print(" " + next.getName());
-                                            it.remove();
-                                        } //TODO: nella descrione della stanza bisogna elencare tutti gli oggetti che contiene
-                                    }
-                                } else {
-                                    out.println("Hai lanciato: " + p.getObject().getName() + "contro" + p.getObject().getName() + "ma non lo hai colpito");
+                            if (controller.personHit()) {
+                                person.setLife(person.getLife() - 1);
+                                out.println("Hai lanciato: " + p.getInvObject().getName() + " contro " + person.getName() + " colpendolo");
+                                if (person.getLife() == 0) {
+                                    out.println("Hai sconfitto" + person.getName());
+                                    Iterator<ObjectAdv> it = person.getList().iterator();
+                                    while (it.hasNext()) {
+                                        ObjectAdv next = it.next();
+                                        getCurrentRoom().getObjects().add(next);
+                                        out.print(" " + next.getName());
+                                        it.remove();
+                                    } //TODO: nella descrione della stanza bisogna elencare tutti gli oggetti che contiene
                                 }
-
-                            } else if (person.getId() == 44) {
-
-                                if (controller.personHit()) {
-                                    person.setLife(person.getLife() - 1);
-                                    out.println("Hai lanciato: " + p.getObject().getName() + "contro" + p.getObject().getName() + "colpendolo");
-                                    if (person.getLife() == 0) {
-                                        out.println("Hai sconfitto" + person.getName());
-                                        Iterator<ObjectAdv> it = person.getList().iterator();
-                                        while (it.hasNext()) {
-                                            ObjectAdv next = it.next();
-                                            getCurrentRoom().getObjects().add(next);
-                                            out.print(" " + next.getName());
-                                            it.remove();
-                                        }
-                                    }
-                                } else {
-                                    out.println("Hai lanciato: " + p.getObject().getName() + "contro" + p.getObject().getName() + "ma non lo hai colpito");
-                                }
-                            } else if (person.getId() == 53) {
-
-                                if (controller.personHit()) {
-                                    person.setLife(person.getLife() - 1);
-                                    out.println("Hai lanciato: " + p.getObject().getName() + "contro" + p.getObject().getName() + "colpendolo");
-                                    if (person.getLife() == 0) {
-                                        out.println("Hai sconfitto" + person.getName());
-                                        Iterator<ObjectAdv> it = person.getList().iterator();
-                                        while (it.hasNext()) {
-                                            ObjectAdv next = it.next();
-                                            getCurrentRoom().getObjects().add(next);
-                                            out.print(" " + next.getName());
-                                            it.remove();
-                                        }
-                                    }
-                                } else {
-                                    out.println("Hai lanciato: " + p.getObject().getName() + "contro" + p.getObject().getName() + "ma non lo hai colpito");
-                                }
-                            }else{
-                                out.println("hai lanciato" + )
-                            }
+                            } else {
+                                out.println("Hai lanciato: " + p.getInvObject().getName() + " contro " + person.getName() + " ma non lo hai colpito");
+                            } 
+                        } else {
+                            out.println("Tabbaccone, non hai nulla da lanciare");
                         }
-                    } else {
-                        out.println("l'oggetto non può essere lanciato");
-                    }
-                } else if (p.getObject() != null) {
-                    if (p.getObject().isPickupable()) {
+                    } else if (p.getObject().isPickupable()) {
                         out.println("Hai lanciato " + p.getObject().getName());
-                    } else {
-                        out.println("L'oggetto non può essere lanciato");
+                        /*TODO: noi fessi abbiamo messo che può lanciare un oggetto ad una persona solo se è nell'inventario. senza bersaglio l
+                        lo lancia tranquillamente*/
                     }
+                } else if (p.getInvObject() != null) {
+                    out.println("Hai lanciato " + p.getInvObject().getName());
+                    controller.consequenceOfHurl(p.getInvObject(), getCurrentRoom(), getInventory());
                 } else {
                     out.println("Non ci sono oggetti che puoi lanciare");
                 }
             }
-            //TODO: una volta avviato il generatore dobbiamo settare la variabile visibale nelle stanze
             //TODO: alcuni oggetti si possono rompere e bisogna rimuoverli dalla stanza
             if (noroom) {
                 out.println("Da quella parte non si può andare c'è un muro!\nNon hai ancora acquisito i poteri per oltrepassare i muri...");
