@@ -22,7 +22,7 @@ public class Room {
     
     private String descDay;
 
-    private String look = "Non c'è nulla di interessante qui.";
+    private String look = null;
     
     private boolean visible = true;
 

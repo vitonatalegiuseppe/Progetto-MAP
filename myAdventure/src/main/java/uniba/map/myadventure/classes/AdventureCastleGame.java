@@ -403,6 +403,7 @@ public class AdventureCastleGame extends GameDescription {
         ObjectAdv rope = new ObjectAdv(7, "corda", "una corda molto resistente");
         rope.setAlias(new String[]{"laccio", "fune"});
         ObjectAdv scotch = new ObjectAdv(8, "scotch", "un semplice nastro adesivo");
+        scotch.setFragile(true);
         scotch.setAlias(new String[]{"nastro"});
         ObjectAdv fuel = new ObjectAdv(9, "benzina", "una tanica di benzina piena");
         fuel.setAlias(new String[]{"carburante", "tanica", "combustibile"});
@@ -426,18 +427,21 @@ public class AdventureCastleGame extends GameDescription {
 
         // sala da pranzo
         // TODO: il cibo all'interno dei piatti è avvelenato e il personaggio perde una vita
-        ObjectAdv dishes = new ObjectAdv(15, "piatti", "dei piatti con ancora del cibo al loro interno, chissà se è buono");
-        dishes.setAlias(new String[]{"stoviglie", "porcellane", "piatto"});
-        diningroom.getObjects().add(dishes);
-        ObjectAdv silverware = new ObjectAdv(16, "posate", "Utili per afferrare cosa c'è nel piatto");
+        ObjectAdv dish = new ObjectAdv(15, "piatto", "Un piatto con ancora del cibo al loro interno, chissà se è buono");
+        dish.setAlias(new String[]{"stoviglia", "porcellana"});
+        dish.setFragile(true);
+        diningroom.getObjects().add(dish);
+        ObjectAdv silverware = new ObjectAdv(16, "posata", "Utili per afferrare cosa c'è nel piatto");
         silverware.setAlias(new String[]{"argenteria"});
         diningroom.getObjects().add(silverware);
-        ObjectAdv glasses = new ObjectAdv(17, "bicchieri", "Utili per bere qualsiasi fluido ");
-        glasses.setAlias(new String[]{"calici", "tazze"});
-        diningroom.getObjects().add(glasses);
-        ObjectAdv candles = new ObjectAdv(19, "candele", "Ottime per illuminare e scaldare un ambiente");
-        candles.setAlias(new String[]{"lumino"});
-        diningroom.getObjects().add(candles);
+        ObjectAdv glass = new ObjectAdv(17, "bicchiere", "Utili per bere qualsiasi fluido ");
+        glass.setAlias(new String[]{"calice", "tazza"});
+        glass.setFragile(true);
+        diningroom.getObjects().add(glass);
+        ObjectAdv candle = new ObjectAdv(19, "candela", "Ottime per illuminare e scaldare un ambiente");
+        candle.setAlias(new String[]{"lumino"});
+        candle.setFragile(true);
+        diningroom.getObjects().add(candle);
         AdvPerson butler = new AdvPerson(2, "Ambrogio", 5, " è il magiordomo di questo castello, al collo ha appesa una chiave e sembra essere non intenzionato a dartela");
         butler.setAlias(new String[]{"cameriere", "maggiordomo"});
         butler.setPickupable(false);
@@ -508,7 +512,7 @@ public class AdventureCastleGame extends GameDescription {
         key4.setAlias(new String[]{"chiave"});
         winebottle.add(key4);
 
-        //oggetti stanza della servitu
+        //oggetti stanza crollata
         ObjectAdv doorDebris = new ObjectAdv(26, "portaservitu", "Una porta... Chissa se puo essere aperta??!!!");
         doorDebris.setOpenable(true);
         doorDebris.setPickupable(false);
@@ -535,9 +539,9 @@ public class AdventureCastleGame extends GameDescription {
         ObjectAdv key5 = new ObjectAdv(43, "chiave", "una chiave utile per aprire una serratura, chissà quale");
         key5.setAlias(new String[]{"chiave"});
         armory.getObjects().add(key5);
-        ObjectAdv guardian = new ObjectAdv(44, "guardiano", "Lui è Robert il guardiano di questo castello, a lui non sfugge nulla, neanche quando dorme");
+        AdvPerson guardian = new AdvPerson(44, "Guardiano", 7, "Lui è Robert il guardiano di questo castello, a lui non sfugge nulla, neanche quando dorme");
         guardian.setAlias(new String[]{"custode", "sorvegliante"});
-        guardian.setPushable(true);
+        guardian.setPickupable(false);
         armory.getObjects().add(guardian);
         ObjectAdv GrapplingHook = new ObjectAdv(45, "rampino", "un oggetto che se lanciato si aggrappa ovunque, ma inutile senza una corda");
         //TODO: inserire l'azione che unisce gli oggetti e modificare la descrizione del rampino
@@ -546,6 +550,7 @@ public class AdventureCastleGame extends GameDescription {
         // oggetti bagno
         ObjectAdv ghost = new ObjectAdv(46, "fantasma", "un anima in pena che sembra sia molto affezzionata a questa stanza, chissa cosa c'è che richiama la sua attenzione");
         ghost.setAlias(new String[]{"spettro"});
+        ghost.setPickupable(false);
         bathroom1.getObjects().add(ghost);
         ObjectAdv key6 = new ObjectAdv(47, "chiave", "una chiave utile per aprire una serratura, chissà quale");
         key6.setAlias(new String[]{"chiave"});
@@ -559,6 +564,7 @@ public class AdventureCastleGame extends GameDescription {
         stairs.getObjects().add(gate);
         hall2.getObjects().add(gate);
 
+        //TODO: le chiavi devono essere distinte in qualche maniera altrimenti una volta messe nell'inventario daranno problemi.
         //corridioio secondo piano
         ObjectAdv ares = new ObjectAdv(49, "scultura", "un scultura molto bella che raffigura ares il dio della guerra, Ares");
         ares.setAlias(new String[]{"statua"});
@@ -611,7 +617,7 @@ public class AdventureCastleGame extends GameDescription {
         AdvPerson misterX = new AdvPerson(53, "MisterX", 10, "si presenta con una benda all'occhio, un barbone non curata e un fare minaccioso, il classico tipo losco da non farti mai nemico");
         misterX.setAlias(new String[]{"boss", "cattivo"});
         tower.getObjects().add(misterX);
-        ObjectAdv stecy = new ObjectAdv(54, "Stecy", "una bella ragazza con dei lineamenti del viso armoniosi e proporzionati con occhi grandi e luminosi, la classica ragazza acqua e sapone");
+        AdvPerson stecy = new AdvPerson(54, "Stecy", 3, "una bella ragazza con dei lineamenti del viso armoniosi e proporzionati con occhi grandi e luminosi, la classica ragazza acqua e sapone");
         stecy.setAlias(new String[]{"ragazza"});
         tower.getObjects().add(stecy);
 
@@ -683,6 +689,13 @@ public class AdventureCastleGame extends GameDescription {
                     out.println(p.getObject().getDescription());
                 } else if (getCurrentRoom().getLook() != null) {
                     out.println(getCurrentRoom().getLook());
+                } else if (!getCurrentRoom().getObjects().isEmpty()) {
+                    out.println("Nella stanza vedi le seguenti cose: ");
+                    for (ObjectAdv o : getCurrentRoom().getObjects()) {
+                        out.println(o.getName());
+                    }
+                } else {
+                    out.println("Non c'è nulla di rillevante qui.");
                 }
             } else if (p.getCommand().getType() == CommandType.PICK_UP) {
                 if (p.getObject() != null) {
@@ -798,27 +811,59 @@ public class AdventureCastleGame extends GameDescription {
                                         getCurrentRoom().getObjects().add(next);
                                         out.print(" " + next.getName());
                                         it.remove();
-                                    } //TODO: nella descrione della stanza bisogna elencare tutti gli oggetti che contiene
+                                    }
                                 }
                             } else {
                                 out.println("Hai lanciato: " + p.getInvObject().getName() + " contro " + person.getName() + " ma non lo hai colpito");
-                            } 
+                            }
+                            out.println(controller.consequenceOfHurl(p.getInvObject(), getCurrentRoom(), getInventory()));
                         } else {
                             out.println("Tabbaccone, non hai nulla da lanciare");
                         }
                     } else if (p.getObject().isPickupable()) {
                         out.println("Hai lanciato " + p.getObject().getName());
                         /*TODO: noi fessi abbiamo messo che può lanciare un oggetto ad una persona solo se è nell'inventario. senza bersaglio l
-                        lo lancia tranquillamente*/
+                        lo lancia tranquillamente. il parse restituisce 1'oggetto e un oggetto nell'inventario: 1 per ogni tipo*/
                     }
                 } else if (p.getInvObject() != null) {
                     out.println("Hai lanciato " + p.getInvObject().getName());
-                    controller.consequenceOfHurl(p.getInvObject(), getCurrentRoom(), getInventory());
+                    out.println(controller.consequenceOfHurl(p.getInvObject(), getCurrentRoom(), getInventory()));
                 } else {
                     out.println("Non ci sono oggetti che puoi lanciare");
                 }
+            /*} else if (p.getCommand().getType() == CommandType.HIT) {
+                if (p.getObject() != null) {
+                    if (p.getObject() instanceof AdvPerson) {
+                        if (p.getInvObject() != null) {
+                            AdvPerson person = (AdvPerson) p.getObject();
+                            if (controller.personHit()) {
+                                person.setLife(person.getLife() - 1);
+                                out.println("Hai lanciato: " + p.getInvObject().getName() + " contro " + person.getName() + " colpendolo");
+                                if (person.getLife() == 0) {
+                                    out.println("Hai sconfitto" + person.getName());
+                                    Iterator<ObjectAdv> it = person.getList().iterator();
+                                    while (it.hasNext()) {
+                                        ObjectAdv next = it.next();
+                                        getCurrentRoom().getObjects().add(next);
+                                        out.print(" " + next.getName());
+                                        it.remove();
+                                    } 
+                                }
+                            } else {
+                                out.println("Hai lanciato: " + p.getInvObject().getName() + " contro " + person.getName() + " ma non lo hai colpito");
+                            }
+                        } else {
+                            out.println("Tabbaccone, non hai nulla da lanciare");
+                        }
+                    } else if (p.getObject().isPickupable()) {
+                        out.println("Hai lanciato " + p.getObject().getName());
+                       }
+                } else if (p.getInvObject() != null) {
+                    out.println("Hai lanciato " + p.getInvObject().getName());
+                } else {
+                    out.println("Non ci sono oggetti che puoi lanciare");
+                }*/
             }
-            //TODO: alcuni oggetti si possono rompere e bisogna rimuoverli dalla stanza
             if (noroom) {
                 out.println("Da quella parte non si può andare c'è un muro!\nNon hai ancora acquisito i poteri per oltrepassare i muri...");
             } else if (move) {
