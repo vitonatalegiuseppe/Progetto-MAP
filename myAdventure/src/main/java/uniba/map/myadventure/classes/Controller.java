@@ -44,10 +44,16 @@ public class Controller {
         return hit;
     }
 
-    public void consequenceOfHurl(ObjectAdv objectHurled, Room currentRoom, List<ObjectAdv> inv) {
+    public String consequenceOfHurl(ObjectAdv objectHurled, Room currentRoom, List<ObjectAdv> inv) {
+        String message = null;
         if (!objectHurled.getFragile()) {
             currentRoom.getObjects().add(objectHurled);
+            message = "L'oggetto " + objectHurled.getName() + " non si è distrutto a seguito dello schianto.";
+        }else{
+            message = "L'oggetto " + objectHurled.getName() + " si è distrutto a seguito dello schianto.";
         }
         inv.remove(objectHurled);
+        
+        return message;
     }
 }

@@ -22,7 +22,7 @@ public class Parser {
 
     private int checkForCommand(String token, List<Command> commands) {
         for (int i = 0; i < commands.size(); i++) {
-            if (commands.get(i).getName().equals(token) || commands.get(i).getAlias().contains(token)) {
+            if (commands.get(i).getName().toLowerCase().equals(token) || commands.get(i).getAlias().contains(token)) {
                 return i;
             }
         }
@@ -31,7 +31,7 @@ public class Parser {
     
     private int checkForObject(String token, List<ObjectAdv> obejcts) {
         for (int i = 0; i < obejcts.size(); i++) {
-            if (obejcts.get(i).getName().equals(token) || obejcts.get(i).getAlias().contains(token)) {
+            if (obejcts.get(i).getName().toLowerCase().equals(token) || obejcts.get(i).getAlias().contains(token)) {
                 return i;
             }
         }
