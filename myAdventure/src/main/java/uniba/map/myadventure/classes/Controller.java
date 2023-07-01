@@ -34,7 +34,7 @@ public class Controller {
         return stato;
     }
 
-    public boolean personHit() {
+    public boolean objectHit() {
 
         boolean hit = false;
         Random rand = new Random();
@@ -46,7 +46,7 @@ public class Controller {
 
     public String consequenceOfHurl(ObjectAdv objectHurled, Room currentRoom, List<ObjectAdv> inv) {
         String message = null;
-        if (!objectHurled.getFragile()) {
+        if (objectHurled.getFragile() == false) {
             currentRoom.getObjects().add(objectHurled);
             message = "L'oggetto " + objectHurled.getName() + " non si è distrutto a seguito dello schianto.";
         }else{

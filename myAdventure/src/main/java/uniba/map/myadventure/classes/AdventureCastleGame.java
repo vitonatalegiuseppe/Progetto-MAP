@@ -423,7 +423,6 @@ public class AdventureCastleGame extends GameDescription {
         rack.add(nails);
         rack.add(bucket);
         rack.add(crowbar);
-        //TODO: da verificare se inserire i singoli oggetti contenuti nell'oggetto contenitore deve esere inseriti singolarmente nella stanza
 
         // sala da pranzo
         // TODO: il cibo all'interno dei piatti è avvelenato e il personaggio perde una vita
@@ -442,7 +441,7 @@ public class AdventureCastleGame extends GameDescription {
         candle.setAlias(new String[]{"lumino"});
         candle.setFragile(true);
         diningroom.getObjects().add(candle);
-        AdvPerson butler = new AdvPerson(2, "Ambrogio", 5, " è il magiordomo di questo castello, al collo ha appesa una chiave e sembra essere non intenzionato a dartela");
+        AdvPerson butler = new AdvPerson(2, "Ambrogio", 1, " è il magiordomo di questo castello, al collo ha appesa una chiave e sembra essere non intenzionato a dartela");
         butler.setAlias(new String[]{"cameriere", "maggiordomo"});
         butler.setPickupable(false);
         diningroom.getObjects().add(butler);
@@ -685,16 +684,20 @@ public class AdventureCastleGame extends GameDescription {
                 }
             } else if (p.getCommand().getType() == CommandType.LOOK_AT) {
                 //TODO: andare ad eliminare l'attributo look nella classe oggetti
+                boolean state = false; //controlla se qualcosa è stato mandato in output
                 if (p.getObject() != null) {
                     out.println(p.getObject().getDescription());
+                    state = true;
                 } else if (getCurrentRoom().getLook() != null) {
                     out.println(getCurrentRoom().getLook());
+                    state = true;
                 } else if (!getCurrentRoom().getObjects().isEmpty()) {
                     out.println("Nella stanza vedi le seguenti cose: ");
                     for (ObjectAdv o : getCurrentRoom().getObjects()) {
                         out.println(o.getName());
                     }
-                } else {
+                    state = true;
+                } else if(!state){
                     out.println("Non c'è nulla di rillevante qui.");
                 }
             } else if (p.getCommand().getType() == CommandType.PICK_UP) {
@@ -797,33 +800,39 @@ public class AdventureCastleGame extends GameDescription {
                 } //TODO: una volta avviato il generatore dobbiamo settare la variabile visibale nelle stanze
             } else if (p.getCommand().getType() == CommandType.HURL) {
                 if (p.getObject() != null) {
-                    if (p.getObject() instanceof AdvPerson) {
-                        if (p.getInvObject() != null) {
-                            AdvPerson person = (AdvPerson) p.getObject();
-                            if (controller.personHit()) {
+                    if (p.getInvObject() != null) {
+                        if (controller.objectHit()) {
+                            out.println("Hai lanciato: " + p.getInvObject().getName() + " contro " + p.getObject().getName() + " colpendolo");
+                            if (p.getObject() instanceof AdvPerson) {
+                                AdvPerson person = (AdvPerson) p.getObject();
                                 person.setLife(person.getLife() - 1);
-                                out.println("Hai lanciato: " + p.getInvObject().getName() + " contro " + person.getName() + " colpendolo");
                                 if (person.getLife() == 0) {
-                                    out.println("Hai sconfitto" + person.getName());
+                                    out.println("Hai sconfitto " + person.getName() + ".");
                                     Iterator<ObjectAdv> it = person.getList().iterator();
-                                    while (it.hasNext()) {
-                                        ObjectAdv next = it.next();
-                                        getCurrentRoom().getObjects().add(next);
-                                        out.print(" " + next.getName());
-                                        it.remove();
+                                    if (!person.getList().isEmpty()) {
+                                        out.print(person.getName() + " ha i seguenti oggetti: ");
+                                        while (it.hasNext()) {
+                                            ObjectAdv next = it.next();
+                                            getCurrentRoom().getObjects().add(next);
+                                            out.print(next.getName() + " ");
+                                            it.remove();
+                                        }
+                                        out.print("\n");
+                                        getCurrentRoom().getObjects().remove(p.getObject()); //remove the person that is dead
                                     }
+                                } else {
+                                    out.println(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
                                 }
                             } else {
-                                out.println("Hai lanciato: " + p.getInvObject().getName() + " contro " + person.getName() + " ma non lo hai colpito");
+                                out.println(controller.consequenceOfHurl(p.getObject(), getCurrentRoom(), getInventory()));
                             }
-                            out.println(controller.consequenceOfHurl(p.getInvObject(), getCurrentRoom(), getInventory()));
                         } else {
-                            out.println("Tabbaccone, non hai nulla da lanciare");
+                            out.println("Hai lanciato: " + p.getInvObject().getName() + " contro " + p.getObject().getName() + " ma non lo hai colpito");
                         }
-                    } else if (p.getObject().isPickupable()) {
-                        out.println("Hai lanciato " + p.getObject().getName());
-                        /*TODO: noi fessi abbiamo messo che può lanciare un oggetto ad una persona solo se è nell'inventario. senza bersaglio l
-                        lo lancia tranquillamente. il parse restituisce 1'oggetto e un oggetto nell'inventario: 1 per ogni tipo*/
+                        out.println(controller.consequenceOfHurl(p.getInvObject(), getCurrentRoom(), getInventory()));
+                    } else {
+                        out.println("Tabbaccone, non hai nulla da lanciare");
+                        out.println("Per poter lanciare un oggetto, lo devi prima prendere.");
                     }
                 } else if (p.getInvObject() != null) {
                     out.println("Hai lanciato " + p.getInvObject().getName());
@@ -831,38 +840,6 @@ public class AdventureCastleGame extends GameDescription {
                 } else {
                     out.println("Non ci sono oggetti che puoi lanciare");
                 }
-            /*} else if (p.getCommand().getType() == CommandType.HIT) {
-                if (p.getObject() != null) {
-                    if (p.getObject() instanceof AdvPerson) {
-                        if (p.getInvObject() != null) {
-                            AdvPerson person = (AdvPerson) p.getObject();
-                            if (controller.personHit()) {
-                                person.setLife(person.getLife() - 1);
-                                out.println("Hai lanciato: " + p.getInvObject().getName() + " contro " + person.getName() + " colpendolo");
-                                if (person.getLife() == 0) {
-                                    out.println("Hai sconfitto" + person.getName());
-                                    Iterator<ObjectAdv> it = person.getList().iterator();
-                                    while (it.hasNext()) {
-                                        ObjectAdv next = it.next();
-                                        getCurrentRoom().getObjects().add(next);
-                                        out.print(" " + next.getName());
-                                        it.remove();
-                                    } 
-                                }
-                            } else {
-                                out.println("Hai lanciato: " + p.getInvObject().getName() + " contro " + person.getName() + " ma non lo hai colpito");
-                            }
-                        } else {
-                            out.println("Tabbaccone, non hai nulla da lanciare");
-                        }
-                    } else if (p.getObject().isPickupable()) {
-                        out.println("Hai lanciato " + p.getObject().getName());
-                       }
-                } else if (p.getInvObject() != null) {
-                    out.println("Hai lanciato " + p.getInvObject().getName());
-                } else {
-                    out.println("Non ci sono oggetti che puoi lanciare");
-                }*/
             }
             if (noroom) {
                 out.println("Da quella parte non si può andare c'è un muro!\nNon hai ancora acquisito i poteri per oltrepassare i muri...");
