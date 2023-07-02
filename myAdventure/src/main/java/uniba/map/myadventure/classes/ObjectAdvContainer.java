@@ -4,15 +4,18 @@
  */
 package uniba.map.myadventure.classes;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
 /**
  *
  * @author giuse
  */
-public class ObjectAdvContainer extends ObjectAdv{
-    
+public class ObjectAdvContainer extends ObjectAdv {
+
     private List<ObjectAdv> list = new ArrayList<>();
 
     public ObjectAdvContainer(int id) {
@@ -46,5 +49,21 @@ public class ObjectAdvContainer extends ObjectAdv{
     public void remove(ObjectAdv o) {
         list.remove(o);
     }
-    
+
+    public List<ObjectAdv> showObjectContained(PrintStream out) {
+        List<ObjectAdv> list = new ArrayList<ObjectAdv>();//TODO: capire come inizializzare una lista
+        Iterator<ObjectAdv> it = this.getList().iterator();
+        if (!this.getList().isEmpty()) {
+            out.print(this.getName() + " ha i seguenti oggetti: ");
+            while (it.hasNext()) {
+                ObjectAdv next = it.next();
+                list.add(next);
+                out.print(next.getName() + ", ");
+                it.remove();
+            }
+            out.print("\n");
+        }
+        
+        return list;
+    }
 }

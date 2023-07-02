@@ -697,7 +697,7 @@ public class AdventureCastleGame extends GameDescription {
                         out.println(o.getName());
                     }
                     state = true;
-                } else if(!state){
+                } else if (!state) {
                     out.println("Non c'è nulla di rillevante qui.");
                 }
             } else if (p.getCommand().getType() == CommandType.PICK_UP) {
@@ -725,17 +725,7 @@ public class AdventureCastleGame extends GameDescription {
                             if (p.getObject() instanceof ObjectAdvContainer) {
                                 out.println("Hai aperto: " + p.getObject().getName());
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
-                                if (!c.getList().isEmpty()) {
-                                    out.print(c.getName() + " contiene:");
-                                    Iterator<ObjectAdv> it = c.getList().iterator();
-                                    while (it.hasNext()) {
-                                        ObjectAdv next = it.next();
-                                        getCurrentRoom().getObjects().add(next);
-                                        out.print(" " + next.getName());
-                                        it.remove();
-                                    }
-                                    out.println();
-                                }
+                                getCurrentRoom().getObjects().addAll(c.showObjectContained(out));
                                 p.getObject().setOpen(true);
                             } else {
                                 out.println("Hai aperto: " + p.getObject().getName());
@@ -749,17 +739,7 @@ public class AdventureCastleGame extends GameDescription {
                         if (p.getInvObject().isOpenable() && p.getInvObject().isOpen() == false) {
                             if (p.getInvObject() instanceof ObjectAdvContainer) {
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
-                                if (!c.getList().isEmpty()) {
-                                    out.print(c.getName() + " contiene:");
-                                    Iterator<ObjectAdv> it = c.getList().iterator();
-                                    while (it.hasNext()) {
-                                        ObjectAdv next = it.next();
-                                        getInventory().add(next);
-                                        out.print(" " + next.getName());
-                                        it.remove();
-                                    }
-                                    out.println();
-                                }
+                                getCurrentRoom().getObjects().addAll(c.showObjectContained(out));
                                 p.getInvObject().setOpen(true);
                             } else {
                                 p.getInvObject().setOpen(true);
@@ -808,18 +788,8 @@ public class AdventureCastleGame extends GameDescription {
                                 person.setLife(person.getLife() - 1);
                                 if (person.getLife() == 0) {
                                     out.println("Hai sconfitto " + person.getName() + ".");
-                                    Iterator<ObjectAdv> it = person.getList().iterator();
-                                    if (!person.getList().isEmpty()) {
-                                        out.print(person.getName() + " ha i seguenti oggetti: ");
-                                        while (it.hasNext()) {
-                                            ObjectAdv next = it.next();
-                                            getCurrentRoom().getObjects().add(next);
-                                            out.print(next.getName() + " ");
-                                            it.remove();
-                                        }
-                                        out.print("\n");
-                                        getCurrentRoom().getObjects().remove(p.getObject()); //remove the person that is dead
-                                    }
+                                    getCurrentRoom().getObjects().addAll(person.showObjectContained(out));
+                                    getCurrentRoom().getObjects().remove(person); //remove the person that is dead
                                 } else {
                                     out.println(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
                                 }
@@ -839,6 +809,54 @@ public class AdventureCastleGame extends GameDescription {
                     out.println(controller.consequenceOfHurl(p.getInvObject(), getCurrentRoom(), getInventory()));
                 } else {
                     out.println("Non ci sono oggetti che puoi lanciare");
+                }
+            } else if (p.getCommand().getType() == CommandType.HIT) {
+                if (p.getInvObject() != null) {
+                    if (p.getObject() != null) {
+                        if (controller.objectHit()) {
+                            out.println("Sei riuscito a colpire " + p.getObject().getName() + " con " + p.getInvObject().getName());
+                            if (p.getObject() instanceof AdvPerson) {
+                                AdvPerson person = (AdvPerson) p.getObject();
+                                person.setLife(person.getLife() - 1);
+                                if (person.getLife() == 0) {
+                                    out.println("Hai sconfitto " + person.getName() + ".");
+                                    getCurrentRoom().getObjects().addAll(person.showObjectContained(out));
+                                    getCurrentRoom().getObjects().remove(person); //remove the person that is dead
+                                } else {
+                                    out.println(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
+                                }
+                                out.println(controller.consequenceOfHit(null, p.getInvObject(), getCurrentRoom(), getInventory()));
+                            } else {
+                                out.println(controller.consequenceOfHit(p.getObject(), p.getInvObject(), getCurrentRoom(), getInventory()));
+                            }
+                        } else {
+                            out.println("Non sei riuscito a colpire " + p.getObject().getName() + " con " + p.getInvObject().getName());
+                        }
+                    } else {
+                        out.println("Hai colpito l'aria con " + p.getInvObject().getName());
+                    }
+                } else if (p.getObject() != null) {
+                    if (controller.objectHit()) {
+                        out.println("Non hai preso alcun oggetto, perciò usi le mani. (Ricorda che devi prima prendere un oggetto e poi utilizzarlo)");
+                        out.println("Sei riuscito a colpire " + p.getObject().getName() + " a mani nude.");
+                        if (p.getObject() instanceof AdvPerson) {
+                            AdvPerson person = (AdvPerson) p.getObject();
+                            person.setLife(person.getLife() - 1);
+                            if (person.getLife() == 0) {
+                                out.println("Hai sconfitto " + person.getName() + ".");
+                                getCurrentRoom().getObjects().addAll(person.showObjectContained(out));
+                                getCurrentRoom().getObjects().remove(person); //remove the person that is dead
+                            } else {
+                                out.println(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
+                            }
+                        } else {
+                            out.println(controller.consequenceOfHit(p.getObject(), null, getCurrentRoom(), getInventory()));
+                        }
+                    } else {
+                        out.println("Non sei riuscito a colpire " + p.getObject().getName());
+                    }
+                } else {
+                    out.println("Ma come sei bravo a prendere a pugni l'aria!!");
                 }
             }
             if (noroom) {
