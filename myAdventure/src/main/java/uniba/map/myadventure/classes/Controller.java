@@ -4,8 +4,6 @@
  */
 package uniba.map.myadventure.classes;
 
-import java.io.PrintStream;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -18,14 +16,13 @@ public class Controller {
     public Controller() {
     }
 
-    public boolean doorcontroller(Room currentRoom, Room nextRoom) {
+    public boolean doorController(Room currentRoom, Room nextRoom) {
         boolean stato = true;
-        ObjectAdv porta = new ObjectAdv(-2);
 
         for (ObjectAdv o : currentRoom.getObjects()) {
             for (ObjectAdv b : nextRoom.getObjects()) {
                 if (o.equals(b)) {
-                    if (!porta.isOpen()) {
+                    if (!b.isOpen()) {
                         return stato = false;
                     } else {
                         return stato;

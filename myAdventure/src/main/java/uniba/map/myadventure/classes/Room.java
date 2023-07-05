@@ -34,6 +34,10 @@ public class Room {
 
     private Room west = null;
     
+    private Room comeUp = null;
+    
+    private Room goDown = null;
+    
     private final List<ObjectAdv> objects = new ArrayList<>();
 
     
@@ -114,6 +118,22 @@ public class Room {
 
     public void setWest(Room west) {
         this.west = west;
+    }
+    
+    public Room getComeUp() {
+        return comeUp;
+    }
+
+    public void setComeUp(Room comeUp) {
+        this.comeUp = comeUp;
+    }
+    
+    public Room getGoDown() {
+        return goDown;
+    }
+
+    public void setGoDown(Room goDown) {
+        this.goDown = goDown;
     }
     
     public String getLook() {
