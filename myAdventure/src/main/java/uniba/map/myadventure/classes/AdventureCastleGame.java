@@ -6,7 +6,6 @@
 package uniba.map.myadventure.classes;
 
 import java.io.PrintStream;
-import java.util.Iterator;
 
 /**
  * @author pierpaolo
@@ -58,6 +57,12 @@ public class AdventureCastleGame extends GameDescription {
         Command hurl = new Command(CommandType.HURL, "lancia");
         hurl.setAlias(new String[]{"lanciare", "scaglia", "getta"});
         getCommands().add(hurl);
+        Command comeUp = new Command(CommandType.COME_UP, "sali");
+        comeUp.setAlias(new String[]{"ascendi", "arrampicati", "inerpicati"});
+        getCommands().add(comeUp);
+        Command goDown = new Command(CommandType.GO_DOWN, "scendi");
+        goDown.setAlias(new String[]{"discendi", "calati"});
+        getCommands().add(goDown);
 
         //Rooms
         String darkHall = "Grazie alla luce della luna e delle stelle riesci a distinguere i contorini del corridoio e delle pareti,\nma nulla di più. Hai bisogno di qualcosa per illuminaaare meglio.";
@@ -100,7 +105,7 @@ public class AdventureCastleGame extends GameDescription {
                 + "emanata dal fuoco nel camino ti permette di distinguere abbastanza tutto: ci sono due poltrone e intravedi una scrivania");
         livingroom.setLook("Osservando meglio sulla scrivania si intravedono dei fogli. Mentre appese alla kappa del camino noti appese delle fiaccole spente.");
         Room diningroom = new Room(23, "Sala da pranzo", "Sei in un enorme sala da pranzo. C’è un tavolo tutto imbandito con tutto il necessario. Ad un angolo del tavolo noti un uomo, \n"
-                + "forse il maggiordomo della villa. A nord intravedi un ingresso verso un'altra stanza: forse la cucina. (Ah, ovviamente a est c'è la porta da cui sei entrato)", darkRoom);
+                + "forse il maggiordomo della villa. A nord intravedi un ingresso verso un'altra stanza: forse la cucina. \n(Ah, ovviamente a est c'è la porta da cui sei entrato)", darkRoom);
         Room kitchen = new Room(24, "Cucina", "Niente di particolare. Una cucina come tante: credenze, forno, frigorifero e cassetti ci sono tutti. Sulla parete sud è presente un ingresso probabilmente verso"
                 + "la sala da pranzo, mentre sulla parete est c'è una porta che forse conduce alla dispensa.", darkRoom);
         Room larder = new Room(25, "Dispensa", "La dispensa sembra ben rifornita. Oltre a sacchi di farina e vari salumi e formaggi puoi notare una piccola cantina di vini. A ovest dell'ingresso vi "
@@ -119,7 +124,8 @@ public class AdventureCastleGame extends GameDescription {
                 + " è coperta da un balcone che sembra essere l’affaccio di qualche stanza del primo piano.");
 
         //secondo piano
-        Room stairs_2 = new Room(31, "Scale", "Salendo ti ritrovi un’ampia stanza da cui, ben presto, capisci che si tratta di un corridoio che circonda l’intero palazzo.", darkRoom);
+        Room stairs_2 = new Room(31, "Scale", "Salendo ti ritrovi un’ampia stanza da cui, ben presto, capisci che si tratta di un corridoio che circonda l’intero palazzo.\n"
+                + "(Ovviamente ci sono le scale che scendono al piano inferiore)", darkRoom);
         stairs_2.setLook("C'è ben poco arredamento: un tappeto posizionato al centro della stanza sembra percorrere l’intero corridoio, ci sono delle sculture.");
         Room hall2_2 = new Room(32, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri. C'è anche una finestra."
                 + " A ovest e a nord il corridoio prosegue. A sud vai verso le scale.", darkHall_2);
@@ -142,7 +148,7 @@ public class AdventureCastleGame extends GameDescription {
         Room hall10_2 = new Room(40, "Corridoio", "Sei nel corridoio. L'ambiente è pressochè lo stesso: ci sono delle sculture e dei quadri."
                 + " A nord e a sud il corridoio prosegue.", darkHall_2);
         Room hall11_2 = new Room(41, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
-                + " A nord e a sud il corridoio prosegue. A est c'è una porta chiusa", darkHall_2); //TODO: aggoingere porta chiusa 
+                + " A nord e a sud il corridoio prosegue. A est c'è una porta chiusa", darkHall_2); //TODO: ??aggoingere porta chiusa 
         Room hall12_2 = new Room(42, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
                 + " A sud e a est il corridoio prosegue.", darkHall_2);
         Room hall13_2 = new Room(43, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
@@ -191,6 +197,7 @@ public class AdventureCastleGame extends GameDescription {
 
         //map
         stairs.setNorth(hall2);
+        stairs.setComeUp(stairs_2);
         entryway.setNorth(hall4);
         entryway.setSouth(exit);
         hall2.setEast(bathroom1);
@@ -261,6 +268,7 @@ public class AdventureCastleGame extends GameDescription {
         roomOfDebris.setSouth(hall14);
 
         stairs_2.setNorth(hall2_2);
+        stairs_2.setGoDown(stairs);
         hall2_2.setNorth(hall20_2);
         hall2_2.setSouth(stairs_2);
         hall2_2.setWest(hall3_2);
@@ -441,7 +449,9 @@ public class AdventureCastleGame extends GameDescription {
         candle.setAlias(new String[]{"lumino"});
         candle.setFragile(true);
         diningroom.getObjects().add(candle);
-        AdvPerson butler = new AdvPerson(2, "Ambrogio", 1, " è il magiordomo di questo castello, al collo ha appesa una chiave e sembra essere non intenzionato a dartela");
+        AdvPerson butler = new AdvPerson(2, "Ambrogio", 1, "É il magiordomo di questo castello. gurdandolo bene noti due cose: al collo ha appesa una chiave \n"
+                + "e dal suo volto traspare la lieve, se pur marcata, intenzione di farti fuori...");
+        //TODO: iserire l'niziativa del cattivo
         butler.setAlias(new String[]{"cameriere", "maggiordomo"});
         butler.setPickupable(false);
         diningroom.getObjects().add(butler);
@@ -562,6 +572,12 @@ public class AdventureCastleGame extends GameDescription {
         gate.setAlias(new String[]{"inferiata"});
         stairs.getObjects().add(gate);
         hall2.getObjects().add(gate);
+        ObjectAdv steps = new ObjectAdv(60, "Scale", "Un'enorme scalinata ornata con un gran tappeto rosso.");
+        steps.setPickupable(false);
+        steps.setOpen(true);
+        steps.setAlias(new String[]{"rampa", "gradini"});
+        stairs.getObjects().add(steps);
+        stairs_2.getObjects().add(steps);
 
         //TODO: le chiavi devono essere distinte in qualche maniera altrimenti una volta messe nell'inventario daranno problemi.
         //corridioio secondo piano
@@ -590,14 +606,14 @@ public class AdventureCastleGame extends GameDescription {
         ObjectAdv sword1 = new ObjectAdv(53, "Spada", "Arma da combattimento ravvicinato");
         sword1.setAlias(new String[]{"lama", "fioretto", "scimitarra"});
         mainRoom_2.getObjects().add(sword1);
-        ObjectAdv sword2 = new ObjectAdv(53, "Spada", "Arma da combattimento ravvicinato");
+        ObjectAdv sword2 = new ObjectAdv(55, "Spada", "Arma da combattimento ravvicinato");
         sword2.setAlias(new String[]{"lama", "fioretto", "scimitarra"});
         mainRoom_2.getObjects().add(sword2);
         ObjectAdv doorWardrobe = new ObjectAdv(57, "Porta cabina armadio", "Una porta... Chissa se puo essere aperta??!!!");
         doorWardrobe.setPickupable(false);
         doorWardrobe.setAlias(new String[]{"porta"});
         mainRoom_1.getObjects().add(doorWardrobe);
-        ObjectAdv window = new ObjectAdv(57, "Finestrone", "Un enorme Finestrone che affaccia sul balcone. Chissa se puo essere aperta??!!!");
+        ObjectAdv window = new ObjectAdv(58, "Finestrone", "Un enorme Finestrone che affaccia sul balcone. Chissa se puo essere aperta??!!!");
         window.setPickupable(false);
         window.setAlias(new String[]{"finestra", "lucernario"});
         mainRoom_1.getObjects().add(window);
@@ -606,7 +622,7 @@ public class AdventureCastleGame extends GameDescription {
         henchman.setAlias(new String[]{"lacche", "tirapiedi"});
         henchman.setPushable(true);
         mainRoom_1.getObjects().add(henchman);
-        ObjectAdv chest = new ObjectAdv(57, "Baule", "Un baule della stessa larghezza del letto. sembra chiuso... Vuoi sapere cosa contiene, razza di ficcanaso?!!!");
+        ObjectAdv chest = new ObjectAdv(59, "Baule", "Un baule della stessa larghezza del letto. sembra chiuso... Vuoi sapere cosa contiene, razza di ficcanaso?!!!");
         chest.setPickupable(false);
         chest.setOpenable(true);
         chest.setAlias(new String[]{"Cassapanca", "forziere"});
@@ -621,7 +637,7 @@ public class AdventureCastleGame extends GameDescription {
         tower.getObjects().add(stecy);
 
         //set starting room
-        setCurrentRoom(diningroom);
+        setCurrentRoom(kitchen);
     }
 
     @Override
@@ -635,7 +651,7 @@ public class AdventureCastleGame extends GameDescription {
             boolean move = false;
             if (p.getCommand().getType() == CommandType.NORD) {
                 if (getCurrentRoom().getNorth() != null) {
-                    if (controller.doorcontroller(getCurrentRoom(), getCurrentRoom().getNorth())) {
+                    if (controller.doorController(getCurrentRoom(), getCurrentRoom().getNorth())) {
                         setCurrentRoom(getCurrentRoom().getNorth());
                         move = true;
                     } else {
@@ -646,7 +662,7 @@ public class AdventureCastleGame extends GameDescription {
                 }
             } else if (p.getCommand().getType() == CommandType.SOUTH) {
                 if (getCurrentRoom().getSouth() != null) {
-                    if (controller.doorcontroller(getCurrentRoom(), getCurrentRoom().getSouth())) {
+                    if (controller.doorController(getCurrentRoom(), getCurrentRoom().getSouth())) {
                         setCurrentRoom(getCurrentRoom().getSouth());
                         move = true;
                     } else {
@@ -657,7 +673,7 @@ public class AdventureCastleGame extends GameDescription {
                 }
             } else if (p.getCommand().getType() == CommandType.EAST) {
                 if (getCurrentRoom().getEast() != null) {
-                    if (controller.doorcontroller(getCurrentRoom(), getCurrentRoom().getEast())) {
+                    if (controller.doorController(getCurrentRoom(), getCurrentRoom().getEast())) {
                         setCurrentRoom(getCurrentRoom().getEast());
                         move = true;
                     } else {
@@ -668,8 +684,32 @@ public class AdventureCastleGame extends GameDescription {
                 }
             } else if (p.getCommand().getType() == CommandType.WEST) {
                 if (getCurrentRoom().getWest() != null) {
-                    if (controller.doorcontroller(getCurrentRoom(), getCurrentRoom().getWest())) {
+                    if (controller.doorController(getCurrentRoom(), getCurrentRoom().getWest())) {
                         setCurrentRoom(getCurrentRoom().getWest());
+                        move = true;
+                    } else {
+                        out.println("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
+                    }
+                } else { //TODO: rivedere le porte chiuse
+                    noroom = true;
+                }
+            } else if (p.getCommand().getType() == CommandType.COME_UP) {
+                if (getCurrentRoom().getComeUp() != null) {
+                    if (controller.doorController(getCurrentRoom(), getCurrentRoom().getComeUp())) {
+                        setCurrentRoom(getCurrentRoom().getComeUp());
+                        out.println("Sei salito al primo piano.\n");
+                        move = true;
+                    } else {
+                        out.println("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
+                    }
+                } else {
+                    noroom = true;
+                }
+            } else if (p.getCommand().getType() == CommandType.GO_DOWN) {
+                if (getCurrentRoom().getGoDown() != null) {
+                    if (controller.doorController(getCurrentRoom(), getCurrentRoom().getGoDown())) {
+                        setCurrentRoom(getCurrentRoom().getGoDown());
+                        out.println("Sei sceso al piano terra.\n");
                         move = true;
                     } else {
                         out.println("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
@@ -678,26 +718,29 @@ public class AdventureCastleGame extends GameDescription {
                     noroom = true;
                 }
             } else if (p.getCommand().getType() == CommandType.INVENTORY) {
-                out.println("Nel tuo inventario ci sono:");
+                if(!getInventory().isEmpty()){
+                    out.println("Nel tuo inventario ci sono:");
                 for (ObjectAdv o : getInventory()) {
                     out.println(o.getName() + ": " + o.getDescription());
                 }
+                }else{
+                    out.println("Non ha alcun oggetto nel tuo inventario");
+                }
             } else if (p.getCommand().getType() == CommandType.LOOK_AT) {
                 //TODO: andare ad eliminare l'attributo look nella classe oggetti
-                boolean state = false; //controlla se qualcosa è stato mandato in output
                 if (p.getObject() != null) {
                     out.println(p.getObject().getDescription());
-                    state = true;
-                } else if (getCurrentRoom().getLook() != null) {
-                    out.println(getCurrentRoom().getLook());
-                    state = true;
-                } else if (!getCurrentRoom().getObjects().isEmpty()) {
-                    out.println("Nella stanza vedi le seguenti cose: ");
-                    for (ObjectAdv o : getCurrentRoom().getObjects()) {
-                        out.println(o.getName());
+                } else if (getCurrentRoom().getLook() != null || getCurrentRoom().getObjects().isEmpty() == false) {
+                    if (getCurrentRoom().getLook() != null) {
+                        out.println(getCurrentRoom().getLook());
                     }
-                    state = true;
-                } else if (!state) {
+                    if (!getCurrentRoom().getObjects().isEmpty()) {
+                        out.println("Nella stanza vedi le seguenti cose: ");
+                        for (ObjectAdv o : getCurrentRoom().getObjects()) {
+                            out.println(o.getName());
+                        }
+                    }
+                } else {
                     out.println("Non c'è nulla di rillevante qui.");
                 }
             } else if (p.getCommand().getType() == CommandType.PICK_UP) {
