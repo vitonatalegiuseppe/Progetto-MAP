@@ -148,11 +148,11 @@ public class ObjectAdv {
         this.fillable = fillable;
     }
     
-    public boolean getFill() {
+    public boolean getFilled() {
         return filled;
     }
 
-    public void setFill(boolean filled) {
+    public void setFilled(boolean filled) {
         this.filled = filled;
     }
     

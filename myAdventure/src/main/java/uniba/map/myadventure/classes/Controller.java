@@ -4,6 +4,7 @@
  */
 package uniba.map.myadventure.classes;
 
+import java.io.PrintStream;
 import java.util.List;
 import java.util.Random;
 
@@ -50,6 +51,10 @@ public class Controller {
             message = "L'oggetto " + objectHurled.getName() + " non si è distrutto a seguito dello schianto.";
         } else {
             message = "L'oggetto " + objectHurled.getName() + " si è distrutto a seguito dello schianto.";
+            if (objectHurled instanceof ObjectAdvContainer) {
+                ObjectAdvContainer c = (ObjectAdvContainer) objectHurled;
+                currentRoom.getObjects().addAll(c.getList());
+            }
         }
         inv.remove(objectHurled);
 

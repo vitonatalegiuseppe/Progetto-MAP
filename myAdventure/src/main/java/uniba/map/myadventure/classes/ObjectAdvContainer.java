@@ -51,19 +51,15 @@ public class ObjectAdvContainer extends ObjectAdv {
     }
 
     public List<ObjectAdv> showObjectContained(PrintStream out) {
-        List<ObjectAdv> list = new ArrayList<ObjectAdv>();//TODO: capire come inizializzare una lista
         Iterator<ObjectAdv> it = this.getList().iterator();
         if (!this.getList().isEmpty()) {
             out.print(this.getName() + " ha i seguenti oggetti: ");
             while (it.hasNext()) {
                 ObjectAdv next = it.next();
-                list.add(next);
                 out.print(next.getName() + ", ");
                 it.remove();
             }
             out.print("\n");
         }
-        
-        return list;
     }
 }

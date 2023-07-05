@@ -108,9 +108,10 @@ public class AdventureCastleGame extends GameDescription {
                 + "forse il maggiordomo della villa. A nord intravedi un ingresso verso un'altra stanza: forse la cucina. \n(Ah, ovviamente a est c'è la porta da cui sei entrato)", darkRoom);
         Room kitchen = new Room(24, "Cucina", "Niente di particolare. Una cucina come tante: credenze, forno, frigorifero e cassetti ci sono tutti. Sulla parete sud è presente un ingresso probabilmente verso"
                 + "la sala da pranzo, mentre sulla parete est c'è una porta che forse conduce alla dispensa.", darkRoom);
-        Room larder = new Room(25, "Dispensa", "La dispensa sembra ben rifornita. Oltre a sacchi di farina e vari salumi e formaggi puoi notare una piccola cantina di vini. A ovest dell'ingresso vi "
-                + "è una porta che conduce in un'altra stanza, mentre a sud vi è la porta che conduce al corridoio.", darkRoom);
-        larder.setLook("Osservando la cantina noti una bottiglia di vino al cui interno brilla una chiave.");
+        Room larder = new Room(25, "Dispensa", "La dispensa sembra ben rifornita. Oltre a sacchi di farina e vari salumi e formaggi puoi notare una piccola cantina di vini. A ovest \n"
+                + "dell'ingresso vi è una porta che conduce in un'altra stanza, mentre a sud vi è la porta che conduce al corridoio.", darkRoom);
+        larder.setLook("Guardandoti in giro il tuo sguardo viene attirato dalla piccola cantina di vini. In particolare, noti una bottiglia \n"
+                + "di vino al cui interno brilla qualcosa.");
         Room roomOfDebris = new Room(26, "Stanza crollata", "Praticamente è un cumulo di macerie. Non c’è niente se non pietre e qualche foglio/pezzo di carta.", darkRoom);
         Room armory = new Room(27, "Armeria", "Delle candele accese ti permettono di vedere. Oltre ad un’immensa collezione di fucili, pistole e lance puoi notare anche una serie di oggetti che non sono propriamente armi: caschi, armature, rampini,"
                 + " scarpe, occorrenti per giardinaggio, ecc. Inoltre, vedi anche delle panche. Alle tue spalle, sulla parete nord c'è l'ingresso da cui sei entrato. Ma ad attirare la tua attenzione"
@@ -512,8 +513,10 @@ public class AdventureCastleGame extends GameDescription {
         winecellar.setAlias(new String[]{"deposito", "scantinato"});
         winecellar.setPickupable(false);
         larder.getObjects().add(winecellar);
-        ObjectAdvContainer winebottle = new ObjectAdvContainer(35, "bottiglia", "sembra che al suo intenro ci sia una chiave");
+        ObjectAdvContainer winebottle = new ObjectAdvContainer(35, "bottiglia", "Una normale bottiglia al cui interno sembra esserci una chiave");
         winebottle.setOpenable(true);
+        winebottle.setFragile(true);
+        winebottle.setFilled(true);
         winebottle.setAlias(new String[]{"vino"});
         larder.getObjects().add(winebottle);
         //TODO: inserire le azioni che puo effettuare con la bottiglia
@@ -637,7 +640,7 @@ public class AdventureCastleGame extends GameDescription {
         tower.getObjects().add(stecy);
 
         //set starting room
-        setCurrentRoom(kitchen);
+        setCurrentRoom(larder);
     }
 
     @Override
@@ -734,7 +737,7 @@ public class AdventureCastleGame extends GameDescription {
                     if (getCurrentRoom().getLook() != null) {
                         out.println(getCurrentRoom().getLook());
                     }
-                    if (!getCurrentRoom().getObjects().isEmpty()) {
+                    if (!getCurrentRoom().getObjects().isEmpty()) {//TODO: capire se oggetti come scale e porte devono essere visualizati
                         out.println("Nella stanza vedi le seguenti cose: ");
                         for (ObjectAdv o : getCurrentRoom().getObjects()) {
                             out.println(o.getName());
@@ -768,7 +771,8 @@ public class AdventureCastleGame extends GameDescription {
                             if (p.getObject() instanceof ObjectAdvContainer) {
                                 out.println("Hai aperto: " + p.getObject().getName());
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
-                                getCurrentRoom().getObjects().addAll(c.showObjectContained(out));
+                                getCurrentRoom().getObjects().addAll(c.getList());
+                                c.showObjectContained(out);
                                 p.getObject().setOpen(true);
                             } else {
                                 out.println("Hai aperto: " + p.getObject().getName());
@@ -782,7 +786,8 @@ public class AdventureCastleGame extends GameDescription {
                         if (p.getInvObject().isOpenable() && p.getInvObject().isOpen() == false) {
                             if (p.getInvObject() instanceof ObjectAdvContainer) {
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
-                                getCurrentRoom().getObjects().addAll(c.showObjectContained(out));
+                                getCurrentRoom().getObjects().addAll(c.getList());
+                                c.showObjectContained(out);
                                 p.getInvObject().setOpen(true);
                             } else {
                                 p.getInvObject().setOpen(true);
@@ -831,7 +836,8 @@ public class AdventureCastleGame extends GameDescription {
                                 person.setLife(person.getLife() - 1);
                                 if (person.getLife() == 0) {
                                     out.println("Hai sconfitto " + person.getName() + ".");
-                                    getCurrentRoom().getObjects().addAll(person.showObjectContained(out));
+                                    getCurrentRoom().getObjects().addAll(person.getList());
+                                    person.showObjectContained(out);
                                     getCurrentRoom().getObjects().remove(person); //remove the person that is dead
                                 } else {
                                     out.println(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
@@ -863,7 +869,8 @@ public class AdventureCastleGame extends GameDescription {
                                 person.setLife(person.getLife() - 1);
                                 if (person.getLife() == 0) {
                                     out.println("Hai sconfitto " + person.getName() + ".");
-                                    getCurrentRoom().getObjects().addAll(person.showObjectContained(out));
+                                    getCurrentRoom().getObjects().addAll(person.getList());
+                                    person.showObjectContained(out);
                                     getCurrentRoom().getObjects().remove(person); //remove the person that is dead
                                 } else {
                                     out.println(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
@@ -887,7 +894,8 @@ public class AdventureCastleGame extends GameDescription {
                             person.setLife(person.getLife() - 1);
                             if (person.getLife() == 0) {
                                 out.println("Hai sconfitto " + person.getName() + ".");
-                                getCurrentRoom().getObjects().addAll(person.showObjectContained(out));
+                                getCurrentRoom().getObjects().addAll(person.getList());
+                                person.showObjectContained(out);
                                 getCurrentRoom().getObjects().remove(person); //remove the person that is dead
                             } else {
                                 out.println(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
