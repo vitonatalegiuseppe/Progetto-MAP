@@ -61,5 +61,6 @@ public class ObjectAdvContainer extends ObjectAdv {
             }
             out.print("\n");
         }
+        return null;
     }
 }
