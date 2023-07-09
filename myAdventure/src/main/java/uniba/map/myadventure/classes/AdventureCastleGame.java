@@ -6,6 +6,7 @@
 package uniba.map.myadventure.classes;
 
 import java.io.PrintStream;
+import static java.lang.System.out;
 
 /**
  * @author pierpaolo
@@ -63,6 +64,9 @@ public class AdventureCastleGame extends GameDescription {
         Command goDown = new Command(CommandType.GO_DOWN, "scendi");
         goDown.setAlias(new String[]{"discendi", "calati"});
         getCommands().add(goDown);
+        Command play = new Command(CommandType.PLAY, "gioca");
+        play.setAlias(new String[]{"inizia"});
+        getCommands().add(play);
 
         //Rooms
         String darkHall = "Grazie alla luce della luna e delle stelle riesci a distinguere i contorini del corridoio e delle pareti,\nma nulla di più. Hai bisogno di qualcosa per illuminaaare meglio.";
@@ -644,10 +648,11 @@ public class AdventureCastleGame extends GameDescription {
     }
 
     @Override
-    public void nextMove(ParserOutput p, PrintStream out) {
+    public void nextMove(ParserOutput p, Grafica grafica) {
+        
         Controller controller = new Controller();
         if (p.getCommand() == null) {
-            out.println("Non ho capito cosa devo fare! Prova con un altro comando.");
+            grafica.appendToScreen("Non ho capito cosa devo fare! Prova con un altro comando.");
         } else {
             //move
             boolean noroom = false;
@@ -658,7 +663,7 @@ public class AdventureCastleGame extends GameDescription {
                         setCurrentRoom(getCurrentRoom().getNorth());
                         move = true;
                     } else {
-                        out.println("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
+                        grafica.appendToScreen("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
                     }
                 } else {
                     noroom = true;
@@ -669,7 +674,7 @@ public class AdventureCastleGame extends GameDescription {
                         setCurrentRoom(getCurrentRoom().getSouth());
                         move = true;
                     } else {
-                        out.println("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
+                        grafica.appendToScreen("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
                     }
                 } else {
                     noroom = true;
@@ -680,7 +685,7 @@ public class AdventureCastleGame extends GameDescription {
                         setCurrentRoom(getCurrentRoom().getEast());
                         move = true;
                     } else {
-                        out.println("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
+                        grafica.appendToScreen("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
                     }
                 } else {
                     noroom = true;
@@ -691,7 +696,7 @@ public class AdventureCastleGame extends GameDescription {
                         setCurrentRoom(getCurrentRoom().getWest());
                         move = true;
                     } else {
-                        out.println("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
+                        grafica.appendToScreen("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
                     }
                 } else { //TODO: rivedere le porte chiuse
                     noroom = true;
@@ -700,10 +705,10 @@ public class AdventureCastleGame extends GameDescription {
                 if (getCurrentRoom().getComeUp() != null) {
                     if (controller.doorController(getCurrentRoom(), getCurrentRoom().getComeUp())) {
                         setCurrentRoom(getCurrentRoom().getComeUp());
-                        out.println("Sei salito al primo piano.\n");
+                        grafica.appendToScreen("Sei salito al primo piano.\n");
                         move = true;
                     } else {
-                        out.println("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
+                        grafica.appendToScreen("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
                     }
                 } else {
                     noroom = true;
@@ -712,51 +717,51 @@ public class AdventureCastleGame extends GameDescription {
                 if (getCurrentRoom().getGoDown() != null) {
                     if (controller.doorController(getCurrentRoom(), getCurrentRoom().getGoDown())) {
                         setCurrentRoom(getCurrentRoom().getGoDown());
-                        out.println("Sei sceso al piano terra.\n");
+                        grafica.appendToScreen("Sei sceso al piano terra.\n");
                         move = true;
                     } else {
-                        out.println("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
+                        grafica.appendToScreen("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
                     }
                 } else {
                     noroom = true;
                 }
             } else if (p.getCommand().getType() == CommandType.INVENTORY) {
                 if(!getInventory().isEmpty()){
-                    out.println("Nel tuo inventario ci sono:");
+                    grafica.appendToScreen("Nel tuo inventario ci sono:");
                 for (ObjectAdv o : getInventory()) {
-                    out.println(o.getName() + ": " + o.getDescription());
+                    grafica.appendToScreen(o.getName() + ": " + o.getDescription());
                 }
                 }else{
-                    out.println("Non ha alcun oggetto nel tuo inventario");
+                    grafica.appendToScreen("Non ha alcun oggetto nel tuo inventario");
                 }
             } else if (p.getCommand().getType() == CommandType.LOOK_AT) {
                 //TODO: andare ad eliminare l'attributo look nella classe oggetti
                 if (p.getObject() != null) {
-                    out.println(p.getObject().getDescription());
+                    grafica.appendToScreen(p.getObject().getDescription());
                 } else if (getCurrentRoom().getLook() != null || getCurrentRoom().getObjects().isEmpty() == false) {
                     if (getCurrentRoom().getLook() != null) {
-                        out.println(getCurrentRoom().getLook());
+                        grafica.appendToScreen(getCurrentRoom().getLook());
                     }
                     if (!getCurrentRoom().getObjects().isEmpty()) {//TODO: capire se oggetti come scale e porte devono essere visualizati
-                        out.println("Nella stanza vedi le seguenti cose: ");
+                        grafica.appendToScreen("Nella stanza vedi le seguenti cose: ");
                         for (ObjectAdv o : getCurrentRoom().getObjects()) {
-                            out.println(o.getName());
+                            grafica.appendToScreen(o.getName());
                         }
                     }
                 } else {
-                    out.println("Non c'è nulla di rillevante qui.");
+                    grafica.appendToScreen("Non c'è nulla di rillevante qui.");
                 }
             } else if (p.getCommand().getType() == CommandType.PICK_UP) {
                 if (p.getObject() != null) {
                     if (p.getObject().isPickupable()) {
                         getInventory().add(p.getObject());
                         getCurrentRoom().getObjects().remove(p.getObject());
-                        out.println("Hai raccolto: " + p.getObject().getName() + " - " + p.getObject().getDescription());
+                        grafica.appendToScreen("Hai raccolto: " + p.getObject().getName() + " - " + p.getObject().getDescription());
                     } else {
-                        out.println("Non puoi raccogliere questo oggetto.");
+                        grafica.appendToScreen("Non puoi raccogliere questo oggetto.");
                     }
                 } else {
-                    out.println("Non c'è niente da raccogliere qui.");
+                    grafica.appendToScreen("Non c'è niente da raccogliere qui.");
                 }
             } else if (p.getCommand().getType() == CommandType.OPEN) {
                 /*ATTENZIONE: quando un oggetto contenitore viene aperto, tutti gli oggetti contenuti
@@ -764,22 +769,22 @@ public class AdventureCastleGame extends GameDescription {
                 * Potrebbe non esssere la soluzione ottimale.
                  */
                 if (p.getObject() == null && p.getInvObject() == null) {
-                    out.println("Non c'è niente da aprire qui.");
+                    grafica.appendToScreen("Non c'è niente da aprire qui.");
                 } else {
                     if (p.getObject() != null) {
                         if (p.getObject().isOpenable() && p.getObject().isOpen() == false) {
                             if (p.getObject() instanceof ObjectAdvContainer) {
-                                out.println("Hai aperto: " + p.getObject().getName());
+                                grafica.appendToScreen("Hai aperto: " + p.getObject().getName());
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
                                 getCurrentRoom().getObjects().addAll(c.getList());
                                 c.showObjectContained(out);
                                 p.getObject().setOpen(true);
                             } else {
-                                out.println("Hai aperto: " + p.getObject().getName());
+                                grafica.appendToScreen("Hai aperto: " + p.getObject().getName());
                                 p.getObject().setOpen(true);
                             }
                         } else {
-                            out.println("Non puoi aprire questo oggetto.");
+                            grafica.appendToScreen("Non puoi aprire questo oggetto.");
                         }
                     }
                     if (p.getInvObject() != null) {
@@ -792,130 +797,132 @@ public class AdventureCastleGame extends GameDescription {
                             } else {
                                 p.getInvObject().setOpen(true);
                             }
-                            out.println("Hai aperto nel tuo inventario: " + p.getInvObject().getName());
+                            grafica.appendToScreen("Hai aperto nel tuo inventario: " + p.getInvObject().getName());
                         } else {
-                            out.println("Non puoi aprire questo oggetto.");
+                            grafica.appendToScreen("Non puoi aprire questo oggetto.");
                         }
                     }
                 }
             } else if (p.getCommand().getType() == CommandType.PUSH) {
                 if (p.getObject() != null && p.getObject().isPushable()) {
-                    out.println("Hai premuto: " + p.getObject().getName());
+                    grafica.appendToScreen("Hai premuto: " + p.getObject().getName());
                 } else if (p.getInvObject() != null && p.getInvObject().isPushable()) {
-                    out.println("Hai premuto: " + p.getInvObject().getName());
+                    grafica.appendToScreen("Hai premuto: " + p.getInvObject().getName());
                 } else {
-                    out.println("Non ci sono oggetti che puoi premere qui.");
+                    grafica.appendToScreen("Non ci sono oggetti che puoi premere qui.");
                 }
             } else if (p.getCommand().getType() == CommandType.LAUNCH) {
                 if (p.getObject() != null) {
                     if (p.getObject().isStartable() && p.getObject().getStarted() == false) {
                         p.getObject().setStarted(true);
-                        out.println("Hai avviato: " + p.getObject().getName());
-                        out.println(p.getObject().getDescObjectOn());
+                        grafica.appendToScreen("Hai avviato: " + p.getObject().getName());
+                        grafica.appendToScreen(p.getObject().getDescObjectOn());
                     } else {
-                        out.println("L'oggetto è già avviato o non puo essere avviato.");
+                        grafica.appendToScreen("L'oggetto è già avviato o non puo essere avviato.");
                     }
                 } else if (p.getInvObject() != null) {
                     if (p.getInvObject().isStartable() && p.getInvObject().getStarted() == false) {
                         p.getInvObject().setStarted(true);
-                        out.println("Hai avviato: " + p.getInvObject().getName());
-                        out.println(p.getObject().getDescObjectOn());
+                        grafica.appendToScreen("Hai avviato: " + p.getInvObject().getName());
+                        grafica.appendToScreen(p.getObject().getDescObjectOn());
                     } else {
-                        out.println("L'oggetto è già avviato o non puo essere avviato.");
+                        grafica.appendToScreen("L'oggetto è già avviato o non puo essere avviato.");
                     }
                 } else {
-                    out.println("Non ci sono oggetti che puoi avviare.");
+                    grafica.appendToScreen("Non ci sono oggetti che puoi avviare.");
                 } //TODO: una volta avviato il generatore dobbiamo settare la variabile visibale nelle stanze
             } else if (p.getCommand().getType() == CommandType.HURL) {
                 if (p.getObject() != null) {
                     if (p.getInvObject() != null) {
                         if (controller.objectHit()) {
-                            out.println("Hai lanciato: " + p.getInvObject().getName() + " contro " + p.getObject().getName() + " colpendolo");
+                            grafica.appendToScreen("Hai lanciato: " + p.getInvObject().getName() + " contro " + p.getObject().getName() + " colpendolo");
                             if (p.getObject() instanceof AdvPerson) {
                                 AdvPerson person = (AdvPerson) p.getObject();
                                 person.setLife(person.getLife() - 1);
                                 if (person.getLife() == 0) {
-                                    out.println("Hai sconfitto " + person.getName() + ".");
+                                    grafica.appendToScreen("Hai sconfitto " + person.getName() + ".");
                                     getCurrentRoom().getObjects().addAll(person.getList());
                                     person.showObjectContained(out);
                                     getCurrentRoom().getObjects().remove(person); //remove the person that is dead
                                 } else {
-                                    out.println(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
+                                    grafica.appendToScreen(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
                                 }
                             } else {
                                 out.println(controller.consequenceOfHurl(p.getObject(), getCurrentRoom(), getInventory()));
                             }
                         } else {
-                            out.println("Hai lanciato: " + p.getInvObject().getName() + " contro " + p.getObject().getName() + " ma non lo hai colpito");
+                            grafica.appendToScreen("Hai lanciato: " + p.getInvObject().getName() + " contro " + p.getObject().getName() + " ma non lo hai colpito");
                         }
-                        out.println(controller.consequenceOfHurl(p.getInvObject(), getCurrentRoom(), getInventory()));
+                        grafica.appendToScreen(controller.consequenceOfHurl(p.getInvObject(), getCurrentRoom(), getInventory()));
                     } else {
-                        out.println("Tabbaccone, non hai nulla da lanciare");
-                        out.println("Per poter lanciare un oggetto, lo devi prima prendere.");
+                        grafica.appendToScreen("Tabbaccone, non hai nulla da lanciare");
+                        grafica.appendToScreen("Per poter lanciare un oggetto, lo devi prima prendere.");
                     }
                 } else if (p.getInvObject() != null) {
-                    out.println("Hai lanciato " + p.getInvObject().getName());
+                    grafica.appendToScreen("Hai lanciato " + p.getInvObject().getName());
                     out.println(controller.consequenceOfHurl(p.getInvObject(), getCurrentRoom(), getInventory()));
                 } else {
-                    out.println("Non ci sono oggetti che puoi lanciare");
+                    grafica.appendToScreen("Non ci sono oggetti che puoi lanciare");
                 }
             } else if (p.getCommand().getType() == CommandType.HIT) {
                 if (p.getInvObject() != null) {
                     if (p.getObject() != null) {
                         if (controller.objectHit()) {
-                            out.println("Sei riuscito a colpire " + p.getObject().getName() + " con " + p.getInvObject().getName());
+                            grafica.appendToScreen("Sei riuscito a colpire " + p.getObject().getName() + " con " + p.getInvObject().getName());
                             if (p.getObject() instanceof AdvPerson) {
                                 AdvPerson person = (AdvPerson) p.getObject();
                                 person.setLife(person.getLife() - 1);
                                 if (person.getLife() == 0) {
-                                    out.println("Hai sconfitto " + person.getName() + ".");
+                                    grafica.appendToScreen("Hai sconfitto " + person.getName() + ".");
                                     getCurrentRoom().getObjects().addAll(person.getList());
                                     person.showObjectContained(out);
                                     getCurrentRoom().getObjects().remove(person); //remove the person that is dead
                                 } else {
-                                    out.println(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
+                                    grafica.appendToScreen(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
                                 }
-                                out.println(controller.consequenceOfHit(null, p.getInvObject(), getCurrentRoom(), getInventory()));
+                                grafica.appendToScreen(controller.consequenceOfHit(null, p.getInvObject(), getCurrentRoom(), getInventory()));
                             } else {
-                                out.println(controller.consequenceOfHit(p.getObject(), p.getInvObject(), getCurrentRoom(), getInventory()));
+                                grafica.appendToScreen(controller.consequenceOfHit(p.getObject(), p.getInvObject(), getCurrentRoom(), getInventory()));
                             }
                         } else {
-                            out.println("Non sei riuscito a colpire " + p.getObject().getName() + " con " + p.getInvObject().getName());
+                            grafica.appendToScreen("Non sei riuscito a colpire " + p.getObject().getName() + " con " + p.getInvObject().getName());
                         }
                     } else {
-                        out.println("Hai colpito l'aria con " + p.getInvObject().getName());
+                        grafica.appendToScreen("Hai colpito l'aria con " + p.getInvObject().getName());
                     }
                 } else if (p.getObject() != null) {
                     if (controller.objectHit()) {
-                        out.println("Non hai preso alcun oggetto, perciò usi le mani. (Ricorda che devi prima prendere un oggetto e poi utilizzarlo)");
-                        out.println("Sei riuscito a colpire " + p.getObject().getName() + " a mani nude.");
+                        grafica.appendToScreen("Non hai preso alcun oggetto, perciò usi le mani. (Ricorda che devi prima prendere un oggetto e poi utilizzarlo)");
+                        grafica.appendToScreen("Sei riuscito a colpire " + p.getObject().getName() + " a mani nude.");
                         if (p.getObject() instanceof AdvPerson) {
                             AdvPerson person = (AdvPerson) p.getObject();
                             person.setLife(person.getLife() - 1);
                             if (person.getLife() == 0) {
-                                out.println("Hai sconfitto " + person.getName() + ".");
+                                grafica.appendToScreen("Hai sconfitto " + person.getName() + ".");
                                 getCurrentRoom().getObjects().addAll(person.getList());
                                 person.showObjectContained(out);
                                 getCurrentRoom().getObjects().remove(person); //remove the person that is dead
                             } else {
-                                out.println(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
+                                grafica.appendToScreen(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
                             }
                         } else {
-                            out.println(controller.consequenceOfHit(p.getObject(), null, getCurrentRoom(), getInventory()));
+                           grafica.appendToScreen(controller.consequenceOfHit(p.getObject(), null, getCurrentRoom(), getInventory()));
                         }
                     } else {
-                        out.println("Non sei riuscito a colpire " + p.getObject().getName());
+                        grafica.appendToScreen("Non sei riuscito a colpire " + p.getObject().getName());
                     }
                 } else {
-                    out.println("Ma come sei bravo a prendere a pugni l'aria!!");
+                    grafica.appendToScreen("Ma come sei bravo a prendere a pugni l'aria!!");
                 }
+            }else if (p.getCommand().getType() == CommandType.PLAY) {
+                grafica.appendToScreen(" \n benvenuto nel gioco");
             }
             if (noroom) {
-                out.println("Da quella parte non si può andare c'è un muro!\nNon hai ancora acquisito i poteri per oltrepassare i muri...");
+                grafica.appendToScreen("Da quella parte non si può andare c'è un muro!\nNon hai ancora acquisito i poteri per oltrepassare i muri...");
             } else if (move) {
-                out.println(getCurrentRoom().getName());
-                out.println("================================================");
-                out.println(getCurrentRoom().getDescDay());
+                grafica.appendToScreen(getCurrentRoom().getName());
+                grafica.appendToScreen("================================================");
+                grafica.appendToScreen(getCurrentRoom().getDescDay());
             }
         }
     }
@@ -924,4 +931,5 @@ public class AdventureCastleGame extends GameDescription {
         out.println("Premi il pulsante del giocattolo e in seguito ad una forte esplosione la tua casa prende fuoco...\ntu e tuoi famigliari cercate invano di salvarvi e venite avvolti dalle fiamme...\nè stata una morte CALOROSA...addio!");
         System.exit(0);
     }
+
 }
