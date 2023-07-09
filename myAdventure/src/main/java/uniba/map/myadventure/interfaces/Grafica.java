@@ -1,4 +1,4 @@
-package uniba.map.myadventure.classes;
+package uniba.map.myadventure.interfaces;
 
 import java.awt.Dimension;
 import java.awt.Image;
@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import uniba.map.myadventure.classes.AdventureCastleGame;
+import uniba.map.myadventure.classes.Engine2;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license

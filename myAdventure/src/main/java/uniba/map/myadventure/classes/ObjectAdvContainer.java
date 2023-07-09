@@ -4,6 +4,7 @@
  */
 package uniba.map.myadventure.classes;
 
+import uniba.map.myadventure.interfaces.Grafica;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;

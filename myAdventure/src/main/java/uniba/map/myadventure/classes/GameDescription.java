@@ -5,6 +5,7 @@
 
 package uniba.map.myadventure.classes;
 
+import uniba.map.myadventure.interfaces.Grafica;
 import java.util.ArrayList;
 import java.util.List;
 

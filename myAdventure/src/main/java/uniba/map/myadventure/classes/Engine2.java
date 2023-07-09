@@ -4,6 +4,7 @@
  */
 package uniba.map.myadventure.classes;
 
+import uniba.map.myadventure.interfaces.Grafica;
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;

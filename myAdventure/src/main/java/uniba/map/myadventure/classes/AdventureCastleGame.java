@@ -5,6 +5,8 @@
  */
 package uniba.map.myadventure.classes;
 
+import uniba.map.myadventure.interfaces.Grafica;
+
 /**
  * @author pierpaolo
  */
