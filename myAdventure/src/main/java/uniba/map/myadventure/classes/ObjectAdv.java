@@ -42,8 +42,6 @@ public class ObjectAdv {
     
     private boolean started = false;
     
-    private String descObjectOn = null;
-    
     private boolean fragile = false;
     
     public ObjectAdv(int id) {
@@ -170,14 +168,6 @@ public class ObjectAdv {
 
     public void setStarted(boolean started) {
         this.started = started;
-    }
-    
-    public String getDescObjectOn() {
-        return descObjectOn;
-    }
-
-    public void setDescObjectOn(String descObjectOn) {
-        this.descObjectOn= descObjectOn;
     }
     
     public boolean getFragile() {

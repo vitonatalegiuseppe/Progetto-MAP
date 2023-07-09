@@ -74,6 +74,7 @@ public class AdventureCastleGame extends GameDescription {
         getCommands().add(play);
 
         //Rooms - ground floor
+        Room exit = new Room(0, "Esterno", "Sei fuori");
         Room stairs = new Room(1, "Scale", "É una stanza completamente spoglia: non ci sono arredi di alcun tipo. L'unica cosa che contiene sono le scale che portano al piano superiore.");
         Room hall2 = new Room(2, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A ovest e a nord il corridoio prosegue. A sud trovi un cancello; mentre a est una porta aperta.");
         Room hall3 = new Room(3, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e a ovest il corridoio prosegue.");
@@ -159,43 +160,41 @@ public class AdventureCastleGame extends GameDescription {
         Room hall14_2 = new Room(44, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
                 + " A ovest il corridoio prosegue. A sud c'è lingresso ad una stanza. A est vedi il nulla: il cielo risplende. Difronte a te c'è "
                 + "un precipizio. Probabilmente questa parte della casa è crollata un po' di tempo fa. ");
-        Room hall18_2 = new Room(46, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
+        Room hall18_2 = new Room(45, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
                 + " A sud il corridoio prosegue. A nord vedi il nulla: il cielo risplende. Difronte a te c'è un precipizio. Probabilmente questa "
                 + "parte della casa è crollata un po' di tempo fa.");
-        Room hall19_2 = new Room(47, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
+        Room hall19_2 = new Room(46, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
                 + " A nord e a sud il corridoio prosegue. A ovest c'è l'ingresso di una stanza. ");
         Room hall20_2 = new Room(48, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
                 + " A nord e a sud il corridoio prosegue.");
-
-        Room anteroom = new Room(51, "Anticamera", "La prima cosa che ti colpisce entrando è l’enorme finestrone aperto che affaccia sul cortile. "
+        Room anteroom = new Room(49, "Anticamera", "La prima cosa che ti colpisce entrando è l’enorme finestrone aperto che affaccia sul cortile. "
                 + "Ad entrambi i lati della stanza ci sono delle porte, una chiusa e l’altra aperta. Al centro ci sono dei divani posti intorno ad un tavolino da caffè su cui ci sono delle riviste di abiti da sposa. ");
-        Room bedroomBoy = new Room(55, "Camera da letto del figlio", "Sei nella camera da letto di un bambino.\n Non ci sono altri ingressi a parte quello cui sei entrato, c'è un armadio, un letto, un comodino e una scrivania.");
+        Room bedroomBoy = new Room(50, "Camera da letto del figlio", "Sei nella camera da letto di un bambino.\n Non ci sono altri ingressi a parte quello cui sei entrato, c'è un armadio, un letto, un comodino e una scrivania.");
         bedroomBoy.setLook("Osservando meglio la stanza la tua attenzione cade sulla scrivania: noti che ci sono delle foto.");
-        Room bedroomGirl = new Room(52, "Camera da letto della figlia", "Sei nella camera da letto di una bambina.\n Non ci sono altri ingressi se non quello da cui sei entrato, vedi un letto con il comodino,"
+        Room bedroomGirl = new Room(51, "Camera da letto della figlia", "Sei nella camera da letto di una bambina.\n Non ci sono altri ingressi se non quello da cui sei entrato, vedi un letto con il comodino,"
                 + " un armadio la cui anta è aperta: si intravedono abiti da bambina. Infine c'è un mobile con uno specchio.");
-        Room bathroom_2 = new Room(53, "Bagno", "Normale bagno. Contiene un quadro che raffigura una persona che si arrampica dal piano terra al balcone con una corda. A est c'è l'ingresso da cui sei entrato");
-        Room studio = new Room(56, "Studio", "C’è una scrivania centrale con dei documenti. Davanti ad essa ci sono delle sedie, mentre dietro c’è un piccolo camino. A nord c’è una piccola vetrinetta al cui interno ci sono dei "
+        Room bathroom_2 = new Room(52, "Bagno", "Normale bagno. Contiene un quadro che raffigura una persona che si arrampica dal piano terra al balcone con una corda. A est c'è l'ingresso da cui sei entrato");
+        Room studio = new Room(53, "Studio", "C’è una scrivania centrale con dei documenti. Davanti ad essa ci sono delle sedie, mentre dietro c’è un piccolo camino. A nord c’è una piccola vetrinetta al cui interno ci sono dei "
                 + "liquori e dei bicchieri di vetro. Accanto alla porta di ingresso c’è un quadro che raffigura due bambini accanto alla statua che c’è all’ingresso.");
         studio.setLook("Osservando meglio i documenti si nota in cima una lettera. L'attenzione maggiore, però, l’attira il quadro appeso alla parete: noti, infatti, che alle spalle di Ares si intravede un ingresso e a differenza"
                 + " della statua vista in precedenza questa ha il braccio destro con la lama che punta verso il basso.");
-        Room mainRoom_1 = new Room(57, "Camera padronale", "Entrando nella stanza ti rendi conto che questa doveva essere la stanza da letto dei proprietari della casa. È enorme!! Al centro c’è un enorme letto a baldacchino. Su "
+        Room mainRoom_1 = new Room(54, "Camera padronale", "Entrando nella stanza ti rendi conto che questa doveva essere la stanza da letto dei proprietari della casa. È enorme!! Al centro c’è un enorme letto a baldacchino. Su "
                 + "lato est c’è un enorme cabina armadio, ma parte della stanza, sul lato nord/est, è piena di macerie. C’è anche qui un enorme camino con poste sulla cappa due spade da cavalieri. Davanti al letto c’è un baule "
                 + "chiuso. Tutta la stanza è tappezzata di quadri che rappresentano ambienti della casa, o i proprietari o i figli. A sud c’è un enorme finestra chiusa che dà su un balcone che si affaccia sul cortile. (Ovviamente "
                 + "a nord c'è lingresso da cui sei entrato) ");
         mainRoom_1.setLook("Avvicinandoti al letto noti che c'è qualcuno che sembra dormire. Non appena ti avvicini, l'uomo si alza...");
-        Room mainRoom_2 = new Room(45, "Camera padronale", "Entrando nella stanza ti rendi conto che questa doveva essere la stanza da letto dei proprietari della casa. È enorme!! Al centro c’è un enorme letto a baldacchino. Su "
+        Room mainRoom_2 = new Room(55, "Camera padronale", "Entrando nella stanza ti rendi conto che questa doveva essere la stanza da letto dei proprietari della casa. È enorme!! Al centro c’è un enorme letto a baldacchino. Su "
                 + "lato est c’è un enorme cabina armadio, ma parte della stanza, sul lato nord/est, è piena di macerie. C’è anche qui un enorme camino con poste sulla cappa due spade da cavalieri. Davanti al letto c’è un baule "
                 + "chiuso. Tutta la stanza è tappezzata di quadri che rappresentano ambienti della casa, o i proprietari o i figli. Ovviamente a sud c'è lingresso da cui sei entrato. ");
-        Room tower = new Room(58, "TOrre", "Attraversato l'ingresso dietro la statua ti trovi in uno stretto corridoio. Al termine una luce ti attende. Man mano che ti avvicini senti la rabbia che sale, ma allo stesso"
+        Room tower = new Room(56, "TOrre", "Attraversato l'ingresso dietro la statua ti trovi in uno stretto corridoio. Al termine una luce ti attende. Man mano che ti avvicini senti la rabbia che sale, ma allo stesso"
                 + " tempo paura nel temere per quello che può aver fatto quel pazzo alla tua amata Stecy. É li che è tenuta nascosta? Come stara? Arrivato alla fine del corridoio ti trovi difronte colui che ha "
                 + "organizzato tutto: Mister X. Il luogo in cui si nasconde, la torre, è una specie di ripostiglio. sembra che ci siano dei mobili, ma questi sono tutti coperti da teli bianchi. L'unico oggetto scoperto,"
                 + " una sedia, è quella su cui è legata Stecy. Mister X, invece, è appoggiato a quella che sembra una scrivania.");
-        Room balconyAnteroom = new Room(61, "Balcone anticamera", "Affacciandoti dal balcone riesci a vdere l'intero cortile e il balcone difronte. li però la finestra sembra chiusa."
+        Room balconyAnteroom = new Room(57, "Balcone anticamera", "Affacciandoti dal balcone riesci a vdere l'intero cortile e il balcone difronte. li però la finestra sembra chiusa."
                 + "A sud trovi l'ingresso alla stanza.");
-        Room edge = new Room(62, "Precipizio", "É stato bello conoscerti. Mentre cadi vedi trascorrere tutta la tua vita. ogni tanto colpisci qualche pietra. Mi dispiace, sei morto");
-        Room balconyMainRoom = new Room(63, "Balcone camera padronale", "Affacciandoti dal balcone riesci a vdere l'intero cortile e il balcone difronte. Li però la finestra sembra aperta."
+        Room edge = new Room(58, "Precipizio", "É stato bello conoscerti. Mentre cadi vedi trascorrere tutta la tua vita. ogni tanto colpisci qualche pietra. Mi dispiace, sei morto");
+        Room balconyMainRoom = new Room(59, "Balcone camera padronale", "Affacciandoti dal balcone riesci a vdere l'intero cortile e il balcone difronte. Li però la finestra sembra aperta."
                 + "A nord trovi l'ingresso alla stanza.");
-        Room exit = new Room(64, "Esterno", "Sei fuori");
 
         //map
         stairs.setNorth(hall2);
@@ -401,7 +400,7 @@ public class AdventureCastleGame extends GameDescription {
         ObjectAdv generator = new ObjectAdv(4, "generatore", "Un generatore molto silenzioso, guardando meglio ti accorgi che è spento ");
         generator.setPickupable(false);
         generator.setStartable(true);
-        generator.setDescObjectOn("ottimo lavoro il generatore è acceso sembra ci sia luce in tutto il castello");
+        //TODO: Aggiungere questa frase quando il generatore viene attivato "ottimo lavoro il generatore è acceso sembra ci sia luce in tutto il castello");
         generator.setAlias(new String[]{"motore", "alternatore"});
         closet.getObjects().add(generator);
         ObjectAdvContainer rack = new ObjectAdvContainer(6, "scaffale", "uno scaffale dove al suo interno sembra ci sono chiodi, martello, corda, nastro, carburante, secchio, palanghino");
@@ -731,7 +730,6 @@ public class AdventureCastleGame extends GameDescription {
                     grafica.appendToScreen("Non ha alcun oggetto nel tuo inventario");
                 }
             } else if (p.getCommand().getType() == CommandType.LOOK_AT) {
-                //TODO: andare ad eliminare l'attributo look nella classe oggetti
                 if (p.getObject() != null) {
                     grafica.appendToScreen(p.getObject().getDescription());
                 } else if (getCurrentRoom().getLook() != null || getCurrentRoom().getObjects().isEmpty() == false) {
@@ -811,7 +809,6 @@ public class AdventureCastleGame extends GameDescription {
                     if (p.getObject().isStartable() && p.getObject().getStarted() == false) {
                         p.getObject().setStarted(true);
                         grafica.appendToScreen("Hai avviato: " + p.getObject().getName());
-                        grafica.appendToScreen(p.getObject().getDescObjectOn());
                     } else {
                         grafica.appendToScreen("L'oggetto è già avviato o non puo essere avviato.");
                     }
@@ -819,13 +816,12 @@ public class AdventureCastleGame extends GameDescription {
                     if (p.getInvObject().isStartable() && p.getInvObject().getStarted() == false) {
                         p.getInvObject().setStarted(true);
                         grafica.appendToScreen("Hai avviato: " + p.getInvObject().getName());
-                        grafica.appendToScreen(p.getObject().getDescObjectOn());
                     } else {
                         grafica.appendToScreen("L'oggetto è già avviato o non puo essere avviato.");
                     }
                 } else {
                     grafica.appendToScreen("Non ci sono oggetti che puoi avviare.");
-                } //TODO: una volta avviato il generatore dobbiamo settare la variabile visibale nelle stanze
+                } //TODO: una volta avviato il generatore dobbiamo settare la variabile visibale del computer nella bibblioteca
             } else if (p.getCommand().getType() == CommandType.HURL) {
                 if (p.getObject() != null) {
                     if (p.getInvObject() != null) {
