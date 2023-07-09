@@ -4,9 +4,9 @@
  */
 package uniba.map.myadventure.classes;
 
+import uniba.map.myadventure.interfaces.Grafica;
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,9 +42,8 @@ public class Engine2 {
         grafica.appendToScreen("================================ ");
         grafica.appendToScreen(game.getCurrentRoom().getName());
         grafica.appendToScreen("");
-        grafica.appendToScreen(game.getCurrentRoom().getDescDay());
+        grafica.appendToScreen(game.getCurrentRoom().getDescription());
         grafica.appendToScreen("");
-
     }
 
     public void execute(Grafica grafica) {
@@ -70,7 +69,8 @@ public class Engine2 {
             grafica.appendToScreen("");
         }
     }
-
+    
+    //TODO: in caso eliminarlo del tutto
     /**
      * @param args the command line arguments
      */
@@ -79,5 +79,4 @@ public class Engine2 {
         engine.execute();
         
     }*/
-//jhbfgjhkjnkm,
 }

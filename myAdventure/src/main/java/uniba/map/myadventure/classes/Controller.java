@@ -4,7 +4,6 @@
  */
 package uniba.map.myadventure.classes;
 
-import java.io.PrintStream;
 import java.util.List;
 import java.util.Random;
 
@@ -44,23 +43,24 @@ public class Controller {
         return hit;
     }
 
-    public String consequenceOfHurl(ObjectAdv objectHurled, Room currentRoom, List<ObjectAdv> inv) {
-        String message = null;
-        if (objectHurled.getFragile() == false) {
-            currentRoom.getObjects().add(objectHurled);
-            message = "L'oggetto " + objectHurled.getName() + " non si è distrutto a seguito dello schianto.";
-        } else {
-            message = "L'oggetto " + objectHurled.getName() + " si è distrutto a seguito dello schianto.";
+    public boolean consequenceOfHurl(ObjectAdv objectHurled, Room currentRoom, List<ObjectAdv> inv) {
+        boolean destroyed = false;
+        if (objectHurled.getFragile()) {
+            destroyed = true;
             if (objectHurled instanceof ObjectAdvContainer) {
                 ObjectAdvContainer c = (ObjectAdvContainer) objectHurled;
                 currentRoom.getObjects().addAll(c.getList());
             }
+        } else {
+            currentRoom.getObjects().add(objectHurled);
+            destroyed = false;
         }
         inv.remove(objectHurled);
 
-        return message;
+        return destroyed;
     }
 
+//TODO: sistemare sotto come sopra
     public String consequenceOfHit(ObjectAdv objectHit, ObjectAdv strikingObject, Room currentRoom, List<ObjectAdv> inv) {
         String message = null;
 
