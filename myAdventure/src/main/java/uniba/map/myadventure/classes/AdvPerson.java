@@ -4,7 +4,6 @@
  */
 package uniba.map.myadventure.classes;
 
-import java.util.Iterator;
 import java.util.Set;
 
 /**

@@ -5,9 +5,6 @@
  */
 package uniba.map.myadventure.classes;
 
-import java.io.PrintStream;
-import static java.lang.System.out;
-
 /**
  * @author pierpaolo
  */
@@ -31,6 +28,12 @@ public class AdventureCastleGame extends GameDescription {
         Command ovest = new Command(CommandType.WEST, "ovest");
         ovest.setAlias(new String[]{"o", "O", "Ovest", "OVEST"});
         getCommands().add(ovest);
+        Command comeUp = new Command(CommandType.COME_UP, "sali");
+        comeUp.setAlias(new String[]{"ascendi", "arrampicati", "inerpicati"});
+        getCommands().add(comeUp);
+        Command goDown = new Command(CommandType.GO_DOWN, "scendi");
+        goDown.setAlias(new String[]{"discendi", "calati"});
+        getCommands().add(goDown);
         Command end = new Command(CommandType.END, "end");
         end.setAlias(new String[]{"end", "fine", "esci", "muori", "ammazzati", "ucciditi", "suicidati", "exit"});
         getCommands().add(end);
@@ -53,17 +56,17 @@ public class AdventureCastleGame extends GameDescription {
         fill.setAlias(new String[]{"versa", "riempire"});
         getCommands().add(fill);
         Command hit = new Command(CommandType.HIT, "colpisci");
-        hit.setAlias(new String[]{"picchia", "colpire", "aggredisci"});
+        hit.setAlias(new String[]{"picchia", "colpire", "aggredisci", "distruggi"});
         getCommands().add(hit);
         Command hurl = new Command(CommandType.HURL, "lancia");
         hurl.setAlias(new String[]{"lanciare", "scaglia", "getta"});
         getCommands().add(hurl);
-        Command comeUp = new Command(CommandType.COME_UP, "sali");
-        comeUp.setAlias(new String[]{"ascendi", "arrampicati", "inerpicati"});
-        getCommands().add(comeUp);
-        Command goDown = new Command(CommandType.GO_DOWN, "scendi");
-        goDown.setAlias(new String[]{"discendi", "calati"});
-        getCommands().add(goDown);
+        Command drink = new Command(CommandType.DRINK, "bevi");
+        drink.setAlias(new String[]{"sorsegia", "scola", "tracanna"});
+        getCommands().add(drink);
+        Command empty = new Command(CommandType.EMPTY, "svuota");
+        empty.setAlias(new String[]{"vuota", "libera"});
+        getCommands().add(empty);
         Command play = new Command(CommandType.PLAY, "gioca");
         play.setAlias(new String[]{"inizia"});
         getCommands().add(play);
@@ -72,6 +75,7 @@ public class AdventureCastleGame extends GameDescription {
         String darkHall = "Grazie alla luce della luna e delle stelle riesci a distinguere i contorini del corridoio e delle pareti,\nma nulla di più. Hai bisogno di qualcosa per illuminaaare meglio.";
         String darkRoom = "Purtroppo, non riesci a distinguere nulla. La stanza è troppo buia. Hai bisogno di qualcosa per illuminarla.\nOppure cammina e tanta fortuna!!!";
         String darkHall_2 = "Purtroppo, non riesci a distinguere nulla. Il corridoio è troppo buio. Ogni tanto noti delle strane ombre.\nHai bisogno di qualcosa per illuminarla. Oppure cammina e tanta fortuna!!!";
+        
         //ground floor
         Room stairs = new Room(1, "Scale", "É una stanza completamente spoglia: non ci sono arredi di alcun tipo. L'unica cosa che contiene sono le scale che portano al piano superiore.", darkRoom);
         Room hall2 = new Room(3, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A ovest e a nord il corridoio prosegue. A sud trovi un cancello; mentre a est una porta aperta.", darkHall);
@@ -742,7 +746,7 @@ public class AdventureCastleGame extends GameDescription {
                     if (getCurrentRoom().getLook() != null) {
                         grafica.appendToScreen(getCurrentRoom().getLook());
                     }
-                    if (!getCurrentRoom().getObjects().isEmpty()) {//TODO: capire se oggetti come scale e porte devono essere visualizati
+                    if (!getCurrentRoom().getObjects().isEmpty()) {
                         grafica.appendToScreen("Nella stanza vedi le seguenti cose: ");
                         for (ObjectAdv o : getCurrentRoom().getObjects()) {
                             grafica.appendToScreen(o.getName());
@@ -764,38 +768,37 @@ public class AdventureCastleGame extends GameDescription {
                     grafica.appendToScreen("Non c'è niente da raccogliere qui.");
                 }
             } else if (p.getCommand().getType() == CommandType.OPEN) {
-                /*ATTENZIONE: quando un oggetto contenitore viene aperto, tutti gli oggetti contenuti
+                /*TODO: ATTENZIONE: quando un oggetto contenitore viene aperto, tutti gli oggetti contenuti
                 * vengongo inseriti nella stanza o nell'inventario a seconda di dove si trova l'oggetto contenitore.
                 * Potrebbe non esssere la soluzione ottimale.
                  */
+                //TODO: fare la prova ad aprire un oggetto contenitore tipo scaffale in ripostiglio
                 if (p.getObject() == null && p.getInvObject() == null) {
                     grafica.appendToScreen("Non c'è niente da aprire qui.");
                 } else {
                     if (p.getObject() != null) {
                         if (p.getObject().isOpenable() && p.getObject().isOpen() == false) {
+                            p.getObject().setOpen(true);
                             if (p.getObject() instanceof ObjectAdvContainer) {
                                 grafica.appendToScreen("Hai aperto: " + p.getObject().getName());
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
                                 getCurrentRoom().getObjects().addAll(c.getList());
-                                c.showObjectContained(out);
-                                p.getObject().setOpen(true);
+                                c.showObjectContained(grafica);
                             } else {
                                 grafica.appendToScreen("Hai aperto: " + p.getObject().getName());
-                                p.getObject().setOpen(true);
                             }
                         } else {
                             grafica.appendToScreen("Non puoi aprire questo oggetto.");
                         }
                     }
                     if (p.getInvObject() != null) {
+                        p.getInvObject().setOpen(true);
                         if (p.getInvObject().isOpenable() && p.getInvObject().isOpen() == false) {
+                            p.getInvObject().setOpen(true);
                             if (p.getInvObject() instanceof ObjectAdvContainer) {
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
                                 getCurrentRoom().getObjects().addAll(c.getList());
-                                c.showObjectContained(out);
-                                p.getInvObject().setOpen(true);
-                            } else {
-                                p.getInvObject().setOpen(true);
+                                c.showObjectContained(grafica);   
                             }
                             grafica.appendToScreen("Hai aperto nel tuo inventario: " + p.getInvObject().getName());
                         } else {
@@ -842,25 +845,49 @@ public class AdventureCastleGame extends GameDescription {
                                 if (person.getLife() == 0) {
                                     grafica.appendToScreen("Hai sconfitto " + person.getName() + ".");
                                     getCurrentRoom().getObjects().addAll(person.getList());
-                                    person.showObjectContained(out);
+                                    person.showObjectContained(grafica);
                                     getCurrentRoom().getObjects().remove(person); //remove the person that is dead
                                 } else {
                                     grafica.appendToScreen(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
                                 }
                             } else {
-                                out.println(controller.consequenceOfHurl(p.getObject(), getCurrentRoom(), getInventory()));
+                                if (controller.consequenceOfHurl(p.getObject(), getCurrentRoom(), getInventory())) {
+                                    grafica.appendToScreen("L'oggetto " + p.getObject().getName() + " si è distrutto a seguito dello schianto.");
+                                    if (p.getObject() instanceof ObjectAdvContainer) {
+                                        ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
+                                        c.showObjectContained(grafica);
+                                    }
+                                } else {
+                                    grafica.appendToScreen("L'oggetto " + p.getObject().getName() + " non si è distrutto a seguito dello schianto.");
+                                }
                             }
                         } else {
                             grafica.appendToScreen("Hai lanciato: " + p.getInvObject().getName() + " contro " + p.getObject().getName() + " ma non lo hai colpito");
                         }
-                        grafica.appendToScreen(controller.consequenceOfHurl(p.getInvObject(), getCurrentRoom(), getInventory()));
+                        if (controller.consequenceOfHurl(p.getObject(), getCurrentRoom(), getInventory())) {
+                            grafica.appendToScreen("L'oggetto " + p.getInvObject().getName() + " si è distrutto a seguito dello schianto.");
+                            if (p.getInvObject() instanceof ObjectAdvContainer) {
+                                ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
+                                c.showObjectContained(grafica);
+                            }
+                        } else {
+                            grafica.appendToScreen("L'oggetto " + p.getInvObject().getName() + " non si è distrutto a seguito dello schianto.");
+                        }
                     } else {
                         grafica.appendToScreen("Tabbaccone, non hai nulla da lanciare");
                         grafica.appendToScreen("Per poter lanciare un oggetto, lo devi prima prendere.");
                     }
                 } else if (p.getInvObject() != null) {
                     grafica.appendToScreen("Hai lanciato " + p.getInvObject().getName());
-                    out.println(controller.consequenceOfHurl(p.getInvObject(), getCurrentRoom(), getInventory()));
+                    if (controller.consequenceOfHurl(p.getInvObject(), getCurrentRoom(), getInventory())) {
+                        grafica.appendToScreen("L'oggetto " + p.getInvObject().getName() + " si è distrutto a seguito dello schianto.");
+                        if (p.getInvObject() instanceof ObjectAdvContainer) {
+                            ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
+                            c.showObjectContained(grafica);
+                        }
+                    } else {
+                        grafica.appendToScreen("L'oggetto " + p.getInvObject().getName() + " non si è distrutto a seguito dello schianto.");
+                    }
                 } else {
                     grafica.appendToScreen("Non ci sono oggetti che puoi lanciare");
                 }
@@ -875,7 +902,7 @@ public class AdventureCastleGame extends GameDescription {
                                 if (person.getLife() == 0) {
                                     grafica.appendToScreen("Hai sconfitto " + person.getName() + ".");
                                     getCurrentRoom().getObjects().addAll(person.getList());
-                                    person.showObjectContained(out);
+                                    person.showObjectContained(grafica);
                                     getCurrentRoom().getObjects().remove(person); //remove the person that is dead
                                 } else {
                                     grafica.appendToScreen(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
@@ -900,7 +927,7 @@ public class AdventureCastleGame extends GameDescription {
                             if (person.getLife() == 0) {
                                 grafica.appendToScreen("Hai sconfitto " + person.getName() + ".");
                                 getCurrentRoom().getObjects().addAll(person.getList());
-                                person.showObjectContained(out);
+                                person.showObjectContained(grafica);
                                 getCurrentRoom().getObjects().remove(person); //remove the person that is dead
                             } else {
                                 grafica.appendToScreen(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
@@ -914,7 +941,77 @@ public class AdventureCastleGame extends GameDescription {
                 } else {
                     grafica.appendToScreen("Ma come sei bravo a prendere a pugni l'aria!!");
                 }
-            }else if (p.getCommand().getType() == CommandType.PLAY) {
+            } else if (p.getCommand().getType() == CommandType.DRINK) {
+                if (p.getObject() == null && p.getInvObject() == null) {
+                    grafica.appendToScreen("Non c'è niente da bere qui.");
+                } else {
+                    if (p.getObject() != null) {
+                        if (p.getObject().isFillable() && p.getObject().getFilled()) {
+                            p.getObject().setFilled(false);
+                            if (p.getObject() instanceof ObjectAdvContainer) {
+                                grafica.appendToScreen("Hai bevuto: " + p.getObject().getName() + " liberando il contenuto.");
+                                ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
+                                getCurrentRoom().getObjects().addAll(c.getList());
+                                c.showObjectContained(grafica);
+                            } else {
+                                 grafica.appendToScreen("Hai bevuto: " + p.getObject().getName());
+                            }//TODO: quali sono le conseguenza dell'essere ubriaco?
+                        } else {
+                            grafica.appendToScreen("Non puoi bere il contenuto di questo oggetto.");
+                        }
+                    }
+                    if (p.getInvObject() != null) {
+                        if (p.getInvObject().isFillable() && p.getInvObject().getFilled()) {
+                            p.getInvObject().setFilled(false);
+                            if (p.getInvObject() instanceof ObjectAdvContainer) {
+                                grafica.appendToScreen("Hai bevuto: " + p.getObject().getName() + " liberando il contenuto.");
+                                ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
+                                getInventory().addAll(c.getList());
+                                c.showObjectContained(grafica);
+                            } else {
+                                grafica.appendToScreen("Hai bevuto: " + p.getInvObject().getName());
+                            }
+                        } else {
+                            grafica.appendToScreen("Non puoi aprire bere il contenuto di questo oggetto.");
+                        }
+                    }
+                }
+            }  else if (p.getCommand().getType() == CommandType.EMPTY) {
+                if (p.getObject() == null && p.getInvObject() == null) {
+                    grafica.appendToScreen("Non c'è niente da bere qui.");
+                } else {
+                    if (p.getObject() != null) {
+                        if (p.getObject().isFillable() && p.getObject().getFilled()) {
+                            p.getObject().setFilled(false);
+                            if (p.getObject() instanceof ObjectAdvContainer) {
+                                grafica.appendToScreen("Hai bevuto: " + p.getObject().getName() + " liberando il contenuto.");
+                                ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
+                                getCurrentRoom().getObjects().addAll(c.getList());
+                                c.showObjectContained(grafica);
+                            } else {
+                                grafica.appendToScreen("Hai bevuto: " + p.getObject().getName());
+                            }
+                        } else {
+                            grafica.appendToScreen("Non puoi bere il contenuto di questo oggetto.");
+                        }
+                    }
+                    if (p.getInvObject() != null) {
+                        if (p.getInvObject().isFillable() && p.getInvObject().getFilled()) {
+                            p.getInvObject().setFilled(false);
+                            if (p.getInvObject() instanceof ObjectAdvContainer) {
+                                grafica.appendToScreen("Hai bevuto: " + p.getObject().getName() + " liberando il contenuto.");
+                                ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
+                                getInventory().addAll(c.getList());
+                                c.showObjectContained(grafica);
+                            } else {
+                                grafica.appendToScreen("Hai bevuto: " + p.getInvObject().getName());
+                            }
+                        } else {
+                            grafica.appendToScreen("Non puoi aprire bere il contenuto di questo oggetto.");
+                        }
+                    }
+                }
+            } else if (p.getCommand().getType() == CommandType.PLAY) {
                 grafica.appendToScreen(" \n benvenuto nel gioco");
             }
             if (noroom) {
@@ -927,8 +1024,8 @@ public class AdventureCastleGame extends GameDescription {
         }
     }
 
-    private void end(PrintStream out) {
-        out.println("Premi il pulsante del giocattolo e in seguito ad una forte esplosione la tua casa prende fuoco...\ntu e tuoi famigliari cercate invano di salvarvi e venite avvolti dalle fiamme...\nè stata una morte CALOROSA...addio!");
+    private void end(Grafica grafica) {
+        grafica.appendToScreen("Premi il pulsante del giocattolo e in seguito ad una forte esplosione la tua casa prende fuoco...\ntu e tuoi famigliari cercate invano di salvarvi e venite avvolti dalle fiamme...\nè stata una morte CALOROSA...addio!");
         System.exit(0);
     }
 

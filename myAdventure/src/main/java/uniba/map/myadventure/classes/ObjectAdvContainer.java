@@ -50,16 +50,16 @@ public class ObjectAdvContainer extends ObjectAdv {
         list.remove(o);
     }
 
-    public List<ObjectAdv> showObjectContained(PrintStream out) {
+    public List<ObjectAdv> showObjectContained(Grafica grafica) {
         Iterator<ObjectAdv> it = this.getList().iterator();
         if (!this.getList().isEmpty()) {
-            out.print(this.getName() + " ha i seguenti oggetti: ");
+            grafica.appendToScreen(this.getName() + " ha i seguenti oggetti: ");
             while (it.hasNext()) {
                 ObjectAdv next = it.next();
-                out.print(next.getName() + ", ");
+                grafica.appendToScreen(next.getName() + ", ");
                 it.remove();
             }
-            out.print("\n");
+            grafica.appendToScreen("\n");
         }
         return null;
     }
