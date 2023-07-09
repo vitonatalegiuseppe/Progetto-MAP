@@ -17,10 +17,8 @@ public class Room {
     private final int id;
 
     private String name;
-
-    private String descNight;
     
-    private String descDay;
+    private String description;
 
     private String look = null;
     
@@ -45,11 +43,10 @@ public class Room {
         this.id = id;
     }
 
-    public Room(int id, String name, String descDay, String descNight) {
+    public Room(int id, String name, String description) {
         this.id = id;
         this.name = name;
-        this.descDay = descDay;
-        this.descNight = descNight;
+        this.description = description;
     }
 
     public String getName() {
@@ -64,20 +61,12 @@ public class Room {
         this.name = name;
     }
 
-    public String getDescDay() {
-        return descDay;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescDay(String descDay) {
-        this.descDay = descDay;
-    }
-    
-    public String getDescNight() {
-        return descNight;
-    }
-
-    public void setDescNight(String descNight) {
-        this.descNight = descNight;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isVisible() {

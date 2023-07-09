@@ -42,7 +42,7 @@ public class Engine2 {
         grafica.appendToScreen("================================ ");
         grafica.appendToScreen(game.getCurrentRoom().getName());
         grafica.appendToScreen("");
-        grafica.appendToScreen(game.getCurrentRoom().getDescDay());
+        grafica.appendToScreen(game.getCurrentRoom().getDescription());
         grafica.appendToScreen("");
     }
 
