@@ -18,6 +18,9 @@ import java.util.Set;
  * @author Sensei Tequila
  */
 public class Utils {
+    
+    static int numberId = 0;
+    
    public static Set<String> loadFileListInSet(File file) throws IOException {
         Set<String> set = new HashSet<>();
         BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -37,5 +40,9 @@ public class Utils {
             }
         }
         return tokens;
-    } 
+    }
+    
+    static int getId(){
+        return ++numberId;
+    }
 }
