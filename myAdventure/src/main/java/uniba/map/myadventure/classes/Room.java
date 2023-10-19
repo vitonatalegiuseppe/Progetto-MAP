@@ -6,6 +6,7 @@
 package uniba.map.myadventure.classes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 /**
  *
@@ -157,6 +158,4 @@ public class Room {
         hash = 83 * hash + this.id;
         return hash;
     }
-
-    
 }

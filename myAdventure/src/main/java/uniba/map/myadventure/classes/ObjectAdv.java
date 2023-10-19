@@ -38,10 +38,6 @@ public class ObjectAdv {
     
     private boolean filled = false;
     
-    private boolean startable = false;
-    
-    private boolean started = false;
-    
     private boolean fragile = false;
     
     public ObjectAdv(int id) {
@@ -154,22 +150,6 @@ public class ObjectAdv {
         this.filled = filled;
     }
     
-    public boolean isStartable() {
-        return startable;
-    }
-
-    public void setStartable(boolean startable) {
-        this.startable = startable;
-    }
-    
-    public boolean getStarted() {
-        return started;
-    }
-
-    public void setStarted(boolean started) {
-        this.started = started;
-    }
-    
     public boolean getFragile() {
         return fragile;
     }
@@ -185,7 +165,6 @@ public class ObjectAdv {
         return hash;
     }
 
-   
     public boolean equals(ObjectAdv obj) {
         if (this == obj) {
             return true;
@@ -202,5 +181,4 @@ public class ObjectAdv {
         }
         return true;
     }
-    
 }
