@@ -141,6 +141,7 @@ public class Grafica extends javax.swing.JFrame {
 
         screen.setEditable(false);
         screen.setColumns(20);
+        screen.setLineWrap(true);
         screen.setRows(5);
         scrollPane.setViewportView(screen);
 

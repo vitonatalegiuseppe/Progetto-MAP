@@ -51,9 +51,6 @@ public class AdventureCastleGame extends GameDescription {
         Command push = new Command(CommandType.PUSH, "premi");
         push.setAlias(new String[]{"spingi"});
         getCommands().add(push);
-        Command launch = new Command(CommandType.LAUNCH, "avvia");
-        launch.setAlias(new String[]{"accendi", "attiva"});
-        getCommands().add(launch);
         Command fill = new Command(CommandType.FILL, "riempi");
         fill.setAlias(new String[]{"versa", "riempire"});
         getCommands().add(fill);
@@ -73,7 +70,6 @@ public class AdventureCastleGame extends GameDescription {
         play.setAlias(new String[]{"inizia"});
         getCommands().add(play);
 
-        //TOTO: fare in modo che quando una frase è troppo lunga per essere contenuta nel frame viene in automatico fatto il ritorno a capo.
         //TODO: creare una funzione id che viene chiamata nei vari costruttori e restituisce un id incrementale evitando di doverlo inserire manualmente        //
         //Rooms - ground floor
         Room exit = new Room(0, "Esterno", "Sei fuori");
@@ -401,13 +397,6 @@ public class AdventureCastleGame extends GameDescription {
         exit.getObjects().add(doorExit);
 
         // ripostiglio 
-        //TODO: togliere generatore, e lasciare solo il rack con gli oggetti che contiene
-        ObjectAdv generator = new ObjectAdv(4, "generatore", "Un generatore molto silenzioso, guardando meglio ti accorgi che è spento ");
-        generator.setPickupable(false);
-        generator.setStartable(true);
-        //TODO: Aggiungere questa frase quando il generatore viene attivato "ottimo lavoro il generatore è acceso sembra ci sia luce in tutto il castello");
-        generator.setAlias(new String[]{"motore", "alternatore"});
-        closet.getObjects().add(generator);
         ObjectAdvContainer rack = new ObjectAdvContainer(6, "scaffale", "uno scaffale dove al suo interno sembra ci sono chiodi, martello, corda, nastro, carburante, secchio, palanghino");
         rack.setPickupable(false);
         rack.setOpen(false);
@@ -653,7 +642,7 @@ public class AdventureCastleGame extends GameDescription {
         tower.getObjects().add(stecy);
 
         //set starting room
-        setCurrentRoom(entryway);
+        setCurrentRoom(closet);
     }
 
     @Override
@@ -822,24 +811,6 @@ public class AdventureCastleGame extends GameDescription {
                 } else {
                     grafica.appendToScreen("Non ci sono oggetti che puoi premere qui.");
                 }
-            } else if (p.getCommand().getType() == CommandType.LAUNCH) {
-                if (p.getObject() != null) {
-                    if (p.getObject().isStartable() && p.getObject().getStarted() == false) {
-                        p.getObject().setStarted(true);
-                        grafica.appendToScreen("Hai avviato: " + p.getObject().getName());
-                    } else {
-                        grafica.appendToScreen("L'oggetto è già avviato o non puo essere avviato.");
-                    }
-                } else if (p.getInvObject() != null) {
-                    if (p.getInvObject().isStartable() && p.getInvObject().getStarted() == false) {
-                        p.getInvObject().setStarted(true);
-                        grafica.appendToScreen("Hai avviato: " + p.getInvObject().getName());
-                    } else {
-                        grafica.appendToScreen("L'oggetto è già avviato o non puo essere avviato.");
-                    }
-                } else {
-                    grafica.appendToScreen("Non ci sono oggetti che puoi avviare.");
-                } //TODO: una volta avviato il generatore dobbiamo settare la variabile visibale del computer nella bibblioteca
             } else if (p.getCommand().getType() == CommandType.HURL) {
                 if (p.getObject() != null) {
                     if (p.getInvObject() != null) {
@@ -1027,6 +998,13 @@ public class AdventureCastleGame extends GameDescription {
                 grafica.appendToScreen(getCurrentRoom().getName());
                 grafica.appendToScreen("================================================");
                 grafica.appendToScreen(getCurrentRoom().getDescription());
+                if(!getCurrentRoom().getObjects().isEmpty()){
+                    for(ObjectAdv o : getCurrentRoom().getObjects()){
+                        if(o instanceof PersonAdv){
+                            ((PersonAdv) o).attack(/*TODO: passare il giocatore*/ new PersonAdv(155, 155));
+                        }
+                    }
+                }
             }
         }
     }
