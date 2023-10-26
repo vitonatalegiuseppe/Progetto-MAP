@@ -1,12 +1,11 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+* Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+*/
 
 package uniba.map.myadventure.classes;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 /**
  *
@@ -14,23 +13,23 @@ import java.util.List;
  */
 public class Room {
     
-   
+    
     private final int id;
-
+    
     private String name;
     
     private String description;
-
+    
     private String look = null;
     
     private boolean visible = true;
-
+    
     private Room south = null;
-
+    
     private Room north = null;
-
+    
     private Room east = null;
-
+    
     private Room west = null;
     
     private Room comeUp = null;
@@ -38,18 +37,18 @@ public class Room {
     private Room goDown = null;
     
     private final List<ObjectAdv> objects = new ArrayList<>();
-
+    
     
     public Room(int id) {
         this.id = id;
     }
-
+    
     public Room(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
-
+    
     public String getName() {
         return name;
     }
@@ -57,23 +56,23 @@ public class Room {
     public int getId(){
         return id;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public String getDescription() {
         return description;
     }
-
+    
     public void setDescription(String description) {
         this.description = description;
     }
-
+    
     public boolean isVisible() {
         return visible;
     }
-
+    
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
@@ -81,31 +80,31 @@ public class Room {
     public Room getSouth() {
         return south;
     }
-
+    
     public void setSouth(Room south) {
         this.south = south;
     }
-
+    
     public Room getNorth() {
         return north;
     }
-
+    
     public void setNorth(Room north) {
         this.north = north;
     }
-
+    
     public Room getEast() {
         return east;
     }
-
+    
     public void setEast(Room east) {
         this.east = east;
     }
-
+    
     public Room getWest() {
         return west;
     }
-
+    
     public void setWest(Room west) {
         this.west = west;
     }
@@ -113,7 +112,7 @@ public class Room {
     public Room getComeUp() {
         return comeUp;
     }
-
+    
     public void setComeUp(Room comeUp) {
         this.comeUp = comeUp;
     }
@@ -121,7 +120,7 @@ public class Room {
     public Room getGoDown() {
         return goDown;
     }
-
+    
     public void setGoDown(Room goDown) {
         this.goDown = goDown;
     }
@@ -129,7 +128,7 @@ public class Room {
     public String getLook() {
         return look;
     }
-
+    
     public void setLook(String look) {
         this.look = look;
     }
@@ -137,7 +136,20 @@ public class Room {
     public List<ObjectAdv> getObjects() {
         return objects;
     }
-
+    
+    public List<AdvPerson> getPersonInRoom(){
+        List<AdvPerson> listPersonInRoom = new ArrayList<>();
+        if(!this.getObjects().isEmpty()){
+            for(ObjectAdv o : this.getObjects()){
+                if(o instanceof AdvPerson){
+                    listPersonInRoom.add((AdvPerson) o);
+                }
+            }
+        }
+        
+        return listPersonInRoom;
+    }
+    
     @Override
     public boolean equals(java.lang.Object obj) {
         if (this == obj) {
@@ -157,5 +169,17 @@ public class Room {
         int hash = 3;
         hash = 83 * hash + this.id;
         return hash;
+    }
+    
+    public void changePearsonStatus(boolean live){
+        for(AdvPerson p : this.getPersonInRoom()){
+            p.setLive(live);
+        }
+    }
+    
+    public void startInitiativePearsons(){
+        for(AdvPerson p : this.getPersonInRoom()){
+            (new Thread(p)).start();
+        }
     }
 }
