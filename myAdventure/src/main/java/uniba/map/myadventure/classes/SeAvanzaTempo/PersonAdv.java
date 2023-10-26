@@ -2,9 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package uniba.map.myadventure.classes;
+package uniba.map.myadventure.classes.SeAvanzaTempo;
 
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import uniba.map.myadventure.classes.ObjectAdv;
+import uniba.map.myadventure.interfaces.Grafica;
 
 /**
  *
@@ -16,28 +20,30 @@ dalla classe oggettiADv eredita la classe oggetti contenitore. nella classe ogge
 nella classe oggettiAdv mettiamo tutti gli attributi degli oggetti, in person solo quelli relativi alle persone.*/
 
 
-public class PersonAdv extends ObjectAdv {
+public class PersonAdv extends ObjectAdv implements Runnable {
     
     private int life = 0;
     
-    private boolean live = true;
+    private boolean live = false;
+    
+    Grafica screen = new Grafica();
     
     public PersonAdv(int id, int life){
         super(id);
         this.life = life;
     }
     
-    public PersonAdv(int id,String name, int life){
+    public PersonAdv(int id, String name, int life){
         super(id, name);
         this.life = life;
     }
     
-    public PersonAdv(int id,String name, String description, int life){
+    public PersonAdv(int id, String name, String description, int life){
         super(id, name, description);
         this.life = life;
     }
     
-    public PersonAdv(int id,String name, String description, Set<String> alias, int life){
+    public PersonAdv(int id, String name, String description, Set<String> alias, int life){
         super(id, name, description, alias);
         this.life = life;
     }
@@ -67,7 +73,20 @@ public class PersonAdv extends ObjectAdv {
     }
     
     public void attack(PersonAdv person){
-        person.incrementLife();
-        //todo: DEVE DEIRE CHE ha colpito il giocatore
+        person.reduceLife();
+        screen.appendToScreen("Sei stato colpito da pinco panco...");
+        //TODO: DEVE DEIRE CHE ha colpito il giocatore
+    }
+
+    @Override
+    public void run() {
+        while(this.isLive()){
+            try {
+                Thread.sleep(4000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(PersonAdv.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.attack(new PersonAdv(155, 155));
+        }
     }
 }

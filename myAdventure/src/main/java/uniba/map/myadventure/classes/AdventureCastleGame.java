@@ -107,10 +107,11 @@ public class AdventureCastleGame extends GameDescription {
         Room livingroom = new Room(23, "Soggiorno", "Entrando ti trovi davanti un grande camino acceso ai cui lati ci sono due poltrone. Intravedi anche una scrivania. \n"
                 + "(Ah, ovviamente a est c'è la porta da cui sei entrato)");
         livingroom.setLook("Osservando meglio sulla scrivania si intravedono dei fogli. Mentre appese alla kappa del camino noti delle fiaccole spente.");
-        Room diningroom = new Room(24, "Sala da pranzo", "Sei in un enorme sala da pranzo. C’è un tavolo tutto imbandito con tutto il necessario. Ad un angolo del tavolo noti un uomo, \n"
-                + "forse il maggiordomo della villa. A nord intravedi un ingresso verso un'altra stanza: forse la cucina. \n(Ah, ovviamente a est c'è la porta da cui sei entrato)");
-        Room kitchen = new Room(25, "Cucina", "Niente di particolare. Una cucina come tante: credenze, forno, frigorifero e \n"
-                + "cassetti ci sono tutti. Sulla parete sud è presente un ingresso probabilmente verso la sala da pranzo, mentre \n"
+        Room diningroom = new Room(24, "Sala da pranzo", "Sei in un enorme sala da pranzo. C’è un tavolo tutto imbandito con tutto il necessario. Ad un angolo del tavolo noti un uomo, "
+                + "forse il maggiordomo della villa. A nord intravedi un ingresso verso un'altra stanza: forse la cucina. "
+                + "(Ah, ovviamente a est c'è la porta da cui sei entrato)");
+        Room kitchen = new Room(25, "Cucina", "Niente di particolare. Una cucina come tante: credenze, forno, frigorifero e "
+                + "cassetti ci sono tutti. Sulla parete sud è presente un ingresso probabilmente verso la sala da pranzo, mentre "
                 + "sulla parete est c'è una porta che forse conduce alla dispensa.");
         Room larder = new Room(26, "Dispensa", "La dispensa sembra ben rifornita. Oltre a sacchi di farina e vari salumi e formaggi puoi notare una piccola cantina di vini. A ovest \n"
                 + "dell'ingresso vi è una porta che conduce in un'altra stanza, mentre a sud vi è la porta che conduce al corridoio.");
@@ -444,16 +445,18 @@ public class AdventureCastleGame extends GameDescription {
         candle.setAlias(new String[]{"lumino"});
         candle.setFragile(true);
         diningroom.getObjects().add(candle);
-        AdvPerson butler = new AdvPerson(2, "Ambrogio", 1, "É il magiordomo di questo castello. gurdandolo bene noti due cose: al collo ha appesa una chiave \n"
-                + "e dal suo volto traspare la lieve, se pur marcata, intenzione di farti fuori...");
+        
+        AdvPerson butler = new AdvPerson(2, "Ambrogio", "É il magiordomo di questo castello. gurdandolo bene noti due cose: "
+                + "al collo ha appesa una chiave e dal suo volto traspare la lieve, se pur marcata, intenzione di farti fuori...", 1);
         //TODO: iserire l'niziativa del cattivo
         butler.setAlias(new String[]{"cameriere", "maggiordomo"});
         butler.setPickupable(false);
         diningroom.getObjects().add(butler);
         //TODO: definire le azioni che si possono fare con il maggiordomo: dal momento in cui entra il giocatore nella stanza fino a quando non uccide il maggiordomo o esce dalla stanza ogni 20 sec il maggiordomo attacca 
-        ObjectAdv key1 = new ObjectAdv(21, "chiave", "una chiave che probabilmente può aprire una serratura");
+        //TOTO: da rivedere sto fatto della chiave posseduta dal maggiorndomo
+        /*ObjectAdv key1 = new ObjectAdv(21, "chiave", "una chiave che probabilmente può aprire una serratura");
         key1.setAlias(new String[]{"chiavi"});
-        butler.add(key1);
+        butler.add(key1);*/
         //TODO: creare una classe persona sottoclasse di oggetti. tra gli attributi c'è vita che indica la vita del personaggio. se la vita arriva a zero la persona muore.
         // il giocatore per recuperare la vita deve mangiare o bere qualcosa.
 
@@ -551,7 +554,7 @@ public class AdventureCastleGame extends GameDescription {
         ObjectAdv key5 = new ObjectAdv(43, "chiave", "una chiave utile per aprire una serratura, chissà quale");
         key5.setAlias(new String[]{"chiave"});
         armory.getObjects().add(key5);
-        AdvPerson guardian = new AdvPerson(44, "Guardiano", 7, "Lui è Robert il guardiano di questo castello, a lui non sfugge nulla, neanche quando dorme");
+        AdvPerson guardian = new AdvPerson(44, "Guardiano", "Lui è Robert il guardiano di questo castello, a lui non sfugge nulla, neanche quando dorme", 7);
         guardian.setAlias(new String[]{"custode", "sorvegliante"});
         guardian.setPickupable(false);
         armory.getObjects().add(guardian);
@@ -623,7 +626,7 @@ public class AdventureCastleGame extends GameDescription {
         window.setAlias(new String[]{"finestra", "lucernario"});
         mainRoom_1.getObjects().add(window);
         balconyMainRoom.getObjects().add(window);
-        AdvPerson henchman = new AdvPerson(44, "Scagnozzo", 7, "un uomo che sembra stia dormendo... Non far rumore altrimenti lo svegli.");
+        AdvPerson henchman = new AdvPerson(44, "Scagnozzo", "un uomo che sembra stia dormendo... Non far rumore altrimenti lo svegli.", 7);
         henchman.setAlias(new String[]{"lacche", "tirapiedi"});
         henchman.setPushable(true);
         mainRoom_1.getObjects().add(henchman);
@@ -634,15 +637,15 @@ public class AdventureCastleGame extends GameDescription {
         mainRoom_1.getObjects().add(chest);
 
         //oggetti torre 
-        AdvPerson misterX = new AdvPerson(53, "MisterX", 10, "si presenta con una benda all'occhio, un barbone non curata e un fare minaccioso, il classico tipo losco da non farti mai nemico");
+        AdvPerson misterX = new AdvPerson(53, "MisterX", "si presenta con una benda all'occhio, un barbone non curata e un fare minaccioso, il classico tipo losco da non farti mai nemico", 10);
         misterX.setAlias(new String[]{"boss", "cattivo"});
         tower.getObjects().add(misterX);
-        AdvPerson stecy = new AdvPerson(54, "Stecy", 3, "una bella ragazza con dei lineamenti del viso armoniosi e proporzionati con occhi grandi e luminosi, la classica ragazza acqua e sapone");
+        AdvPerson stecy = new AdvPerson(54, "Stecy", "una bella ragazza con dei lineamenti del viso armoniosi e proporzionati con occhi grandi e luminosi, la classica ragazza acqua e sapone", 3);
         stecy.setAlias(new String[]{"ragazza"});
         tower.getObjects().add(stecy);
 
         //set starting room
-        setCurrentRoom(closet);
+        setCurrentRoom(kitchen);
     }
 
     @Override
@@ -658,6 +661,7 @@ public class AdventureCastleGame extends GameDescription {
             if (p.getCommand().getType() == CommandType.NORD) {
                 if (getCurrentRoom().getNorth() != null) {
                     if (controller.doorController(getCurrentRoom(), getCurrentRoom().getNorth())) {
+                        getCurrentRoom().changePearsonStatus(false);
                         setCurrentRoom(getCurrentRoom().getNorth());
                         move = true;
                     } else {
@@ -669,6 +673,7 @@ public class AdventureCastleGame extends GameDescription {
             } else if (p.getCommand().getType() == CommandType.SOUTH) {
                 if (getCurrentRoom().getSouth() != null) {
                     if (controller.doorController(getCurrentRoom(), getCurrentRoom().getSouth())) {
+                        getCurrentRoom().changePearsonStatus(false);
                         setCurrentRoom(getCurrentRoom().getSouth());
                         move = true;
                     } else {
@@ -680,6 +685,7 @@ public class AdventureCastleGame extends GameDescription {
             } else if (p.getCommand().getType() == CommandType.EAST) {
                 if (getCurrentRoom().getEast() != null) {
                     if (controller.doorController(getCurrentRoom(), getCurrentRoom().getEast())) {
+                        getCurrentRoom().changePearsonStatus(false);
                         setCurrentRoom(getCurrentRoom().getEast());
                         move = true;
                     } else {
@@ -691,6 +697,7 @@ public class AdventureCastleGame extends GameDescription {
             } else if (p.getCommand().getType() == CommandType.WEST) {
                 if (getCurrentRoom().getWest() != null) {
                     if (controller.doorController(getCurrentRoom(), getCurrentRoom().getWest())) {
+                        getCurrentRoom().changePearsonStatus(false);
                         setCurrentRoom(getCurrentRoom().getWest());
                         move = true;
                     } else {
@@ -702,6 +709,7 @@ public class AdventureCastleGame extends GameDescription {
             } else if (p.getCommand().getType() == CommandType.COME_UP) {
                 if (getCurrentRoom().getComeUp() != null) {
                     if (controller.doorController(getCurrentRoom(), getCurrentRoom().getComeUp())) {
+                        getCurrentRoom().changePearsonStatus(false);
                         setCurrentRoom(getCurrentRoom().getComeUp());
                         grafica.appendToScreen("Sei salito al primo piano.\n");
                         move = true;
@@ -714,6 +722,7 @@ public class AdventureCastleGame extends GameDescription {
             } else if (p.getCommand().getType() == CommandType.GO_DOWN) {
                 if (getCurrentRoom().getGoDown() != null) {
                     if (controller.doorController(getCurrentRoom(), getCurrentRoom().getGoDown())) {
+                        getCurrentRoom().changePearsonStatus(false);
                         setCurrentRoom(getCurrentRoom().getGoDown());
                         grafica.appendToScreen("Sei sceso al piano terra.\n");
                         move = true;
@@ -998,13 +1007,8 @@ public class AdventureCastleGame extends GameDescription {
                 grafica.appendToScreen(getCurrentRoom().getName());
                 grafica.appendToScreen("================================================");
                 grafica.appendToScreen(getCurrentRoom().getDescription());
-                if(!getCurrentRoom().getObjects().isEmpty()){
-                    for(ObjectAdv o : getCurrentRoom().getObjects()){
-                        if(o instanceof PersonAdv){
-                            ((PersonAdv) o).attack(/*TODO: passare il giocatore*/ new PersonAdv(155, 155));
-                        }
-                    }
-                }
+                getCurrentRoom().changePearsonStatus(true);
+                getCurrentRoom().startInitiativePearsons();
             }
         }
     }
@@ -1013,5 +1017,4 @@ public class AdventureCastleGame extends GameDescription {
         grafica.appendToScreen("Premi il pulsante del giocattolo e in seguito ad una forte esplosione la tua casa prende fuoco...\ntu e tuoi famigliari cercate invano di salvarvi e venite avvolti dalle fiamme...\nè stata una morte CALOROSA...addio!");
         System.exit(0);
     }
-
 }

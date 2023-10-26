@@ -61,6 +61,7 @@ public class Engine2 {
                 //TODO:  gestire il comando addio
             } catch (InterruptedException ex) {
                 Logger.getLogger(Engine2.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("InterruptedException: " + ex.getMessage());
             }
             System.exit(0);
 
