@@ -46,6 +46,8 @@ public class AdvPerson extends ObjectAdvContainer implements Runnable{
     
     public void setLife(int life) {
         this.life = life;
+        if(life == 0)
+            this.setLive(false);
     }
     
     public void setLive(boolean live) {
