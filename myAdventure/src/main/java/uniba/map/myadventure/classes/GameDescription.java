@@ -5,7 +5,6 @@
 
 package uniba.map.myadventure.classes;
 
-import uniba.map.myadventure.interfaces.Grafica;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +43,6 @@ public abstract class GameDescription {
 
     public abstract void init() throws Exception;
 
-    public abstract void nextMove(ParserOutput p, Grafica grafica);
+    public abstract void nextMove(ParserOutput p);
 
 }

@@ -4,7 +4,6 @@
  */
 package uniba.map.myadventure.classes;
 
-import uniba.map.myadventure.interfaces.Grafica;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -50,16 +49,16 @@ public class ObjectAdvContainer extends ObjectAdv {
         list.remove(o);
     }
 
-    public List<ObjectAdv> showObjectContained(Grafica grafica) {
+    public List<ObjectAdv> showObjectContained() {
         Iterator<ObjectAdv> it = this.getList().iterator();
         if (!this.getList().isEmpty()) {
-            grafica.appendToScreen(this.getName() + " ha i seguenti oggetti: ");
+            Engine2.appendToScreenEngine(this.getName() + " ha i seguenti oggetti: ");
             while (it.hasNext()) {
                 ObjectAdv next = it.next();
-                grafica.appendToScreen(next.getName() + ", ");
+                Engine2.appendToScreenEngine(next.getName() + ", ");
                 it.remove();
             }
-            grafica.appendToScreen("\n");
+            Engine2.appendToScreenEngine("\n");
         }
         return null;
     }
