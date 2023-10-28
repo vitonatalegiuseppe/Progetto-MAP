@@ -396,12 +396,11 @@ public class AdventureCastleGame extends GameDescription {
         exit.getObjects().add(doorExit);
 
         // ripostiglio 
-        ObjectAdvContainer rack = new ObjectAdvContainer(6, "scaffale", "uno scaffale dove al suo interno sembra ci sono chiodi, martello, corda, nastro, carburante, secchio, palanghino");
-        rack.setPickupable(false);
-        rack.setOpen(false);
-        rack.setOpenable(true);
-        rack.setAlias(new String[]{"mobile", "mensola"});
-        closet.getObjects().add(rack);
+        ObjectAdvContainer armoire = new ObjectAdvContainer(6, "Armadio", "uno scaffale dove al suo interno sembra ci sono chiodi, martello, corda, nastro, carburante, secchio, palanghino");
+        armoire.setPickupable(false);
+        armoire.setOpenable(true);
+        armoire.setAlias(new String[]{"mobile", "guardaroba"});
+        closet.getObjects().add(armoire);
         ObjectAdv rope = new ObjectAdv(7, "corda", "una corda molto resistente");
         rope.setAlias(new String[]{"laccio", "fune"});
         ObjectAdv scotch = new ObjectAdv(8, "scotch", "un semplice nastro adesivo");
@@ -418,13 +417,13 @@ public class AdventureCastleGame extends GameDescription {
         bucket.setAlias(new String[]{"bidone"});
         ObjectAdv crowbar = new ObjectAdv(13, "palanghino", "un palanghino utile per qualsiasi idea di scasso vi passi per la testa");
         crowbar.setAlias(new String[]{"leva"});
-        rack.add(rope);
-        rack.add(scotch);
-        rack.add(fuel);
-        rack.add(hammer);
-        rack.add(nails);
-        rack.add(bucket);
-        rack.add(crowbar);
+        armoire.add(rope);
+        armoire.add(scotch);
+        armoire.add(fuel);
+        armoire.add(hammer);
+        armoire.add(nails);
+        armoire.add(bucket);
+        armoire.add(crowbar);
 
         // sala da pranzo
         // TODO: se avanza il tempo: il cibo all'interno dei piatti è avvelenato e il personaggio perde una vita se lo mangia.
@@ -635,7 +634,7 @@ public class AdventureCastleGame extends GameDescription {
         tower.getObjects().add(stecy);
 
         //set starting room
-        setCurrentRoom(entryway);
+        setCurrentRoom(closet);
     }
 
     @Override
@@ -768,7 +767,6 @@ public class AdventureCastleGame extends GameDescription {
                 * vengongo inseriti nella stanza o nell'inventario a seconda di dove si trova l'oggetto contenitore.
                 * Potrebbe non esssere la soluzione ottimale.
                  */
-                //TODO: fare la prova ad aprire un oggetto contenitore tipo scaffale in ripostiglio
                 if (p.getObject() == null && p.getInvObject() == null) {
                     Engine2.appendToScreenEngine("Non c'è niente da aprire qui.");
                 } else {
