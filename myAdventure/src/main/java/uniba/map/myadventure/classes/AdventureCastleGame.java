@@ -575,13 +575,7 @@ public class AdventureCastleGame extends GameDescription {
         gate.setAlias(new String[]{"inferiata"});
         stairs.getObjects().add(gate);
         hall2.getObjects().add(gate);
-        //TODO: controllare se servono ancora le scale.
-        ObjectAdv steps = new ObjectAdv(60, "Scale", "Un'enorme scalinata ornata con un gran tappeto rosso.");
-        steps.setPickupable(false);
-        steps.setOpen(true);
-        steps.setAlias(new String[]{"rampa", "gradini"});
-        stairs.getObjects().add(steps);
-        stairs_2.getObjects().add(steps);
+       
 
         //TODO: le chiavi devono essere distinte in qualche maniera altrimenti una volta messe nell'inventario daranno problemi.
         //corridioio secondo piano

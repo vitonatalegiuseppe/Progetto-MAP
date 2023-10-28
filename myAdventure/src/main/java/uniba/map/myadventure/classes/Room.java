@@ -13,7 +13,6 @@ import java.util.List;
  */
 public class Room {
     
-    
     private final int id;
     
     private String name;

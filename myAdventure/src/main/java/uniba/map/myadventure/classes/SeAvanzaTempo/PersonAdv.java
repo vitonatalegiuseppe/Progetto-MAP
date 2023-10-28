@@ -75,7 +75,7 @@ public class PersonAdv extends ObjectAdv implements Runnable {
     public void attack(PersonAdv person){
         person.reduceLife();
         screen.appendToScreen("Sei stato colpito da pinco panco...");
-        //TODO: DEVE DEIRE CHE ha colpito il giocatore
+        //TODO: vedere se serve o no
     }
 
     @Override

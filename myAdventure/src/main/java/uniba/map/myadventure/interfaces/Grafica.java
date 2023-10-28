@@ -41,7 +41,7 @@ public class Grafica extends javax.swing.JFrame {
     public boolean isEnterPressed() {
         return writer.getText().endsWith("\n");
     }
-
+    //TODO: modificare lo scroll in maniera che faccia sempre vedere l'ultima riga
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
