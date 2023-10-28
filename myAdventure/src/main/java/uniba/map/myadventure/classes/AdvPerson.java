@@ -73,17 +73,16 @@ public class AdvPerson extends ObjectAdvContainer implements Runnable{
     public void attack(){
         if(this.isLive()){
             setPlayerLife(playerLife-1);
-            System.out.println("Sei stato colpito. La tua vita è pari a:" + getPlayerLife());
-            //appendToScreen("Sei stato colpito. La tua vita è pari a:" + getPlayerLife());
-            //TODO: DEVE DEIRE CHE ha colpito il giocatore
+            Engine2.appendToScreenEngine("Sei stato colpito. La tua vita è pari a: " + getPlayerLife());
         }
     }
     
     @Override
+    @SuppressWarnings("SleepWhileInLoop")
     public void run() {
         while(this.isLive()){
             try {
-                Thread.sleep(4000);
+                Thread.sleep(20000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(AdvPerson.class.getName()).log(Level.SEVERE, null, ex);
             }

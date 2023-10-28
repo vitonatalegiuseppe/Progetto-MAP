@@ -27,10 +27,8 @@ public class Grafica extends javax.swing.JFrame {
 
     public Grafica() {
         initComponents();
-        engine.inizialized(this);
-
     }
-
+    
     public void appendToScreen(String text) {
         screen.append(text + "\n");
     }
@@ -76,12 +74,12 @@ public class Grafica extends javax.swing.JFrame {
         panelText.setLayout(panelTextLayout);
         panelTextLayout.setHorizontalGroup(
             panelTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(writer, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
+            .addComponent(writer)
         );
         panelTextLayout.setVerticalGroup(
             panelTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTextLayout.createSequentialGroup()
-                .addGap(0, 43, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(writer, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -128,15 +126,22 @@ public class Grafica extends javax.swing.JFrame {
                 .addComponent(suggerimento, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(help, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelButton, java.awt.BorderLayout.LINE_END);
+
+        scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        scrollPane.setRowHeaderView(null);
 
         screen.setEditable(false);
         screen.setColumns(20);
         screen.setLineWrap(true);
         screen.setRows(5);
+        screen.setWrapStyleWord(true);
+        screen.setCaretPosition(screen.getDocument().getLength());
+        screen.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         scrollPane.setViewportView(screen);
 
         getContentPane().add(scrollPane, java.awt.BorderLayout.CENTER);
@@ -147,7 +152,7 @@ public class Grafica extends javax.swing.JFrame {
     private void writerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_writerActionPerformed
         String input = writer.getText(); // Acquisisci il testo inserito dall'utente
         screen.append("> " + input + "\n"); // Aggiungi il testo alla JTextArea screen
-        engine.execute(this);
+        engine.execute();
         writer.setText(""); // Resetta il campo di testo jTextField
     }//GEN-LAST:event_writerActionPerformed
     
@@ -291,5 +296,4 @@ public class Grafica extends javax.swing.JFrame {
     private javax.swing.JButton suggerimento;
     private javax.swing.JTextField writer;
     // End of variables declaration//GEN-END:variables
-
 }

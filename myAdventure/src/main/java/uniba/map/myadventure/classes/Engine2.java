@@ -20,6 +20,12 @@ public class Engine2 {
     private final GameDescription game;
 
     private Parser parser;
+    
+    static Grafica grafica = new Grafica();
+
+    static public void appendToScreenEngine(String text) {
+        grafica.appendToScreen(text);
+    }
 
     public Engine2(GameDescription game) {
         this.game = game;
@@ -36,7 +42,7 @@ public class Engine2 {
         }
     }
 
-    public void inizialized(Grafica grafica) {
+    public void inizialized() {
         grafica.appendToScreen("================================ ");
         grafica.appendToScreen("* Adventure Castle Game v. 0.3 - 2022-2023 * ");
         grafica.appendToScreen("================================ ");
@@ -46,7 +52,7 @@ public class Engine2 {
         grafica.appendToScreen("");
     }
 
-    public void execute(Grafica grafica) {
+    public void execute() {
 
         String input = grafica.getValueWriter();
 
@@ -66,20 +72,17 @@ public class Engine2 {
             System.exit(0);
 
         } else {
-            game.nextMove(p, grafica);
+            game.nextMove(p);
             grafica.appendToScreen("");
         }
     }
     
-    //TODO: in caso eliminarlo del tutto
-    /**
-     * @param args the command line arguments
-     */
-    /*  public static void main(String[] args) {
+    public static void main(String[] args) {
         Engine2 engine = new Engine2(new AdventureCastleGame());
-        engine.execute();
+        grafica.setVisible(true);
+        engine.inizialized();
         
-    }*/
+    }
     
     /*TODO: creazione database e salvataggio di partita corrente solo per salvaggio in caso di morte
             completare il main: la schermata di interfaccia che permette di interagire senza dover passare dalla console
