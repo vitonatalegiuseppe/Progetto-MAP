@@ -41,7 +41,7 @@ public class Grafica extends javax.swing.JFrame {
     public boolean isEnterPressed() {
         return writer.getText().endsWith("\n");
     }
-
+    //TODO: modificare lo scroll in maniera che faccia sempre vedere l'ultima riga
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -63,7 +63,12 @@ public class Grafica extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Adventur Castle Game");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setSize(getPreferredSize());
 
+        writer.setAlignmentX(1.0F);
+        writer.setAlignmentY(2.0F);
+        writer.setMargin(new java.awt.Insets(2, 8, 2, 6));
         writer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 writerActionPerformed(evt);
@@ -74,7 +79,7 @@ public class Grafica extends javax.swing.JFrame {
         panelText.setLayout(panelTextLayout);
         panelTextLayout.setHorizontalGroup(
             panelTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(writer)
+            .addComponent(writer, javax.swing.GroupLayout.DEFAULT_SIZE, 836, Short.MAX_VALUE)
         );
         panelTextLayout.setVerticalGroup(
             panelTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,8 +145,10 @@ public class Grafica extends javax.swing.JFrame {
         screen.setLineWrap(true);
         screen.setRows(5);
         screen.setWrapStyleWord(true);
-        screen.setCaretPosition(screen.getDocument().getLength());
+        screen.setAlignmentX(1.0F);
+        screen.setAlignmentY(2.0F);
         screen.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        screen.setMargin(new java.awt.Insets(2, 8, 2, 6));
         scrollPane.setViewportView(screen);
 
         getContentPane().add(scrollPane, java.awt.BorderLayout.CENTER);

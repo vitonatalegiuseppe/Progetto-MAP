@@ -1,7 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+* Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+*/
 
 package uniba.map.myadventure.classes;
 
@@ -19,9 +19,8 @@ import java.util.Set;
  */
 public class Utils {
     
-    static int numberId = 0;
     
-   public static Set<String> loadFileListInSet(File file) throws IOException {
+    public static Set<String> loadFileListInSet(File file) throws IOException {
         Set<String> set = new HashSet<>();
         BufferedReader reader = new BufferedReader(new FileReader(file));
         while (reader.ready()) {
@@ -30,7 +29,7 @@ public class Utils {
         reader.close();
         return set;
     }
-
+    
     public static List<String> parseString(String string, Set<String> stopwords) {
         List<String> tokens = new ArrayList<>();
         String[] split = string.toLowerCase().split("\\s+");
@@ -42,7 +41,5 @@ public class Utils {
         return tokens;
     }
     
-    static int getId(){
-        return ++numberId;
-    }
+    
 }

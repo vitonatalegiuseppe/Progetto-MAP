@@ -1,10 +1,11 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+* Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+*/
 package uniba.map.myadventure.classes.SeAvanzaTempo;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import uniba.map.myadventure.classes.ObjectAdv;
@@ -75,17 +76,24 @@ public class PersonAdv extends ObjectAdv implements Runnable {
     public void attack(PersonAdv person){
         person.reduceLife();
         screen.appendToScreen("Sei stato colpito da pinco panco...");
-        //TODO: DEVE DEIRE CHE ha colpito il giocatore
+        //TODO: vedere se serve o no
     }
-
+    
     @Override
     public void run() {
         while(this.isLive()){
             try {
+                // Metti il programma in pausa per 5 secondi
+                TimeUnit.SECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                // Gestisci eventuali eccezioni dovute all'interruzione del sonno
+                e.printStackTrace();
+            }
+            /*try {
                 Thread.sleep(4000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(PersonAdv.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
             this.attack(new PersonAdv(155, 155));
         }
     }

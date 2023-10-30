@@ -5,6 +5,7 @@
 package uniba.map.myadventure.classes;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -82,10 +83,17 @@ public class AdvPerson extends ObjectAdvContainer implements Runnable{
     public void run() {
         while(this.isLive()){
             try {
-                Thread.sleep(20000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(AdvPerson.class.getName()).log(Level.SEVERE, null, ex);
+                // Metti il programma in pausa per 5 secondi
+                TimeUnit.SECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                // Gestisci eventuali eccezioni dovute all'interruzione del sonno
+                e.printStackTrace();
             }
+            /*try {
+            Thread.sleep(20000);
+            } catch (InterruptedException ex) {
+            Logger.getLogger(AdvPerson.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
             this.attack();
         }
     }

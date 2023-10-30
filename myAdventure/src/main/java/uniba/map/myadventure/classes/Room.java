@@ -13,7 +13,6 @@ import java.util.List;
  */
 public class Room {
     
-    
     private final int id;
     
     private String name;
@@ -171,7 +170,7 @@ public class Room {
         return hash;
     }
     
-    public void changePearsonStatus(boolean live){
+    public void changePersonStatus(boolean live){
         for(AdvPerson p : this.getPersonInRoom()){
             p.setLive(live);
         }
@@ -181,5 +180,36 @@ public class Room {
         for(AdvPerson p : this.getPersonInRoom()){
             (new Thread(p)).start();
         }
+    }
+    
+    public Room changeRoom(String direction, Room room){
+        Controller controller = new Controller();
+        Room newRoom = null;
+        switch (direction){
+            case "North": newRoom = room.getNorth(); break;
+            case "South": newRoom = room.getSouth(); break;
+            case "East": newRoom = room.getEast(); break;
+            case "West": newRoom = room.getWest(); break;
+            case "comeUp": newRoom = room.getComeUp(); break;
+            case "goDown": newRoom = room.getGoDown(); break;
+        }
+        
+        if (newRoom != null){
+            if (controller.doorController(room, newRoom)) {
+                room.changePersonStatus(false);
+                Engine2.appendToScreenEngine(newRoom.getName());
+                Engine2.appendToScreenEngine("================================================");
+                Engine2.appendToScreenEngine(newRoom.getDescription());
+                newRoom.changePersonStatus(true);
+                newRoom.startInitiativePearsons();
+            } else {
+                Engine2.appendToScreenEngine("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
+            }
+        }else{
+            Engine2.appendToScreenEngine("Da quella parte non si può andare c'è un muro!\nNon hai ancora acquisito i poteri per oltrepassare i muri...");
+            newRoom = room;
+        }
+        
+        return newRoom;
     }
 }
