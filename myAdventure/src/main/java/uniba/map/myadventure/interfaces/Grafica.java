@@ -66,6 +66,9 @@ public class Grafica extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setSize(getPreferredSize());
 
+        writer.setAlignmentX(1.0F);
+        writer.setAlignmentY(2.0F);
+        writer.setMargin(new java.awt.Insets(2, 8, 2, 6));
         writer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 writerActionPerformed(evt);
