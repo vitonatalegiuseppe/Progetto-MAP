@@ -8,8 +8,6 @@ import uniba.map.myadventure.interfaces.Grafica;
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -60,17 +58,6 @@ public class Engine2 {
         ParserOutput p = parser.parse(command, game.getCommands(), game.getCurrentRoom().getObjects(), game.getInventory());
         if (p == null || p.getCommand() == null) {
             grafica.appendToScreen("Non capisco quello che mi vuoi dire. ");
-        } else if (p.getCommand() != null && p.getCommand().getType() == CommandType.END) {
-            grafica.appendToScreen("Addio! ");
-            try {
-                Thread.sleep(5000);
-                //TODO:  gestire il comando addio
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Engine2.class.getName()).log(Level.SEVERE, null, ex);
-                System.err.println("InterruptedException: " + ex.getMessage());
-            }
-            System.exit(0);
-
         } else {
             game.nextMove(p);
             grafica.appendToScreen("");
@@ -81,7 +68,6 @@ public class Engine2 {
         Engine2 engine = new Engine2(new AdventureCastleGame());
         grafica.setVisible(true);
         engine.inizialized();
-        
     }
     
     /*TODO: creazione database e salvataggio di partita corrente solo per salvaggio in caso di morte
@@ -89,19 +75,17 @@ public class Engine2 {
             thread sullo scorrere del tempo
             lambda expression da utilizzare da qualche parte
             completare il next move:
-                ripostiglio            
                 biblioteca
                 cortile: aggiungere oltre ad apri cilindro il movimento arrampicata
+                cucina             
                 soggiorno
-                cucina
-                sala da pranzo: azione colpisci e le eventuali risposte del nemico
                 stanza servitù (crollata): aggiungere descrizione a diario
                 armeria: differenza con sala da pranzo tizio che dorme/aggiungere comando unisci oggetti se più di uno altrimenti oggetto rampino è già intero
                 bagno
                 anticamere: se avanza tempo fare il comando unisci altrimenti le lenzuola si trovano già annodate.
                 camera da letto figlia
                 camera da letto figlio
-                bagno
+                bagno 2
                 vuoto: la morte
                 camera padronale
                 balcone camera padronale
@@ -126,4 +110,6 @@ public class Engine2 {
 }
 /*TODO: Stanze fatte:   Dispensa
                         Ingresso
-                        scale*/
+                        scale
+                        ripostiglio
+                        sala da pranzo*/

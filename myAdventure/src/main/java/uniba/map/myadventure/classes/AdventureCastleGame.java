@@ -1,15 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package uniba.map.myadventure.classes;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author pierpaolo
  */
-public class AdventureCastleGame extends GameDescription {
-
+public class AdventureCastleGame extends GameDescription implements Runnable{
+    
     @Override
     public void init() throws Exception {
         //Commands
@@ -67,14 +70,14 @@ public class AdventureCastleGame extends GameDescription {
         Command play = new Command(CommandType.PLAY, "gioca");
         play.setAlias(new String[]{"inizia"});
         getCommands().add(play);
-
+        
         //TODO: creare una funzione id che viene chiamata nei vari costruttori e restituisce un id incrementale evitando di doverlo inserire manualmente        //
         //Rooms - ground floor
         Room exit = new Room(0, "Esterno", "Sei fuori");
         Room stairs = new Room(1, "Scale", "É una stanza completamente spoglia: non ci sono arredi di alcun tipo. L'unica cosa che contiene sono le scale che portano al piano superiore.");
         Room hall2 = new Room(2, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A ovest e a nord il corridoio prosegue. A sud trovi un cancello; mentre a est una porta aperta.");
         Room hall3 = new Room(3, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e a ovest il corridoio prosegue.");
-        // TODO: Ricordarsi di inserire questa descrizione quando entra la prima volta nel primo corridoio: Aprendo porta ti trovi sotto a un porticato che percorre tutto il perimetro del cortile. Da dove ti trovi riesci a vedere che dal sotto il porticato si trovano diversi ingressi a varie stanze. 
+        // TODO: Ricordarsi di inserire questa descrizione quando entra la prima volta nel primo corridoio: Aprendo porta ti trovi sotto a un porticato che percorre tutto il perimetro del cortile. Da dove ti trovi riesci a vedere che dal sotto il porticato si trovano diversi ingressi a varie stanze.
         Room hall4 = new Room(4, "Corridoio", "Sei nel corridoio. Di per se non c'e' niente di particolare. Riesci a vedere il giardino. A nord, infatti, trovi la sua entrata, mentre a sud hai la porta per"
                 + " andare nell'ingresso. A est e ovest il corridoio prosegue.");
         Room hall5 = new Room(5, "Corridoio", "Sei nel corridoio. Riesci a vedere il cortile. A est e a ovest il corridoio prosegue.");
@@ -120,12 +123,11 @@ public class AdventureCastleGame extends GameDescription {
                 + " scarpe, occorrenti per giardinaggio, ecc. Inoltre, vedi anche delle panche. Alle tue spalle, sulla parete nord c'è l'ingresso da cui sei entrato. Ma ad attirare la tua attenzione"
                 + "è l'echeggiare di rumore.");
         armory.setLook("Una panca, in particolare, attira la tua attenzione: su di essa c’è un uomo che dorme. Appena lo focalizzi ti balza all’occhio la chiave che gli pende dal collo.");
-        Room bathroom1 = new Room(29, "Bagno", "É un normale bagno. Water, bidet, lavandino e vasca. Niente di particolare, se non fosse che a un angolo della vasca vedi una figura."
-                + "É un po' strana: sembra trasparente. Appena ti avvicini noti che riesci a vederci attraverso: si tratta di un fantasma!!!! (Ah, ovviamente a ovest c'è la porta da cui sei entrato.)");
+        Room bathroom1 = new Room(29, "Bagno", "É un normale bagno. Water, bidet, lavandino e vasca. Niente di particolare. A ovest c'è la porta da cui sei entrato.");
         Room yard = new Room(30, "Cortile", "Al suo interno vedi alberi, cespugli, fiori e siepi.");
         yard.setLook("Guardando meglio, la prima cosa che ti balza all’occhio è un enorme cilindro che sembra alto circa 3 metri al cui interno c’è una chiave esposta. Ti rendi conto anche che una parte del cortile"
                 + " è coperta da un balcone che sembra essere l’affaccio di qualche stanza del primo piano.");
-
+        
         //secondo piano
         Room stairs_2 = new Room(31, "Scale", "Salendo ti ritrovi un’ampia stanza da cui, ben presto, capisci che si tratta di un corridoio che circonda l’intero palazzo.\n"
                 + "(Ovviamente ci sono le scale che scendono al piano inferiore)");
@@ -191,10 +193,10 @@ public class AdventureCastleGame extends GameDescription {
                 + " una sedia, è quella su cui è legata Stecy. Mister X, invece, è appoggiato a quella che sembra una scrivania.");
         Room balconyAnteroom = new Room(57, "Balcone anticamera", "Affacciandoti dal balcone riesci a vdere l'intero cortile e il balcone difronte. li però la finestra sembra chiusa."
                 + "A sud trovi l'ingresso alla stanza.");
-        Room edge = new Room(58, "Precipizio", "É stato bello conoscerti. Mentre cadi vedi trascorrere tutta la tua vita. ogni tanto colpisci qualche pietra. Mi dispiace, sei morto");
+        Room edge = new Room(58, "Precipizio", "É stato bello conoscerti. Mentre cadi vedi trascorrere tutta la tua vita. Ogni tanto colpisci qualche pietra. Mi dispiace, sei morto");
         Room balconyMainRoom = new Room(59, "Balcone camera padronale", "Affacciandoti dal balcone riesci a vdere l'intero cortile e il balcone difronte. Li però la finestra sembra aperta."
                 + "A nord trovi l'ingresso alla stanza.");
-
+        
         //map
         stairs.setNorth(hall2);
         stairs.setComeUp(stairs_2);
@@ -266,7 +268,7 @@ public class AdventureCastleGame extends GameDescription {
         yard.setWest(hall8);
         yard.setEast(hall17);
         roomOfDebris.setSouth(hall14);
-
+        
         stairs_2.setNorth(hall2_2);
         stairs_2.setGoDown(stairs);
         hall2_2.setNorth(hall20_2);
@@ -325,7 +327,7 @@ public class AdventureCastleGame extends GameDescription {
         balconyMainRoom.setNorth(mainRoom_1);
         tower.setNorth(hall5_2);
         exit.setNorth(entryway);
-
+        
         getRooms().add(kitchen);
         getRooms().add(livingroom);
         getRooms().add(hall2);
@@ -356,7 +358,7 @@ public class AdventureCastleGame extends GameDescription {
         getRooms().add(stairs);
         getRooms().add(closet);
         getRooms().add(roomOfDebris);
-
+        
         getRooms().add(hall2_2);
         getRooms().add(hall3_2);
         getRooms().add(hall4_2);
@@ -385,7 +387,7 @@ public class AdventureCastleGame extends GameDescription {
         getRooms().add(balconyMainRoom);
         getRooms().add(edge);
         getRooms().add(exit);
-
+        
         //obejcts primo piano
         // ingresso
         ObjectAdv doorExit = new ObjectAdv(64, "Portone", "Sembrerebbe la porta di ingresso, chissà se si può aprire");
@@ -394,8 +396,8 @@ public class AdventureCastleGame extends GameDescription {
         doorExit.setAlias(new String[]{"porta", "uscita"});
         entryway.getObjects().add(doorExit);
         exit.getObjects().add(doorExit);
-
-        // ripostiglio 
+        
+        // ripostiglio
         ObjectAdvContainer armoire = new ObjectAdvContainer(6, "Armadio", "uno scaffale dove al suo interno sembra ci sono chiodi, martello, corda, nastro, carburante, secchio, palanghino");
         armoire.setPickupable(false);
         armoire.setOpenable(true);
@@ -424,7 +426,7 @@ public class AdventureCastleGame extends GameDescription {
         armoire.add(nails);
         armoire.add(bucket);
         armoire.add(crowbar);
-
+        
         // sala da pranzo
         // TODO: se avanza il tempo: il cibo all'interno dei piatti è avvelenato e il personaggio perde una vita se lo mangia.
         ObjectAdv dish = new ObjectAdv(15, "piatto", "Un piatto con ancora del cibo al loro interno, chissà se è buono");
@@ -454,7 +456,7 @@ public class AdventureCastleGame extends GameDescription {
         butler.add(key1);*/
         //TODO: creare una classe persona sottoclasse di oggetti. tra gli attributi c'è vita che indica la vita del personaggio. se la vita arriva a zero la persona muore.
         // il giocatore per recuperare la vita deve mangiare o bere qualcosa.
-
+        
         //oggetti biblioteca
         ObjectAdv card = new ObjectAdv(22, "bigliettino", ""); //TODO: da inserire la descrizione del foglietto
         card.setAlias(new String[]{"foglio", "lettera"});
@@ -476,7 +478,7 @@ public class AdventureCastleGame extends GameDescription {
         ObjectAdv key2 = new ObjectAdv(36, "chiave", "una chiave utile per aprire una serratura, chissà quale");
         key2.setAlias(new String[]{"chiave"});
         secretbox.add(key2);
-
+        
         //ogetti soggiorno
         //TODO: codificare il fatto di svuotare il secchio sul fuoco
         ObjectAdvContainer chimney = new ObjectAdvContainer(28, "Camino", "Un bel caminetto con del fuoco accesso, se hai con te delle salsicce puoi fare un ottimo spuntino.");
@@ -493,11 +495,12 @@ public class AdventureCastleGame extends GameDescription {
         key3.setAlias(new String[]{"3"});
         chimney.add(key3);
         
-        //oggetti cucina 
+        //oggetti cucina
+        
         //TODO: inserire degli oggetti nella cucina che permettano di recuperare la vita
         //TODO: se avanza tempo mettere altri oggetti che può prendere.
         //TODO: rivedere la gestione della porta tra cucina e dispensa
-
+        
         //oggetti dispensa
         ObjectAdv doorlarder = new ObjectAdv(25, "porta dispensa", "una porta che collega a qualche stanza, chissa se si può aprire");
         doorlarder.setOpenable(true);
@@ -523,7 +526,7 @@ public class AdventureCastleGame extends GameDescription {
         winebottle.add(key4);
         //TODO: per simulare che il tizio è ubriaco dopo aver bevuto il vino, si tolgono alcuni punti vita.
         //TODO: se avanza tempo gestire un thread che faccia recuperare la vita dopo che si è ubricacato.
-
+        
         //oggetti stanza crollata
         ObjectAdv doorDebris = new ObjectAdv(26, "portaservitu", "Una porta... Chissa se puo essere aperta??!!!");
         doorDebris.setOpenable(true);
@@ -532,7 +535,7 @@ public class AdventureCastleGame extends GameDescription {
         roomOfDebris.getObjects().add(doorDebris);
         hall14.getObjects().add(doorDebris);
         //TODO: gestire l'accesso alla stanza con la chiave.
-
+        
         //ogetti armeria
         ObjectAdv rifle = new ObjectAdv(39, "fucile", "un ottima arma per incutere timore a chi hai di fronte, inutile se mancano le munizioni");
         rifle.setAlias(new String[]{"carabina"});
@@ -557,7 +560,7 @@ public class AdventureCastleGame extends GameDescription {
         //TODO: inserire l'azione che unisce gli oggetti e modificare la descrizione del rampino
         armory.getObjects().add(GrapplingHook);
         //TODO: cambiare le vite dei nemici
-
+        
         // oggetti bagno
         ObjectAdv ghost = new ObjectAdv(46, "fantasma", "un anima in pena che sembra sia molto affezzionata a questa stanza, chissa cosa c'è che richiama la sua attenzione");
         ghost.setAlias(new String[]{"spettro"});
@@ -566,7 +569,7 @@ public class AdventureCastleGame extends GameDescription {
         ObjectAdv key6 = new ObjectAdv(47, "chiave", "una chiave utile per aprire una serratura, chissà quale");
         key6.setAlias(new String[]{"chiave"});
         bathroom1.getObjects().add(key6);
-
+        
         //scale che portano al secondo piano
         ObjectAdv gate = new ObjectAdv(48, "cancello", "Questo cancello ti blocca la strada, trova la chiave che lo apre o trova un altro modo per oltrepassarlo");
         gate.setOpenable(true);
@@ -574,15 +577,15 @@ public class AdventureCastleGame extends GameDescription {
         gate.setAlias(new String[]{"inferiata"});
         stairs.getObjects().add(gate);
         hall2.getObjects().add(gate);
-       
-
+        
+        
         //TODO: le chiavi devono essere distinte in qualche maniera altrimenti una volta messe nell'inventario daranno problemi.
         //corridioio secondo piano
         ObjectAdv ares = new ObjectAdv(49, "scultura", "un scultura molto bella che raffigura ares il dio della guerra, Ares");
         ares.setAlias(new String[]{"statua"});
         ares.setPushable(true);
         hall5_2.getObjects().add(ares);
-
+        
         //studio secondo piano
         ObjectAdv mail2 = new ObjectAdv(50, "lettera", "Caro james, se stai leggendo questa lettera vuole dire che sono fuggito, mi avevano quasi preso quei maledetti cosacchi,"
                 + " menumale che mio nonno fece costruire un passaggio segreto per fuggire dal castello dove sgattaiolava da sua moglie per andare a trovare le sue giovani amiche del bordello,"
@@ -593,12 +596,12 @@ public class AdventureCastleGame extends GameDescription {
         ObjectAdv square = new ObjectAdv(51, "quadro", "il quadro raffigura la statua di ares il dio della guerra con un braccio abbassato");
         square.setAlias(new String[]{"dipinto"});
         studio.getObjects().add(square);
-
+        
         //bagno secondo piano
         ObjectAdv square2 = new ObjectAdv(52, "quadro", "il quadro raffigura una persona che si arrampica sul balcone dal cortile del castello, usando un rampino, un tizio molto abile");
         square2.setAlias(new String[]{"dipinto"});
         bathroom_2.getObjects().add(square2);
-
+        
         // oggetti camera padronaria
         ObjectAdv sword1 = new ObjectAdv(53, "Spada", "Arma da combattimento ravvicinato");
         sword1.setAlias(new String[]{"lama", "fioretto", "scimitarra"});
@@ -624,23 +627,24 @@ public class AdventureCastleGame extends GameDescription {
         chest.setOpenable(true);
         chest.setAlias(new String[]{"Cassapanca", "forziere"});
         mainRoom_1.getObjects().add(chest);
-
-        //oggetti torre 
+        
+        //oggetti torre
         AdvPerson misterX = new AdvPerson(53, "MisterX", "si presenta con una benda all'occhio, un barbone non curata e un fare minaccioso, il classico tipo losco da non farti mai nemico", 10);
         misterX.setAlias(new String[]{"boss", "cattivo"});
         tower.getObjects().add(misterX);
         AdvPerson stecy = new AdvPerson(54, "Stecy", "una bella ragazza con dei lineamenti del viso armoniosi e proporzionati con occhi grandi e luminosi, la classica ragazza acqua e sapone", 3);
         stecy.setAlias(new String[]{"ragazza"});
         tower.getObjects().add(stecy);
-
+        
         //set starting room
-        setCurrentRoom(closet);
+        setCurrentRoom(hall18_2);
     }
-
+    
     @Override
     public void nextMove(ParserOutput p) {
         
         Controller controller = new Controller();
+        
         if (p.getCommand() == null) {
             Engine2.appendToScreenEngine("Non ho capito cosa devo fare! Prova con un altro comando.");
         } else {
@@ -648,85 +652,29 @@ public class AdventureCastleGame extends GameDescription {
             boolean noroom = false;
             boolean move = false;
             if (p.getCommand().getType() == CommandType.NORD) {
-                if (getCurrentRoom().getNorth() != null) {
-                    if (controller.doorController(getCurrentRoom(), getCurrentRoom().getNorth())) {
-                        getCurrentRoom().changePearsonStatus(false);
-                        setCurrentRoom(getCurrentRoom().getNorth());
-                        move = true;
-                    } else {
-                        Engine2.appendToScreenEngine("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
-                    }
-                } else {
-                    noroom = true;
-                }
+                setCurrentRoom(getCurrentRoom().changeRoom("North", getCurrentRoom()));
+                identifyObject(getCurrentRoom());
             } else if (p.getCommand().getType() == CommandType.SOUTH) {
-                if (getCurrentRoom().getSouth() != null) {
-                    if (controller.doorController(getCurrentRoom(), getCurrentRoom().getSouth())) {
-                        getCurrentRoom().changePearsonStatus(false);
-                        setCurrentRoom(getCurrentRoom().getSouth());
-                        move = true;
-                    } else {
-                        Engine2.appendToScreenEngine("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
-                    }
-                } else {
-                    noroom = true;
-                }
+                setCurrentRoom(getCurrentRoom().changeRoom("South", getCurrentRoom()));
+                identifyObject(getCurrentRoom());
             } else if (p.getCommand().getType() == CommandType.EAST) {
-                if (getCurrentRoom().getEast() != null) {
-                    if (controller.doorController(getCurrentRoom(), getCurrentRoom().getEast())) {
-                        getCurrentRoom().changePearsonStatus(false);
-                        setCurrentRoom(getCurrentRoom().getEast());
-                        move = true;
-                    } else {
-                        Engine2.appendToScreenEngine("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
-                    }
-                } else {
-                    noroom = true;
-                }
+                setCurrentRoom(getCurrentRoom().changeRoom("East", getCurrentRoom()));
+                identifyObject(getCurrentRoom());
             } else if (p.getCommand().getType() == CommandType.WEST) {
-                if (getCurrentRoom().getWest() != null) {
-                    if (controller.doorController(getCurrentRoom(), getCurrentRoom().getWest())) {
-                        getCurrentRoom().changePearsonStatus(false);
-                        setCurrentRoom(getCurrentRoom().getWest());
-                        move = true;
-                    } else {
-                        Engine2.appendToScreenEngine("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
-                    }
-                } else { //TODO: rivedere le porte chiuse
-                    noroom = true;
-                }
+                setCurrentRoom(getCurrentRoom().changeRoom("West", getCurrentRoom()));
+                identifyObject(getCurrentRoom());
             } else if (p.getCommand().getType() == CommandType.COME_UP) {
-                if (getCurrentRoom().getComeUp() != null) {
-                    if (controller.doorController(getCurrentRoom(), getCurrentRoom().getComeUp())) {
-                        getCurrentRoom().changePearsonStatus(false);
-                        setCurrentRoom(getCurrentRoom().getComeUp());
-                        Engine2.appendToScreenEngine("Sei salito al primo piano.\n");
-                        move = true;
-                    } else {
-                        Engine2.appendToScreenEngine("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
-                    }
-                } else {
-                    noroom = true;
-                }
+                setCurrentRoom(getCurrentRoom().changeRoom("comeUp", getCurrentRoom()));
+                identifyObject(getCurrentRoom());
             } else if (p.getCommand().getType() == CommandType.GO_DOWN) {
-                if (getCurrentRoom().getGoDown() != null) {
-                    if (controller.doorController(getCurrentRoom(), getCurrentRoom().getGoDown())) {
-                        getCurrentRoom().changePearsonStatus(false);
-                        setCurrentRoom(getCurrentRoom().getGoDown());
-                        Engine2.appendToScreenEngine("Sei sceso al piano terra.\n");
-                        move = true;
-                    } else {
-                        Engine2.appendToScreenEngine("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
-                    }
-                } else {
-                    noroom = true;
-                }
+                setCurrentRoom(getCurrentRoom().changeRoom("goDown", getCurrentRoom()));
+                identifyObject(getCurrentRoom());
             } else if (p.getCommand().getType() == CommandType.INVENTORY) {
                 if(!getInventory().isEmpty()){
                     Engine2.appendToScreenEngine("Nel tuo inventario ci sono:");
-                for (ObjectAdv o : getInventory()) {
-                    Engine2.appendToScreenEngine(o.getName() + ": " + o.getDescription());
-                }
+                    for (ObjectAdv o : getInventory()) {
+                        Engine2.appendToScreenEngine(o.getName() + ": " + o.getDescription());
+                    }
                 }else{
                     Engine2.appendToScreenEngine("Non ha alcun oggetto nel tuo inventario");
                 }
@@ -736,7 +684,7 @@ public class AdventureCastleGame extends GameDescription {
                     if(p.getObject() instanceof ObjectAdvContainer){
                         ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
                         c.showObjectContained();
-                    }     
+                    }
                 } else if (getCurrentRoom().getLook() != null || getCurrentRoom().getObjects().isEmpty() == false) {
                     if (getCurrentRoom().getLook() != null) {
                         Engine2.appendToScreenEngine(getCurrentRoom().getLook());
@@ -766,7 +714,7 @@ public class AdventureCastleGame extends GameDescription {
                 /*TODO: ATTENZIONE: quando un oggetto contenitore viene aperto, tutti gli oggetti contenuti
                 * vengongo inseriti nella stanza o nell'inventario a seconda di dove si trova l'oggetto contenitore.
                 * Potrebbe non esssere la soluzione ottimale.
-                 */
+                */
                 if (p.getObject() == null && p.getInvObject() == null) {
                     Engine2.appendToScreenEngine("Non c'è niente da aprire qui.");
                 } else {
@@ -792,7 +740,7 @@ public class AdventureCastleGame extends GameDescription {
                             if (p.getInvObject() instanceof ObjectAdvContainer) {
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
                                 getCurrentRoom().getObjects().addAll(c.getList());
-                                c.showObjectContained();   
+                                c.showObjectContained();
                             }
                             Engine2.appendToScreenEngine("Hai aperto nel tuo inventario: " + p.getInvObject().getName());
                         } else {
@@ -907,7 +855,7 @@ public class AdventureCastleGame extends GameDescription {
                                 Engine2.appendToScreenEngine(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
                             }
                         } else {
-                           Engine2.appendToScreenEngine(controller.consequenceOfHit(p.getObject(), null, getCurrentRoom(), getInventory()));
+                            Engine2.appendToScreenEngine(controller.consequenceOfHit(p.getObject(), null, getCurrentRoom(), getInventory()));
                         }
                     } else {
                         Engine2.appendToScreenEngine("Non sei riuscito a colpire " + p.getObject().getName());
@@ -928,7 +876,7 @@ public class AdventureCastleGame extends GameDescription {
                                 getCurrentRoom().getObjects().addAll(c.getList());
                                 c.showObjectContained();
                             } else {
-                                 Engine2.appendToScreenEngine("Hai bevuto: " + p.getObject().getName());
+                                Engine2.appendToScreenEngine("Hai bevuto: " + p.getObject().getName());
                             }//TODO: quali sono le conseguenza dell'essere ubriaco?
                         } else {
                             Engine2.appendToScreenEngine("Non puoi bere il contenuto di questo oggetto.");
@@ -988,21 +936,53 @@ public class AdventureCastleGame extends GameDescription {
                 }
             } else if (p.getCommand().getType() == CommandType.PLAY) {
                 Engine2.appendToScreenEngine(" \n benvenuto nel gioco");
-            }
-            if (noroom) {
-                Engine2.appendToScreenEngine("Da quella parte non si può andare c'è un muro!\nNon hai ancora acquisito i poteri per oltrepassare i muri...");
-            } else if (move) {
-                Engine2.appendToScreenEngine(getCurrentRoom().getName());
-                Engine2.appendToScreenEngine("================================================");
-                Engine2.appendToScreenEngine(getCurrentRoom().getDescription());
-                getCurrentRoom().changePearsonStatus(true);
-                getCurrentRoom().startInitiativePearsons();
+            }  else if (p.getCommand().getType() == CommandType.END) {
+                end();
             }
         }
     }
-
+    
+    /*private void identifyObject(Room room){
+        /*int id = 0;
+        
+        //if (room instanceof Room){
+            id = ((Room) room).getId();
+        }else if (room instanceof ObjectAdv){
+            id = ((ObjectAdv) room).getId();
+        }
+        
+        if(room.getId() == 58){ //è l'ID del precipizio
+            end();
+        }
+    }*/
+    
+    private <T> void identifyObject(T objectToIdentify){
+        int id = 0;
+        
+        if (objectToIdentify instanceof Room){
+            id = ((Room) objectToIdentify).getId();
+        }else if (objectToIdentify instanceof ObjectAdv){
+            id = ((ObjectAdv) objectToIdentify).getId();
+        }
+        
+        if(id == 58){ //è l'ID del precipizio
+            end();
+        }
+    }
+    //TODO: Se si riesce a trovare un metodo migliore ben venga
     private void end() {
-        Engine2.appendToScreenEngine("Premi il pulsante del giocattolo e in seguito ad una forte esplosione la tua casa prende fuoco...\ntu e tuoi famigliari cercate invano di salvarvi e venite avvolti dalle fiamme...\nè stata una morte CALOROSA...addio!");
-        System.exit(0);
+        (new Thread(this)).start();
+    }
+
+    @Override
+    public void run() {
+        try {
+            Engine2.appendToScreenEngine("Addioooo...!");
+            Thread.sleep(5000);
+            System.exit(0);
+        } catch (InterruptedException e) {
+            // Gestisci eventuali eccezioni dovute all'interruzione del sonno
+           Logger.getLogger(AdvPerson.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 }
