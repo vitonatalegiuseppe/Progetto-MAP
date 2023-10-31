@@ -86,7 +86,6 @@ public class Engine2 {
                 camera da letto figlia
                 camera da letto figlio
                 bagno 2
-                vuoto: la morte
                 camera padronale
                 balcone camera padronale
                 balcone anticamera
@@ -112,4 +111,5 @@ public class Engine2 {
                         Ingresso
                         scale
                         ripostiglio
-                        sala da pranzo*/
+                        sala da pranzo
+                        vuoto: la morte*/

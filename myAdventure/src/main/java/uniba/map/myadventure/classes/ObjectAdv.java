@@ -23,14 +23,14 @@ public class ObjectAdv {
     private String description;
     
     private Set<String> alias;
+    
+    private boolean pickupable = true;
 
     private boolean openable = false;
 
-    private boolean pickupable = true;
-
-    private boolean pushable = false;
-
     private boolean open = false;
+    
+    private boolean pushable = false;
 
     private boolean push = false;
     
