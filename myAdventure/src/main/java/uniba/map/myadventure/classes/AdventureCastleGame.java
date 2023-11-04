@@ -79,7 +79,6 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         Room stairs = new Room(1, "Scale", "É una stanza completamente spoglia: non ci sono arredi di alcun tipo. L'unica cosa che contiene sono le scale che portano al piano superiore.");
         Room hall2 = new Room(2, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A ovest e a nord il corridoio prosegue. A sud trovi un cancello; mentre a est una porta aperta.");
         Room hall3 = new Room(3, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e a ovest il corridoio prosegue.");
-        // TODO: Ricordarsi di inserire questa descrizione quando entra la prima volta nel primo corridoio: Aprendo porta ti trovi sotto a un porticato che percorre tutto il perimetro del cortile. Da dove ti trovi riesci a vedere che dal sotto il porticato si trovano diversi ingressi a varie stanze.
         Room hall4 = new Room(4, "Corridoio", "Sei nel corridoio. Di per se non c'e' niente di particolare. Riesci a vedere il giardino. A nord, infatti, trovi la sua entrata, mentre a sud hai la porta per"
                 + " andare nell'ingresso. A est e ovest il corridoio prosegue.");
         Room hall5 = new Room(5, "Corridoio", "Sei nel corridoio. Riesci a vedere il cortile. A est e a ovest il corridoio prosegue.");
@@ -427,7 +426,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         nails.setAlias(new String[]{"puntine", "viti"});
         armoire.add(nails);
         
-        ObjectAdv bucket = new ObjectAdv(12, "Secchio vuoto", "un secchio pieno d'acqua");
+        ObjectAdvContainer bucket = new ObjectAdvContainer(12, "Secchio vuoto", "un secchio pieno d'acqua");
         bucket.setOpenable(true);
         bucket.setOpen(true);
         bucket.setFillable(true);
@@ -444,13 +443,16 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         dish.setAlias(new String[]{"stoviglia", "porcellana"});
         dish.setFragile(true);
         diningroom.getObjects().add(dish);
+        
         ObjectAdv silverware = new ObjectAdv(16, "posata", "Utili per afferrare cosa c'è nel piatto");
         silverware.setAlias(new String[]{"argenteria"});
         diningroom.getObjects().add(silverware);
+        
         ObjectAdv glass = new ObjectAdv(17, "bicchiere", "Utili per bere qualsiasi fluido ");
         glass.setAlias(new String[]{"calice", "tazza"});
         glass.setFragile(true);
         diningroom.getObjects().add(glass);
+        
         ObjectAdv candle = new ObjectAdv(19, "candela", "Ottime per illuminare e scaldare un ambiente");
         candle.setAlias(new String[]{"lumino"});
         candle.setFragile(true);
@@ -474,18 +476,22 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         //TODO: inserire gli indovinelli che ti conducono alla chiave
         library.getObjects().add(card);
         //TODO: se c'è tempo ampliare i libri dello scaffale e aggiungere nome del libro
+        
         ObjectAdvContainer bookcase = new ObjectAdvContainer(23, "scaffale", "nome libro");
         bookcase.setPickupable(false);
         bookcase.setAlias(new String[]{"libreria",});
         library.getObjects().add(bookcase);
+        
         ObjectAdv book1 = new ObjectAdv(24, "libro", "questo libro sembra essere piu pulito rispetto a gli altri");
         book1.setPickupable(true);
         book1.setAlias(new String[]{"testo"});
         bookcase.add(book1);
+        
         ObjectAdvContainer secretbox = new ObjectAdvContainer(31, "scompartimento", "al suo interno c'è una chiave insieme ad un odore di qualcosa andato a male,"
                 + " sembra che qualcuno ci abbia lasciato il pranzo");
         secretbox.setAlias(new String[]{"ripostiglio", "nascondiglio"});
         library.getObjects().add(secretbox);
+        
         ObjectAdv key2 = new ObjectAdv(36, "chiave", "una chiave utile per aprire una serratura, chissà quale");
         key2.setAlias(new String[]{"chiave"});
         secretbox.add(key2);
@@ -495,25 +501,30 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         ObjectAdvContainer chimney = new ObjectAdvContainer(28, "Camino", "Un bel caminetto con del fuoco accesso, se hai con te delle salsicce puoi fare un ottimo spuntino.");
         chimney.setAlias(new String[]{"stufa", "caminetto"});
         livingroom.getObjects().add(chimney);
+        
         ObjectAdv flame = new ObjectAdv(70, "Fuoco", "Senti un forte calore che provengono dalle fiamme alte e luninose presenti nel camino.");
         flame.setAlias(new String[]{"fiamme"});
         flame.setPickupable(false);
+        
         ObjectAdv mail = new ObjectAdv(29, "Bigliettino", "Uno dei fogli sembra essere diversa dalle altre. Osservandola "
                 + "noti la sua firma: MIster X. Lo prendi e leggi meglio quello che c'è scritto:"
                 + "Se vuoi rivedere la tua amica, devi venirmi a trovare al piano superiore. Ti do una mano: qualcosa che potrebbe aiutarti"
                 + "è all'interno del camino... TI aspetto!!!");
         mail.setAlias(new String[]{"busta", "foglio"});
         livingroom.getObjects().add(mail);
+        
         ObjectAdv key3 = new ObjectAdv(30, "chiave", "una chiave utile per aprire una serratura, chissà quale");
         key3.setAlias(new String[]{"3"});
         chimney.add(key3);
         
         //oggetti cucina
-        ObjectAdv kitchenTap = new ObjectAdv(71, "Rubinetto", "Nelle cunice è normale trovare questo oggetto: spesso utilizzato per "
+        ObjectAdvContainer kitchenTap = new ObjectAdvContainer(71, "Rubinetto", "Nelle cunice è normale trovare questo oggetto: spesso utilizzato per "
                 + "far uscire dell'acqua utile a lavare altri oggetti, a cuocere pietanze e a dissetari.");
         kitchenTap.setOpenable(true);
+        kitchenTap.setAlias(new String[] {"Miscelatore"});
         kitchen.getObjects().add(kitchenTap);
-        ObjectAdv pot = new ObjectAdv(71, "Pentola vuota", "Nelle cunice è normale trovare questo oggetto: spesso utilizzato per "
+        
+        ObjectAdvContainer pot = new ObjectAdvContainer(74, "Pentola vuota", "Nelle cunice è normale trovare questo oggetto: spesso utilizzato per "
                 + "cuocere pietanze. in genere viene riempito di liquidi e messo a scaldare sul fuoco.");
         pot.setAlias(new String[]{"pentola", "tegame"});
         pot.setOpenable(true);
@@ -521,6 +532,10 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         pot.setFillable(true);
         kitchen.getObjects().add(pot);
         
+        ObjectAdv water = new ObjectAdv(72, "Acqua", "Composto chimico di formula H2O, assai diffuso in natura nei suoi tre stati d’aggregazione: solido, liquido e aeriforme.");
+        water.setPickupable(false);
+        water.setAlias(new String[] {"h2o"});
+        kitchenTap.add(water);
         
         //TODO: inserire degli oggetti nella cucina che permettano di recuperare la vita
         //TODO: se avanza tempo mettere altri oggetti che può prendere.
@@ -533,19 +548,23 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         doorlarder.setAlias(new String[]{"porta"});
         larder.getObjects().add(doorlarder);
         kitchen.getObjects().add(doorlarder);
+        
         ObjectAdv foodstocks = new ObjectAdv(33, "scorte", "qui c'è del cibo per sfamare l'africa");
         foodstocks.setAlias(new String[]{"viveri", "dispensa"});
         larder.getObjects().add(foodstocks);
+        
         ObjectAdv winecellar = new ObjectAdv(34, "cantina", "una preziosa scorta di vini profumati ed inebrianti ottimi per le migliori feste da palazzo");
         winecellar.setAlias(new String[]{"deposito", "scantinato"});
         winecellar.setPickupable(false);
         larder.getObjects().add(winecellar);
+       
         ObjectAdvContainer winebottle = new ObjectAdvContainer(35, "bottiglia", "Una normale bottiglia al cui interno sembra esserci una chiave");
         winebottle.setOpenable(true);
         winebottle.setFragile(true);
         winebottle.setFilled(true);
         winebottle.setAlias(new String[]{"vino"});
         larder.getObjects().add(winebottle);
+        
         ObjectAdv key4 = new ObjectAdv(35, "chiave", "una chiave utile per aprire una serratura, chissà quale");
         key4.setAlias(new String[]{"chiave"});
         winebottle.add(key4);
@@ -565,25 +584,31 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         ObjectAdv rifle = new ObjectAdv(39, "fucile", "un ottima arma per incutere timore a chi hai di fronte, inutile se mancano le munizioni");
         rifle.setAlias(new String[]{"carabina"});
         armory.getObjects().add(rifle);
+        
         ObjectAdv glock17 = new ObjectAdv(40, "pistola", "un arma abbastanza pratica per eliminare i tuoi nemici, ma a senza munizione puoi usarla come martello");
         glock17.setAlias(new String[]{"revolver"});
         armory.getObjects().add(glock17);
+        
         ObjectAdv spear = new ObjectAdv(41, "lancia", "un arma usata nell'era glaciale per abbattere i mammut, ottima per il suo periodo storico");
         spear.setAlias(new String[]{"giavellotto"});
         armory.getObjects().add(spear);
+        
         ObjectAdv sword = new ObjectAdv(42, "spada", "ottima nelle grandi battaglie, questa sembra sia salda al muro");
         sword.setAlias(new String[]{"lama"});
         armory.getObjects().add(sword);
+        
         ObjectAdv key5 = new ObjectAdv(43, "chiave", "una chiave utile per aprire una serratura, chissà quale");
         key5.setAlias(new String[]{"chiave"});
         armory.getObjects().add(key5);
+        
         AdvPerson guardian = new AdvPerson(44, "Guardiano", "Lui è Robert il guardiano di questo castello, a lui non sfugge nulla, neanche quando dorme", 7);
         guardian.setAlias(new String[]{"custode", "sorvegliante"});
         guardian.setPickupable(false);
         armory.getObjects().add(guardian);
-        ObjectAdv GrapplingHook = new ObjectAdv(45, "rampino", "un oggetto che se lanciato si aggrappa ovunque, ma inutile senza una corda");
+        
+        ObjectAdv grapplingHook = new ObjectAdv(45, "rampino", "un oggetto che se lanciato si aggrappa ovunque, ma inutile senza una corda");
         //TODO: inserire l'azione che unisce gli oggetti e modificare la descrizione del rampino
-        armory.getObjects().add(GrapplingHook);
+        armory.getObjects().add(grapplingHook);
         //TODO: cambiare le vite dei nemici
         
         // oggetti bagno
@@ -591,10 +616,13 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         ObjectAdv key6 = new ObjectAdv(47, "chiave", "una chiave utile per aprire una serratura, chissà quale");
         key6.setAlias(new String[]{"chiave"});
         bathroom1.getObjects().add(key6);
-        ObjectAdv bathroomTap = new ObjectAdv(72, "Rubinetto", "Nei basgni è normale trovare questo oggetto: spesso utilizzato per "
+        
+        ObjectAdvContainer bathroomTap = new ObjectAdvContainer(73, "Rubinetto", "Nei basgni è normale trovare questo oggetto: spesso utilizzato per "
                 + "far uscire dell'acqua, utile a lavare i denti e le mani.");
         bathroomTap.setOpenable(true);
+        bathroomTap.setAlias(new String[] {"Miscelatore"});
         bathroom1.getObjects().add(bathroomTap);
+        bathroomTap.add(water);
         
         //scale che portano al secondo piano
         ObjectAdv gate = new ObjectAdv(48, "cancello", "Questo cancello ti blocca la strada, trova la chiave che lo apre o trova un altro modo per oltrepassarlo");
@@ -619,6 +647,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                 + "ti aspetto fuori dalle mura del castello, mi raccomando james non dimenticarti le bottiglie!");
         mail2.setAlias(new String[]{"biglietto"});
         studio.getObjects().add(mail2);
+        
         ObjectAdv square = new ObjectAdv(51, "quadro", "il quadro raffigura la statua di ares il dio della guerra con un braccio abbassato");
         square.setAlias(new String[]{"dipinto"});
         studio.getObjects().add(square);
@@ -632,22 +661,27 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         ObjectAdv sword1 = new ObjectAdv(53, "Spada", "Arma da combattimento ravvicinato");
         sword1.setAlias(new String[]{"lama", "fioretto", "scimitarra"});
         mainRoom_2.getObjects().add(sword1);
+        
         ObjectAdv sword2 = new ObjectAdv(55, "Spada", "Arma da combattimento ravvicinato");
         sword2.setAlias(new String[]{"lama", "fioretto", "scimitarra"});
         mainRoom_2.getObjects().add(sword2);
+        
         ObjectAdv doorWardrobe = new ObjectAdv(57, "Porta cabina armadio", "Una porta... Chissa se puo essere aperta??!!!");
         doorWardrobe.setPickupable(false);
         doorWardrobe.setAlias(new String[]{"porta"});
         mainRoom_1.getObjects().add(doorWardrobe);
+        
         ObjectAdv window = new ObjectAdv(58, "Finestrone", "Un enorme Finestrone che affaccia sul balcone. Chissa se puo essere aperta??!!!");
         window.setPickupable(false);
         window.setAlias(new String[]{"finestra", "lucernario"});
         mainRoom_1.getObjects().add(window);
         balconyMainRoom.getObjects().add(window);
+        
         AdvPerson henchman = new AdvPerson(44, "Scagnozzo", "un uomo che sembra stia dormendo... Non far rumore altrimenti lo svegli.", 7);
         henchman.setAlias(new String[]{"lacche", "tirapiedi"});
         henchman.setPushable(true);
         mainRoom_1.getObjects().add(henchman);
+        
         ObjectAdv chest = new ObjectAdv(59, "Baule", "Un baule della stessa larghezza del letto. sembra chiuso... Vuoi sapere cosa contiene, razza di ficcanaso?!!!");
         chest.setPickupable(false);
         chest.setOpenable(true);
@@ -658,42 +692,48 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         AdvPerson misterX = new AdvPerson(53, "MisterX", "si presenta con una benda all'occhio, un barbone non curata e un fare minaccioso, il classico tipo losco da non farti mai nemico", 10);
         misterX.setAlias(new String[]{"boss", "cattivo"});
         tower.getObjects().add(misterX);
+        
         AdvPerson stecy = new AdvPerson(54, "Stecy", "una bella ragazza con dei lineamenti del viso armoniosi e proporzionati con occhi grandi e luminosi, la classica ragazza acqua e sapone", 3);
         stecy.setAlias(new String[]{"ragazza"});
         tower.getObjects().add(stecy);
         
         //set starting room
         setCurrentRoom(kitchen);
+        
+        //TODO: prova
+        //Engine2.appendToScreenEngine(getRooms().get(getRooms().indexOf(hall2)).getName());
+        
     }
     
     @Override
     public void nextMove(ParserOutput p) {
         
         Controller controller = new Controller();
+        boolean opened = false;
+        boolean filledContainer = false;
         
         if (p.getCommand() == null) {
             Engine2.appendToScreenEngine("Non ho capito cosa devo fare! Prova con un altro comando.");
         } else {
             //move
-            boolean opened = false;
             if (p.getCommand().getType() == CommandType.NORD) {
                 setCurrentRoom(getCurrentRoom().changeRoom("North", getCurrentRoom()));
-                identifyObject(getCurrentRoom());
+                identifyObject(getCurrentRoom(), null, null);
             } else if (p.getCommand().getType() == CommandType.SOUTH) {
                 setCurrentRoom(getCurrentRoom().changeRoom("South", getCurrentRoom()));
-                identifyObject(getCurrentRoom());
+                identifyObject(getCurrentRoom(), null, null);
             } else if (p.getCommand().getType() == CommandType.EAST) {
                 setCurrentRoom(getCurrentRoom().changeRoom("East", getCurrentRoom()));
-                identifyObject(getCurrentRoom());
+                identifyObject(getCurrentRoom(), null, null);
             } else if (p.getCommand().getType() == CommandType.WEST) {
                 setCurrentRoom(getCurrentRoom().changeRoom("West", getCurrentRoom()));
-                identifyObject(getCurrentRoom());
+                identifyObject(getCurrentRoom(), null, null);
             } else if (p.getCommand().getType() == CommandType.COME_UP) {
                 setCurrentRoom(getCurrentRoom().changeRoom("comeUp", getCurrentRoom()));
-                identifyObject(getCurrentRoom());
+                identifyObject(getCurrentRoom(), null, null);
             } else if (p.getCommand().getType() == CommandType.GO_DOWN) {
                 setCurrentRoom(getCurrentRoom().changeRoom("goDown", getCurrentRoom()));
-                identifyObject(getCurrentRoom());
+                identifyObject(getCurrentRoom(), null, null);
             } else if (p.getCommand().getType() == CommandType.INVENTORY) {
                 if(!getInventory().isEmpty()){
                     Engine2.appendToScreenEngine("Nel tuo inventario ci sono:");
@@ -752,7 +792,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                             getCurrentRoom().getObjects().addAll(c.getList());
                             c.showObjectContained();
                         }
-                        identifyObject(p.getObject());
+                        identifyObject(null, p.getObject(), null);
                     }
                 }else if (p.getInvObject() != null) {
                     if (p.getInvObject().isOpenable() && p.getInvObject().isOpen() == false) {
@@ -764,7 +804,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                             getCurrentRoom().getObjects().addAll(c.getList());
                             c.showObjectContained();
                         }
-                        identifyObject(p.getObject());
+                        identifyObject(null, p.getInvObject(), null);
                     }
                 }
                 if(!opened){
@@ -942,7 +982,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                         }
                     }
                 }
-            }  else if (p.getCommand().getType() == CommandType.EMPTY) {
+            } else if (p.getCommand().getType() == CommandType.EMPTY) {
                 if (p.getObject() == null && p.getInvObject() == null) {
                     Engine2.appendToScreenEngine("Non c'è niente da svuotare qui.");
                 } else {
@@ -977,41 +1017,67 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                         }
                     }
                 }
+            }  else if (p.getCommand().getType() == CommandType.FILL) {
+                //TODO: se avanza tempo aggiungere degli attributi sulla dimesione dell'oggetto e controllare se un oggetto può essere riempito o no
+                //TODO: attributi fill e fillable devono essere di objectContainer e non di ObjectAdv
+                if (p.getObject() != null && p.getInvObject() != null) {
+                    if (p.getInvObject() instanceof ObjectAdvContainer) {
+                        ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
+                        c.add(p.getObject());
+                        filledContainer = true;
+                        identifyObject(null, c, p.getObject());
+                    }
+                }
+                if (!filledContainer){
+                    Engine2.appendToScreenEngine("Non c'è nessun oggetto nell'inventario da riempire");
+                }
             } else if (p.getCommand().getType() == CommandType.PLAY) {
                 Engine2.appendToScreenEngine(" \n benvenuto nel gioco");
-            }  else if (p.getCommand().getType() == CommandType.END) {
+            } else if (p.getCommand().getType() == CommandType.END) {
                 end();
             }
         }
     }
     
-    /*private void identifyObject(Room room){
-    /*int id = 0;
-    
-    //if (room instanceof Room){
-    id = ((Room) room).getId();
-    }else if (room instanceof ObjectAdv){
-    id = ((ObjectAdv) room).getId();
-    }
-    
-    if(room.getId() == 58){ //è l'ID del precipizio
-    end();
-    }
-    }*/
-    
-    private <T> void identifyObject(T objectToIdentify){
-        int id = 0;
+    private void identifyObject(Room room, ObjectAdv object1, ObjectAdv object2){
+        Integer idRoom = null;
+        Integer idObject1 = null;
+        Integer idObject2 = null;
         
-        if (objectToIdentify instanceof Room){
-            id = ((Room) objectToIdentify).getId();
-        }else if (objectToIdentify instanceof ObjectAdv){
-            id = ((ObjectAdv) objectToIdentify).getId();
-        }
-        
-        switch(id){
-            case 58: end(); break; //è l'ID del precipizio
-            case 70: Engine2.appendToScreenEngine("Sta scorrendo dell'acqua. Sprecone!!! L'acqua è un bene prezioso."); break;
-            case 71: Engine2.appendToScreenEngine("Sta scorrendo dell'acqua. Sprecone!!! L'acqua è un bene prezioso."); break;
+        if(room != null && object1 != null && object2 != null){
+            idRoom = room.getId();
+            idObject2 = object2.getId();
+            idObject1 = object1.getId();
+        }else if(room != null && object1 != null){
+            idRoom = room.getId();
+            idObject1 = object1.getId();
+        }else if(room != null){
+            idRoom = room.getId();
+            switch(idRoom){
+                case 58: end(); break; //è l'ID del precipizio
+                case 4: Engine2.appendToScreenEngine("Aprendo la porta ti trovi sotto a un porticato che percorre tutto il perimetro del cortile. "
+                        + "Da dove ti trovi riesci a vedere che da sotto il porticato si trovano diversi ingressi a varie stanze."); break;
+            }
+        }else if(object1 != null && object2 != null){
+             idObject1 = object1.getId();
+             idObject2 = object2.getId();
+           
+            74 pot
+                    12 bucket
+                            72 water
+            if ((idObject1 == 74 || idObject1 == 12) && idObject2 == 72){ //combinazione penstola e acqua
+                
+            }
+            switch (idObject1) {
+                case 71: Engine2.appendToScreenEngine("Hai riempito " + object1.getName() + " con " + object2.getName()); break;
+                case 73: Engine2.appendToScreenEngine("Hai riempito " + object1.getName() + " con " + object2.getName()); break;
+            }
+        }else if(object1 != null){
+            idObject1 = object1.getId();
+            switch(idObject1){
+                case 71: Engine2.appendToScreenEngine("Sta scorrendo dell'acqua. Sprecone!!! L'acqua è un bene prezioso."); break;
+                case 73: Engine2.appendToScreenEngine("Sta scorrendo dell'acqua. Sprecone!!! L'acqua è un bene prezioso."); break;
+            }
         }
     }
     

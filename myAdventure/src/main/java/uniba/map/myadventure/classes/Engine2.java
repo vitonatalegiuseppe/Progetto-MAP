@@ -71,29 +71,33 @@ public class Engine2 {
     }
     
     /*TODO: creazione database e salvataggio di partita corrente solo per salvaggio in caso di morte
-            completare il main: la schermata di interfaccia che permette di interagire senza dover passare dalla console
-            thread sullo scorrere del tempo
+            migliorare il main
             lambda expression da utilizzare da qualche parte
             completare il next move:
-                biblioteca
-                cortile: aggiungere oltre ad apri cilindro il movimento arrampicata
-                cucina             
-                soggiorno
-                stanza servitù (crollata): aggiungere descrizione a diario
-                armeria: differenza con sala da pranzo tizio che dorme/aggiungere comando unisci oggetti se più di uno altrimenti oggetto rampino è già intero
-                bagno
-                anticamere: se avanza tempo fare il comando unisci altrimenti le lenzuola si trovano già annodate.
+                biblioteca: una volta entrati, si devono risolvere degli indovinelli: la risposta di ogni indovinello è il titolo di un libro. 
+                            l'dea è che legge 'indovinello, trova il libro, legge il secondo indovinello, trovadeve il secondo libro e così via.
+                            Quando arriva all'ultimo libro si apre lo scompartimento in cui è inserita la chiave. 
+                cortile: descrivere meglio la descrizione del cortile. non ci sono azioni da compiere.
+                x cucina             
+                x soggiorno
+                stanza crollata: aggiungere oggetto chiave
+                armeria: gestire l'utilizzo delle varie armi 
+                anticamere: se avanza tempo fare il comando unisci altrimenti le lenzuola si trovano già annodate e gestire l'arrampicata dul balcone.
                 camera da letto figlia
                 camera da letto figlio
-                bagno 2
-                camera padronale
-                balcone camera padronale
-                balcone anticamera
-                studio
-                torre
-            fare il comando "usa" per rampino, lenzuola ecc
-            Modificare mappe in maniera da aggiungere il precipizio
-            qualcosa per le restful o socket
+                bagno 2: se avanza tempo mettere fantasma
+                camera padronale: gestire gli oggetti nella stanza (spada e forse altro - vedi file descrizione stanze)
+                balcone camera padronale: se avana tempo gestire l'arrampicata
+                balcone anticamera: se avana tempo gestire l'arrampicata
+                studio: vedere se stanno gli oggetti necessari
+                torre: gestire dialoghi, , combattimento e fine gioco
+                corridoio al secondo piano: gestire l'apertura della porta segreta con il movimento della statua
+            se avanza tempo fare il comando "usa" per rampino, lenzuola ecc
+            se avanza tempo Modificare mappe in maniera da renderle più precise
+            qualcosa per le restful o socket: un'idea è quella di trovare un servizio che ci generi nomi di libri, da aggiungere
+                                              nella bibblioteca, giusto per avere più libri
+            modificare lo scroll in maniera che faccia sempre vedere l'ultima riga
+            gestire l'aperture delle porte chiuse con le chiavi e le varie porte chiuse tra le stanze
             Documentazione:
                 breve descrizione generale del caso di studio
                 un diagramma delle classi con una descrizione; il diagramma delle classi deve riportare una parte significativa del codice sviluppato
@@ -104,7 +108,7 @@ public class Engine2 {
             gestione descrizioni tramite file
             finale storia
             comando "help"
-            bottone mappa
+            se avanza tempo gestire unico bottone mappa che visualizza la mappa del piano in cui ci si trova
             suddivisione progetto in più package*/
 }
 /*TODO: Stanze fatte:   Dispensa
@@ -112,4 +116,5 @@ public class Engine2 {
                         scale
                         ripostiglio
                         sala da pranzo
-                        vuoto: la morte*/
+                        vuoto: la morte
+                        bagno*/
