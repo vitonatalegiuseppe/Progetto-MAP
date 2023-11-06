@@ -5,7 +5,7 @@
 package uniba.map.myadventure.classes;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+//import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -47,21 +47,5 @@ public class ObjectAdvContainer extends ObjectAdv {
 
     public void remove(ObjectAdv o) {
         list.remove(o);
-    }
-
-    public List<ObjectAdv> showObjectContained() {
-        Iterator<ObjectAdv> it = this.getList().iterator();
-        if (!this.getList().isEmpty()) {
-            Engine2.appendToScreenEngine(this.getName() + " ha i seguenti oggetti: ");
-            while (it.hasNext()) {
-                ObjectAdv next = it.next();
-                if (next.isVisible()){
-                    Engine2.appendToScreenEngine(next.getName() + ", ");
-                }
-                it.remove();
-            }
-            Engine2.appendToScreenEngine("\n");
-        }
-        return null;
     }
 }
