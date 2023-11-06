@@ -23,14 +23,14 @@ public class ObjectAdv {
     private String description;
     
     private Set<String> alias;
+    
+    private boolean pickupable = true;
 
     private boolean openable = false;
 
-    private boolean pickupable = true;
-
-    private boolean pushable = false;
-
     private boolean open = false;
+    
+    private boolean pushable = false;
 
     private boolean push = false;
     
@@ -39,6 +39,8 @@ public class ObjectAdv {
     private boolean filled = false;
     
     private boolean fragile = false;
+    
+    private boolean visible = true;
     
     public ObjectAdv(int id) {
         this.id = id;
@@ -156,6 +158,14 @@ public class ObjectAdv {
 
     public void setFragile(boolean fragile) {
         this.fragile = fragile;
+    }
+    
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
     
     @Override
