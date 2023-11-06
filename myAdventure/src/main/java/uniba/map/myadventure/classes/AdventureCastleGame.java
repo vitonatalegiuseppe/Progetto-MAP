@@ -713,7 +713,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         tower.getObjects().add(stecy);
         
         //set starting room
-        setCurrentRoom(livingroom);
+        setCurrentRoom(closet);
         
         //TODO: prova
         //Engine2.appendToScreenEngine(getRooms().get(getRooms().indexOf(hall2)).getName());
@@ -765,7 +765,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                     if(p.getObject() instanceof ObjectAdvContainer){
                         if (p.getObject().isOpen()){
                             ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
-                            c.showObjectContained();
+                            showObjects(c.getList(), c.getName()); 
                         }
                     }
                 } else if (p.getInvObject() != null) {
@@ -774,7 +774,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                     if(p.getInvObject() instanceof ObjectAdvContainer){
                         if (p.getInvObject().isOpen()){
                             ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
-                            c.showObjectContained();
+                            showObjects(c.getList(), c.getName());
                         }
                     }  
                 }else if (getCurrentRoom().getLook() != null || getCurrentRoom().getObjects().isEmpty() == false) {
@@ -783,10 +783,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                     }
                     if (!getCurrentRoom().getObjects().isEmpty()) {
                         Engine2.appendToScreenEngine("Nella stanza vedi le seguenti cose: ");
-                        for (ObjectAdv o : getCurrentRoom().getObjects()) {
-                            if (o.isVisible())
-                                Engine2.appendToScreenEngine(o.getName());
-                        }
+                        showObjects(getCurrentRoom().getObjects(), getCurrentRoom().getName()); 
                     }
                 } else {
                     Engine2.appendToScreenEngine("Non c'è nulla di rillevante qui.");
@@ -818,7 +815,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                         if (p.getObject() instanceof ObjectAdvContainer) {
                             ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
                             getCurrentRoom().getObjects().addAll(c.getList());
-                            c.showObjectContained();
+                            showObjects(c.getList(), c.getName());
                         }
                         identifyObject(null, p.getObject(), null);
                     }
@@ -830,7 +827,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                         if (p.getInvObject() instanceof ObjectAdvContainer) {
                             ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
                             getCurrentRoom().getObjects().addAll(c.getList());
-                            c.showObjectContained();
+                            showObjects(c.getList(), c.getName());
                         }
                         identifyObject(null, p.getInvObject(), null);
                     }
@@ -879,7 +876,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                                 if (person.getLife() == 0) {
                                     Engine2.appendToScreenEngine("Hai sconfitto " + person.getName() + ".");
                                     getCurrentRoom().getObjects().addAll(person.getList());
-                                    person.showObjectContained();
+                                    showObjects(person.getList(), person.getName());
                                     getCurrentRoom().getObjects().remove(person); //remove the person that is dead
                                 } else {
                                     Engine2.appendToScreenEngine(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
@@ -889,7 +886,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                                     Engine2.appendToScreenEngine("L'oggetto " + p.getObject().getName() + " si è distrutto a seguito dello schianto.");
                                     if (p.getObject() instanceof ObjectAdvContainer) {
                                         ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
-                                        c.showObjectContained();
+                                        showObjects(c.getList(), c.getName());
                                     }
                                 } else {
                                     Engine2.appendToScreenEngine("L'oggetto " + p.getObject().getName() + " non si è distrutto a seguito dello schianto.");
@@ -902,7 +899,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                             Engine2.appendToScreenEngine("L'oggetto " + p.getInvObject().getName() + " si è distrutto a seguito dello schianto.");
                             if (p.getInvObject() instanceof ObjectAdvContainer) {
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
-                                c.showObjectContained();
+                                showObjects(c.getList(), c.getName());
                             }
                         } else {
                             Engine2.appendToScreenEngine("L'oggetto " + p.getInvObject().getName() + " non si è distrutto a seguito dello schianto.");
@@ -917,7 +914,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                         Engine2.appendToScreenEngine("L'oggetto " + p.getInvObject().getName() + " si è distrutto a seguito dello schianto.");
                         if (p.getInvObject() instanceof ObjectAdvContainer) {
                             ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
-                            c.showObjectContained();
+                            showObjects(c.getList(), c.getName());
                         }
                     } else {
                         Engine2.appendToScreenEngine("L'oggetto " + p.getInvObject().getName() + " non si è distrutto a seguito dello schianto.");
@@ -936,7 +933,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                                 if (person.getLife() == 0) {
                                     Engine2.appendToScreenEngine("Hai sconfitto " + person.getName() + ".");
                                     getCurrentRoom().getObjects().addAll(person.getList());
-                                    person.showObjectContained();
+                                    showObjects(person.getList(), person.getName());
                                     getCurrentRoom().getObjects().remove(person); //remove the person that is dead
                                 } else {
                                     Engine2.appendToScreenEngine(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
@@ -961,7 +958,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                             if (person.getLife() == 0) {
                                 Engine2.appendToScreenEngine("Hai sconfitto " + person.getName() + ".");
                                 getCurrentRoom().getObjects().addAll(person.getList());
-                                person.showObjectContained();
+                                showObjects(person.getList(), person.getName());
                                 getCurrentRoom().getObjects().remove(person); //remove the person that is dead
                             } else {
                                 Engine2.appendToScreenEngine(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
@@ -1000,7 +997,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                                 Engine2.appendToScreenEngine("Hai bevuto: " + p.getObject().getName() + " liberando il contenuto.");
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
                                 getInventory().addAll(c.getList());
-                                c.showObjectContained();
+                                showObjects(c.getList(), c.getName());
                             } else {
                                 Engine2.appendToScreenEngine("Hai bevuto: " + p.getInvObject().getName());
                                 //TODO: se avanza tempo distinguere gli oggetti edibili da quelli non edibili
@@ -1021,7 +1018,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                                 Engine2.appendToScreenEngine("Hai svuotato: " + p.getObject().getName() + " liberando il contenuto.");
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
                                 getCurrentRoom().getObjects().addAll(c.getList());
-                                c.showObjectContained();
+                                showObjects(c.getList(), c.getName());
                             } else {
                                 Engine2.appendToScreenEngine("Hai svuotato: " + p.getObject().getName());
                             }
@@ -1036,7 +1033,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                                 Engine2.appendToScreenEngine("Hai svuotato: " + p.getObject().getName() + " liberando il contenuto.");
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
                                 getInventory().addAll(c.getList());
-                                c.showObjectContained();
+                                showObjects(c.getList(), c.getName());
                             } else {
                                 Engine2.appendToScreenEngine("Hai svuotato: " + p.getInvObject().getName());
                             }
@@ -1127,9 +1124,9 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
     }
     
     private void identifyObject(Room room, ObjectAdv object1, ObjectAdv object2){
-        Integer idRoom = null;
-        Integer idObject1 = null;
-        Integer idObject2 = null;
+        Integer idRoom;
+        Integer idObject1;
+        Integer idObject2;
         
         if(room != null && object1 != null && object2 != null){
             idRoom = room.getId();
@@ -1175,7 +1172,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                 case 35: 
                     ObjectAdvContainer c = (ObjectAdvContainer) object1;
                     getCurrentRoom().getObjects().addAll(c.getList());
-                    c.showObjectContained();
+                    c.showObjects();
                     break;*/
                 case 28:
                     for (ObjectAdv ob : getCurrentRoom().getObjects()) {
@@ -1218,10 +1215,14 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
             Logger.getLogger(AdvPerson.class.getName()).log(Level.SEVERE, null, e);
         }
     }
+    
+    private void showObjects(List<ObjectAdv> objectList, String name) {
+        if (objectList.isEmpty()) {
+            Engine2.appendToScreenEngine("Gli oggetti che vedi in " + name + " sono: \n");
+            objectList.stream()
+                    .filter(o -> o.isVisible() == true)
+                    .map(o -> o.getName())
+                    .forEach(o -> Engine2.appendToScreenEngine(o));
+        }
+    }
 }
-
-/*TODO: sostituire la stampa degli oggetti con una lambda expression tipo la seguente
-List<ObjectAdv> fireplaceList = fireplace.getList();
-                    fireplaceList.stream()
-                            .filter(o -> o.getId() == 76)
-                            .collect(.setVisible(true));*/
