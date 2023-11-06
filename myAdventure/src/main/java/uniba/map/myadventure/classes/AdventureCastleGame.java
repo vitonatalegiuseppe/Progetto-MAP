@@ -426,6 +426,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         nails.setAlias(new String[]{"puntine", "viti"});
         armoire.add(nails);
         
+        //TODO: capire se tenerlo
         ObjectAdvContainer bucket = new ObjectAdvContainer(12, "Secchio vuoto", "un secchio pieno d'acqua");
         bucket.setOpenable(true);
         bucket.setOpen(true);
@@ -498,10 +499,11 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         
         //ogetti soggiorno
         //TODO: codificare il fatto di svuotare il secchio sul fuoco
-        ObjectAdvContainer chimney = new ObjectAdvContainer(28, "Camino", "Un bel caminetto con del fuoco accesso, se hai con te delle salsicce puoi fare un ottimo spuntino.");
+        ObjectAdvContainer chimney = new ObjectAdvContainer(28, "Camino", "Un bel caminetto con del fuoco accesso, al cui lato noti un bottone. Se hai con te delle salsicce puoi fare un ottimo spuntino.");
         chimney.setAlias(new String[]{"stufa", "caminetto"});
         livingroom.getObjects().add(chimney);
         
+        //TODO: capire se tenerlo
         ObjectAdv flame = new ObjectAdv(70, "Fuoco", "Senti un forte calore che provengono dalle fiamme alte e luninose presenti nel camino.");
         flame.setAlias(new String[]{"fiamme"});
         flame.setPickupable(false);
@@ -517,13 +519,19 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         key3.setAlias(new String[]{"3"});
         chimney.add(key3);
         
+        ObjectAdv gasButton = new ObjectAdv(76, "Bottone del gas", "Sul bottone è scritto \"Gas ON/OF\". Probabilmente premendolo farà spegnere o accendere il camino.");
+        gasButton.setAlias(new String[]{"Bottone", "Interruttore", "manopola"});
+        gasButton.setPushable(true);
+        
         //oggetti cucina
+        //TODO: capire se tenerlo
         ObjectAdvContainer kitchenTap = new ObjectAdvContainer(71, "Rubinetto", "Nelle cunice è normale trovare questo oggetto: spesso utilizzato per "
                 + "far uscire dell'acqua utile a lavare altri oggetti, a cuocere pietanze e a dissetari.");
         kitchenTap.setOpenable(true);
         kitchenTap.setAlias(new String[] {"Miscelatore"});
         kitchen.getObjects().add(kitchenTap);
         
+        //TODO: capire se tenerlo
         ObjectAdvContainer pot = new ObjectAdvContainer(74, "Pentola vuota", "Nelle cunice è normale trovare questo oggetto: spesso utilizzato per "
                 + "cuocere pietanze. in genere viene riempito di liquidi e messo a scaldare sul fuoco.");
         pot.setAlias(new String[]{"pentola", "tegame"});
@@ -532,6 +540,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         pot.setFillable(true);
         kitchen.getObjects().add(pot);
         
+        //TODO: capire se tenerlo
         ObjectAdv water = new ObjectAdv(72, "Acqua", "Composto chimico di formula H2O, assai diffuso in natura nei suoi tre stati d’aggregazione: solido, liquido e aeriforme.");
         water.setPickupable(false);
         water.setAlias(new String[] {"h2o"});
@@ -617,6 +626,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         key6.setAlias(new String[]{"chiave"});
         bathroom1.getObjects().add(key6);
         
+        //TODO: capire se tenerlo
         ObjectAdvContainer bathroomTap = new ObjectAdvContainer(73, "Rubinetto", "Nei basgni è normale trovare questo oggetto: spesso utilizzato per "
                 + "far uscire dell'acqua, utile a lavare i denti e le mani.");
         bathroomTap.setOpenable(true);
@@ -750,7 +760,15 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                         ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
                         c.showObjectContained();
                     }
-                } else if (getCurrentRoom().getLook() != null || getCurrentRoom().getObjects().isEmpty() == false) {
+                    identifyObject(null, p.getObject(), null);
+                } else if (p.getInvObject() != null) {
+                    Engine2.appendToScreenEngine(p.getInvObject().getDescription());
+                    if(p.getInvObject() instanceof ObjectAdvContainer){
+                        ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
+                        c.showObjectContained();
+                    }
+                    identifyObject(null, p.getInvObject(), null);
+                }else if (getCurrentRoom().getLook() != null || getCurrentRoom().getObjects().isEmpty() == false) {
                     if (getCurrentRoom().getLook() != null) {
                         Engine2.appendToScreenEngine(getCurrentRoom().getLook());
                     }
@@ -956,8 +974,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                             if (p.getObject() instanceof ObjectAdvContainer) {
                                 Engine2.appendToScreenEngine("Hai bevuto: " + p.getObject().getName() + " liberando il contenuto.");
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
-                                getCurrentRoom().getObjects().addAll(c.getList());
-                                c.showObjectContained();
+                                identifyObject(null, c, null);
                             } else {
                                 Engine2.appendToScreenEngine("Hai bevuto: " + p.getObject().getName());
                             }//TODO: quali sono le conseguenza dell'essere ubriaco?
@@ -1020,17 +1037,76 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
             }  else if (p.getCommand().getType() == CommandType.FILL) {
                 //TODO: se avanza tempo aggiungere degli attributi sulla dimesione dell'oggetto e controllare se un oggetto può essere riempito o no
                 //TODO: attributi fill e fillable devono essere di objectContainer e non di ObjectAdv
+                /*if (p.getInvObject() != null) {
+                    if (p.getObject() != null) {
+                        if(p.getInvObject().isFillable() && p.getInvObject().getFilled() == false){
+                            if (p.getInvObject() instanceof ObjectAdvContainer) {
+                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
+                                 c.add(object2);
+                                 Engine2.appendToScreenEngine("Hai riempito " + object1.getName() + " con " + object2.getName());
+                                identifyObject(null, p.getInvObject(), p.getObject());
+                            } else{
+                                Engine2.appendToScreenEngine(p.getInvObject().getName() + " non può essere riempito perchè non è un contenitore.");
+                            }
+                        } else{
+                            Engine2.appendToScreenEngine(p.getInvObject().getName() + " non può essere riempito prchè già pieno");
+                        }
+                    } else {
+                        Engine2.appendToScreenEngine("Quello che deve essere inserito nel contenitore deve essere un oggetto"
+                                + " preciso e deve essere presente nella stanza (non nell'inventario).");
+                    }
+                } else if (p.getInvObject() != null) {
+                    if (p.getObject() != null) {
+                        if(p.getInvObject().isFillable() && p.getInvObject().getFilled() == false){
+                            if (p.getInvObject() instanceof ObjectAdvContainer) {
+                                identifyObject(null, p.getInvObject(), p.getObject());
+                            } else{
+                                Engine2.appendToScreenEngine(p.getInvObject().getName() + " non può essere riempito perchè non è un contenitore.");
+                            }
+                        } else{
+                            Engine2.appendToScreenEngine(p.getInvObject().getName() + " non può essere riempito prchè già pieno");
+                        }
+                    } else {
+                        Engine2.appendToScreenEngine("Quello che deve essere inserito nel contenitore deve essere un oggetto"
+                                + " preciso e deve essere presente nella stanza (non nell'inventario).");
+                    }
+                } else {
+                    Engine2.appendToScreenEngine("Un'oggetto per essere riempito deve essere nell'inventario.");
+                }
+                
                 if (p.getObject() != null && p.getInvObject() != null) {
-                    if (p.getInvObject() instanceof ObjectAdvContainer) {
-                        ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
-                        c.add(p.getObject());
-                        filledContainer = true;
-                        identifyObject(null, c, p.getObject());
+                    if(p.getInvObject() instanceof ObjectAdvContainer){
+                        if (p.getInvObject().isFillable()){
+                            if (p.getInvObject().getFilled() == false) {
+                                identifyObject(null, p.getInvObject(), p.getObject());
+                            } else{
+                                Engine2.appendToScreenEngine(p.getInvObject().getName() + " è già piebo. per poterlo utilizzare svuotalo..");
+                            }
+                        } else{
+                            Engine2.appendToScreenEngine(p.getInvObject().getName() + " non può essere riempito.");
+                        }
+                    } else if(p.getObject().isFillable() && p.getObject().getFilled() == false){
+                        if (p.getObject() instanceof ObjectAdvContainer) {
+                            identifyObject(null, p.getInvObject(), p.getObject());
+                        } else{
+                            Engine2.appendToScreenEngine(p.getObject().getName() + " non può essere riempito.");
+                        }
+                    }else{
+                        Engine2.appendToScreenEngine(p.getInvObject().getName() + " non può essere riempito.");
                     }
                 }
-                if (!filledContainer){
-                    Engine2.appendToScreenEngine("Non c'è nessun oggetto nell'inventario da riempire");
-                }
+                
+                if (p.getObject() != null && p.getInvObject() != null) {
+                    if(p.getObject().isFillable() && p.getObject().getFilled() == false){
+                        if (p.getObject() instanceof ObjectAdvContainer) {
+                            identifyObject(null, p.getInvObject(), p.getObject());
+                        } else{
+                            Engine2.appendToScreenEngine(p.getObject().getName() + " non può essere riempito.");
+                        }
+                    } else{
+                        Engine2.appendToScreenEngine(p.getInvObject().getName() + " non può essere riempito.");
+                    }
+                }*/
             } else if (p.getCommand().getType() == CommandType.PLAY) {
                 Engine2.appendToScreenEngine(" \n benvenuto nel gioco");
             } else if (p.getCommand().getType() == CommandType.END) {
@@ -1054,29 +1130,46 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         }else if(room != null){
             idRoom = room.getId();
             switch(idRoom){
-                case 58: end(); break; //è l'ID del precipizio
-                case 4: Engine2.appendToScreenEngine("Aprendo la porta ti trovi sotto a un porticato che percorre tutto il perimetro del cortile. "
-                        + "Da dove ti trovi riesci a vedere che da sotto il porticato si trovano diversi ingressi a varie stanze."); break;
+                case 58: //è l'ID del precipizio
+                    end(); 
+                    break; 
+                case 4: 
+                    Engine2.appendToScreenEngine("Aprendo la porta ti trovi sotto a un porticato che percorre tutto il perimetro del cortile. "
+                        + "Da dove ti trovi riesci a vedere che da sotto il porticato si trovano diversi ingressi a varie stanze."); 
+                    break;
             }
         }else if(object1 != null && object2 != null){
-             idObject1 = object1.getId();
-             idObject2 = object2.getId();
-           
-            74 pot
-                    12 bucket
-                            72 water
-            if ((idObject1 == 74 || idObject1 == 12) && idObject2 == 72){ //combinazione penstola e acqua
-                
-            }
+            idObject1 = object1.getId();
+            idObject2 = object2.getId();
+            
+            //TODO: capire se serve ancora
             switch (idObject1) {
-                case 71: Engine2.appendToScreenEngine("Hai riempito " + object1.getName() + " con " + object2.getName()); break;
-                case 73: Engine2.appendToScreenEngine("Hai riempito " + object1.getName() + " con " + object2.getName()); break;
+                case 71:
+                    Engine2.appendToScreenEngine("Hai riempito " + object1.getName() + " con " + object2.getName());
+                    break;
+                case 73:
+                    Engine2.appendToScreenEngine("Hai riempito " + object1.getName() + " con " + object2.getName());
+                    break;
             }
         }else if(object1 != null){
             idObject1 = object1.getId();
             switch(idObject1){
-                case 71: Engine2.appendToScreenEngine("Sta scorrendo dell'acqua. Sprecone!!! L'acqua è un bene prezioso."); break;
-                case 73: Engine2.appendToScreenEngine("Sta scorrendo dell'acqua. Sprecone!!! L'acqua è un bene prezioso."); break;
+                //TODO: capire se ervono ancora 
+                case 71: 
+                    Engine2.appendToScreenEngine("Sta scorrendo dell'acqua. Sprecone!!! L'acqua è un bene prezioso."); 
+                    break;
+                case 73: 
+                    Engine2.appendToScreenEngine("Sta scorrendo dell'acqua. Sprecone!!! L'acqua è un bene prezioso."); 
+                    break;
+                case 35: 
+                    ObjectAdvContainer c = (ObjectAdvContainer) object1;
+                    getCurrentRoom().getObjects().addAll(c.getList());
+                    c.showObjectContained();
+                    break;
+                case 28:
+                    //getCurrentRoom().getObjects().add();
+                    
+                    break;
             }
         }
     }

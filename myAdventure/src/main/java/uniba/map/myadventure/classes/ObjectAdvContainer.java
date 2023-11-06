@@ -55,7 +55,9 @@ public class ObjectAdvContainer extends ObjectAdv {
             Engine2.appendToScreenEngine(this.getName() + " ha i seguenti oggetti: ");
             while (it.hasNext()) {
                 ObjectAdv next = it.next();
-                Engine2.appendToScreenEngine(next.getName() + ", ");
+                if (next.isVisible()){
+                    Engine2.appendToScreenEngine(next.getName() + ", ");
+                }
                 it.remove();
             }
             Engine2.appendToScreenEngine("\n");

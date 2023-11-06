@@ -40,6 +40,8 @@ public class ObjectAdv {
     
     private boolean fragile = false;
     
+    private boolean visible = true;
+    
     public ObjectAdv(int id) {
         this.id = id;
     }
@@ -156,6 +158,14 @@ public class ObjectAdv {
 
     public void setFragile(boolean fragile) {
         this.fragile = fragile;
+    }
+    
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
     
     @Override
