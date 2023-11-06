@@ -5,6 +5,7 @@
 */
 package uniba.map.myadventure.classes;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -501,6 +502,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         //TODO: codificare il fatto di svuotare il secchio sul fuoco
         ObjectAdvContainer chimney = new ObjectAdvContainer(28, "Camino", "Un bel caminetto con del fuoco accesso, al cui lato noti un bottone. Se hai con te delle salsicce puoi fare un ottimo spuntino.");
         chimney.setAlias(new String[]{"stufa", "caminetto"});
+        chimney.setPickupable(false);
         livingroom.getObjects().add(chimney);
         
         //TODO: capire se tenerlo
@@ -522,6 +524,9 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         ObjectAdv gasButton = new ObjectAdv(76, "Bottone del gas", "Sul bottone è scritto \"Gas ON/OF\". Probabilmente premendolo farà spegnere o accendere il camino.");
         gasButton.setAlias(new String[]{"Bottone", "Interruttore", "manopola"});
         gasButton.setPushable(true);
+        gasButton.setVisible(false);
+        gasButton.setPickupable(false);
+        livingroom.getObjects().add(gasButton);
         
         //oggetti cucina
         //TODO: capire se tenerlo
@@ -708,7 +713,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         tower.getObjects().add(stecy);
         
         //set starting room
-        setCurrentRoom(kitchen);
+        setCurrentRoom(livingroom);
         
         //TODO: prova
         //Engine2.appendToScreenEngine(getRooms().get(getRooms().indexOf(hall2)).getName());
@@ -756,26 +761,31 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
             } else if (p.getCommand().getType() == CommandType.LOOK_AT) {
                 if (p.getObject() != null) {
                     Engine2.appendToScreenEngine(p.getObject().getDescription());
-                    if(p.getObject() instanceof ObjectAdvContainer){
-                        ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
-                        c.showObjectContained();
-                    }
                     identifyObject(null, p.getObject(), null);
+                    if(p.getObject() instanceof ObjectAdvContainer){
+                        if (p.getObject().isOpen()){
+                            ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
+                            c.showObjectContained();
+                        }
+                    }
                 } else if (p.getInvObject() != null) {
                     Engine2.appendToScreenEngine(p.getInvObject().getDescription());
-                    if(p.getInvObject() instanceof ObjectAdvContainer){
-                        ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
-                        c.showObjectContained();
-                    }
                     identifyObject(null, p.getInvObject(), null);
+                    if(p.getInvObject() instanceof ObjectAdvContainer){
+                        if (p.getInvObject().isOpen()){
+                            ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
+                            c.showObjectContained();
+                        }
+                    }  
                 }else if (getCurrentRoom().getLook() != null || getCurrentRoom().getObjects().isEmpty() == false) {
                     if (getCurrentRoom().getLook() != null) {
                         Engine2.appendToScreenEngine(getCurrentRoom().getLook());
                     }
                     if (!getCurrentRoom().getObjects().isEmpty()) {
                         Engine2.appendToScreenEngine("Nella stanza vedi le seguenti cose: ");
-                        for (ObjectAdv  o : getCurrentRoom().getObjects()) {
-                            Engine2.appendToScreenEngine(o.getName());
+                        for (ObjectAdv o : getCurrentRoom().getObjects()) {
+                            if (o.isVisible())
+                                Engine2.appendToScreenEngine(o.getName());
                         }
                     }
                 } else {
@@ -852,6 +862,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
             } else if (p.getCommand().getType() == CommandType.PUSH) {
                 if (p.getObject() != null && p.getObject().isPushable()) {
                     Engine2.appendToScreenEngine("Hai premuto: " + p.getObject().getName());
+                    identifyObject(null, p.getObject(), null);
                 } else if (p.getInvObject() != null && p.getInvObject().isPushable()) {
                     Engine2.appendToScreenEngine("Hai premuto: " + p.getInvObject().getName());
                 } else {
@@ -1154,7 +1165,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         }else if(object1 != null){
             idObject1 = object1.getId();
             switch(idObject1){
-                //TODO: capire se ervono ancora 
+                /*TODO: capire se ervono ancora 
                 case 71: 
                     Engine2.appendToScreenEngine("Sta scorrendo dell'acqua. Sprecone!!! L'acqua è un bene prezioso."); 
                     break;
@@ -1165,10 +1176,27 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                     ObjectAdvContainer c = (ObjectAdvContainer) object1;
                     getCurrentRoom().getObjects().addAll(c.getList());
                     c.showObjectContained();
-                    break;
+                    break;*/
                 case 28:
-                    //getCurrentRoom().getObjects().add();
-                    
+                    for (ObjectAdv ob : getCurrentRoom().getObjects()) {
+                        if(ob.getId() == 76)
+                            ob.setVisible(true);
+                    }
+                    break;
+                case 76:
+                    ObjectAdvContainer chimneyForButton = (ObjectAdvContainer) getCurrentRoom().getObjects().get(28);
+                    if (chimneyForButton.getName().equals("Camino Spento")){
+                        chimneyForButton.setName("Camino");
+                        chimneyForButton.setDescription("Un bel caminetto con del fuoco accesso, al cui lato noti un bottone. Se hai con te delle salsicce puoi fare un ottimo spuntino.");
+                        Engine2.appendToScreenEngine("Prenmendo il bottone, il camino si accende.");
+                    } else {
+                        chimneyForButton.setName("Camino spento");
+                        chimneyForButton.setDescription("Un bel caminetto, al cui lato noti un bottone. Se hai con te delle salsicce purtroppo non puoi fare un ottimo spuntino.");
+                        chimneyForButton.setOpen(true);
+                        getCurrentRoom().getObjects().add(chimneyForButton.getList().get(30));
+                        chimneyForButton.getList().remove(chimneyForButton.getList().get(30));
+                        Engine2.appendToScreenEngine("Prenmendo il bottone, il camino si spegne rivelando al suo interno tra la cenere una chiave.");
+                    }
                     break;
             }
         }
@@ -1191,3 +1219,9 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         }
     }
 }
+
+/*TODO: sostituire la stampa degli oggetti con una lambda expression tipo la seguente
+List<ObjectAdv> fireplaceList = fireplace.getList();
+                    fireplaceList.stream()
+                            .filter(o -> o.getId() == 76)
+                            .collect(.setVisible(true));*/
