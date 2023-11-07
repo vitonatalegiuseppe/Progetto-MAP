@@ -16,6 +16,10 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
     
     @Override
     public void init() throws Exception {
+        FileManagement fileHandler = new FileManagement("./resources/descriptionRoom.txt");
+        final int NUM_ROOM = 58;
+        String[] roomDescription = new String[NUM_ROOM];
+        
         //Commands
         Command nord = new Command(CommandType.NORD, "nord");
         nord.setAlias(new String[]{"n", "N", "Nord", "NORD", "nord"});
@@ -75,129 +79,87 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         play.setAlias(new String[]{"inizia"});
         getCommands().add(play);
         
-        //Rooms - ground floor
-        Room exit = new Room(0, "Esterno", "Sei fuori");
-        Room stairs = new Room(1, "Scale", "É una stanza completamente spoglia: non ci sono arredi di alcun tipo. L'unica cosa che contiene sono le scale che portano al piano superiore.");
-        Room hall2 = new Room(2, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A ovest e a nord il corridoio prosegue. A sud trovi un cancello; mentre a est una porta aperta.");
-        Room hall3 = new Room(3, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e a ovest il corridoio prosegue.");
-        Room hall4 = new Room(4, "Corridoio", "Sei nel corridoio. Di per se non c'e' niente di particolare. Riesci a vedere il giardino. A nord, infatti, trovi la sua entrata, mentre a sud hai la porta per"
-                + " andare nell'ingresso. A est e ovest il corridoio prosegue.");
-        Room hall5 = new Room(5, "Corridoio", "Sei nel corridoio. Riesci a vedere il cortile. A est e a ovest il corridoio prosegue.");
-        Room hall6 = new Room(6, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A nord, sud ed est il corridoio prosegue.");
-        Room hall7 = new Room(7, "Corridoio", "Sei nel corridoio. Riesci a vedere il cortile. A nord e a sud il corridoio prosegue. A ovest c'è l'ingresso di una stanza.");
-        Room hall8 = new Room(8, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A nord e a sud il corridoio prosegue. A est c'è l'ingresso per il giardino.");
-        Room hall9 = new Room(9, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A nord e a sud il corridoio prosegue.");
-        Room hall10 = new Room(10, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A nord e a sud il corridoio prosegue. A ovest vi è l'ingresso di una stanza.");
-        Room hall11 = new Room(11, "Corridoio", "Sei nel corridoio. Riesci a vedere il cortile. A sud e a est il corridoio prosegue.");
-        Room hall12 = new Room(12, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e a ovest il corridoio prosegue.");
-        Room hall13 = new Room(13, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A est e a ovest il corridoio prosegue. A nord come a sud c'è un ingresso.");
-        Room hall14 = new Room(14, "Corridoio", "Sei nel corridoio. Riesci a vedere il cortile. A est e a ovest il corridoio prosegue. A nord vi è l'ingresso di una stanza.");
-        Room hall15 = new Room(15, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. Noti che sulle pareti che ti circondano ci sono delle enormi crepe. A ovest e a sud "
-                + "il corridoio prosegue.");
-        Room hall16 = new Room(16, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. Noti che sulle pareti che ti circondano ci sono delle enormi crepe. A nord e sud il "
-                + "corridoio prosegue.");
-        Room hall17 = new Room(17, "Corridoio", "Sei nel corridoio. Riesci a vedere il giardino. A nord e a sud il corridoio prosegue. A est c'è lingresso di una stanza, mentre a ovest l'ingresso al cortile.");
-        Room hall18 = new Room(18, "Corridoio", "Sei nel corridoio. Riesci a vedere il cortile. A est e ovest il corridoio prosegue.");
-        Room hall19 = new Room(19, "Corridoio", "Sei nel corridoio. A nord il corridoio prosegue. A sud e ovest vedi una porta.");
-        Room entryway = new Room(20, "Ingresso", "Sei nell'ingresso. Guardandoti intorno non noti niente di particolare. È un ingresso come tanti: c’è un tappeto con sopra un tavolino,"
-                + "alle pareti ci sono dei quadri e il tipico lampadario dell’epoca. A nord c'è una porta mentre sulla parete sud c'è la porta dell'ingresso principale "
-                + "e ci sono un paio di finestre: entrambe però sono sbarrate. (Ti sarebbe piaciuto fuggire così in fretta?!!!).");
-        Room closet = new Room(21, "Ripostiglio", "Illuminando la stanza vedi che c'è uno scaffale sul lato, mentre infondo alla stanza vedi quello che sembra un generatore. Ovviamente a Nord trovi l'ingresso da cui sei entrato");
-        Room library = new Room(22, "Biblioteca", "Entrando ti trovi difronte un tavolo. Vi è un'unica grande libreria che segue le pareti dell'intera stanza. A est c'è la porta da cui sei entrato alla cui destra "
-                + "c’è un mobile con sopra un grande libro: “Registro dei libri”.");
+        //Rooms 
+        roomDescription = fileHandler.readString(NUM_ROOM);
+        
+        //Ground floor
+        Room exit = new Room(0, "Esterno", roomDescription[0]);
+        Room stairs = new Room(1, "Scale", roomDescription[1]);
+        Room hall2 = new Room(2, "Corridoio", roomDescription[2]);
+        
+        Room hall3 = new Room(3, "Corridoio", roomDescription[3]);
+        Room hall4 = new Room(4, "Corridoio", roomDescription[4]);
+        Room hall5 = new Room(5, "Corridoio", roomDescription[5]);
+        Room hall6 = new Room(6, "Corridoio", roomDescription[6]);
+        Room hall7 = new Room(7, "Corridoio", roomDescription[7]);
+        Room hall8 = new Room(8, "Corridoio", roomDescription[8]);
+        Room hall9 = new Room(9, "Corridoio", roomDescription[9]);
+        Room hall10 = new Room(10, "Corridoio", roomDescription[10]);
+        Room hall11 = new Room(11, "Corridoio", roomDescription[11]);
+        Room hall12 = new Room(12, "Corridoio", roomDescription[12]);
+        Room hall13 = new Room(13, "Corridoio", roomDescription[13]);
+        Room hall14 = new Room(14, "Corridoio", roomDescription[14]);
+        Room hall15 = new Room(15, "Corridoio", roomDescription[15]);
+        Room hall16 = new Room(16, "Corridoio", roomDescription[16]);
+        Room hall17 = new Room(17, "Corridoio", roomDescription[17]);
+        Room hall18 = new Room(18, "Corridoio", roomDescription[18]);
+        Room hall19 = new Room(19, "Corridoio", roomDescription[19]);
+        Room entryway = new Room(20, "Ingresso", roomDescription[20]);
+        Room closet = new Room(21, "Ripostiglio", roomDescription[21]);
+        Room library = new Room(22, "Biblioteca", roomDescription[22]);
         library.setLook("L'intera libreria è divisa in 5 scaffali. Non tutti gli scaffali sono pieni e sembra che manchi qualche libro. Noti, infatti, che ci sono degli spazi vuoti. Infine, noti che sul tavolo c'è un"
                 + " bigliettino con su scritto qualcosa.");
-        Room livingroom = new Room(23, "Soggiorno", "Entrando ti trovi davanti un grande camino acceso ai cui lati ci sono due poltrone. Intravedi anche una scrivania. \n"
-                + "(Ah, ovviamente a est c'è la porta da cui sei entrato)");
+        Room livingroom = new Room(23, "Soggiorno", roomDescription[23]);
         livingroom.setLook("Osservando meglio sulla scrivania si intravedono dei fogli. Mentre appese alla kappa del camino noti delle fiaccole spente.");
-        Room diningroom = new Room(24, "Sala da pranzo", "Sei in un enorme sala da pranzo. C’è un tavolo tutto imbandito con tutto il necessario. Ad un angolo del tavolo noti un uomo, "
-                + "forse il maggiordomo della villa. A nord intravedi un ingresso verso un'altra stanza: forse la cucina. "
-                + "(Ah, ovviamente a est c'è la porta da cui sei entrato)");
-        Room kitchen = new Room(25, "Cucina", "Niente di particolare. Una cucina come tante: credenze, forno, frigorifero e "
-                + "cassetti ci sono tutti. Sulla parete sud è presente un ingresso probabilmente verso la sala da pranzo, mentre "
-                + "sulla parete est c'è una porta che forse conduce alla dispensa.");
-        Room larder = new Room(26, "Dispensa", "La dispensa sembra ben rifornita. Oltre a sacchi di farina e vari salumi e formaggi puoi notare una piccola cantina di vini. A ovest \n"
-                + "dell'ingresso vi è una porta che conduce in un'altra stanza, mentre a sud vi è la porta che conduce al corridoio.");
+        Room diningroom = new Room(24, "Sala da pranzo", roomDescription[24]);
+        Room kitchen = new Room(25, "Cucina", roomDescription[25]);
+        Room larder = new Room(26, "Dispensa", roomDescription[26]);
         larder.setLook("Guardandoti in giro il tuo sguardo viene attirato dalla piccola cantina di vini. In particolare, noti una bottiglia \n"
                 + "di vino al cui interno brilla qualcosa.");
-        Room roomOfDebris = new Room(27, "Stanza crollata", "Praticamente è un cumulo di macerie. Non c’è niente se non pietre e qualche foglio/pezzo di carta.");
-        Room armory = new Room(28, "Armeria", "Delle candele accese ti permettono di vedere. Oltre ad un’immensa collezione di fucili, pistole e lance puoi notare anche una serie di oggetti che non sono propriamente armi: caschi, armature, rampini,"
-                + " scarpe, occorrenti per giardinaggio, ecc. Inoltre, vedi anche delle panche. Alle tue spalle, sulla parete nord c'è l'ingresso da cui sei entrato. Ma ad attirare la tua attenzione"
-                + "è l'echeggiare di rumore.");
+        Room roomOfDebris = new Room(27, "Stanza crollata", roomDescription[27]);
+        Room armory = new Room(28, "Armeria", roomDescription[28]);
         armory.setLook("Una panca, in particolare, attira la tua attenzione: su di essa c’è un uomo che dorme. Appena lo focalizzi ti balza all’occhio la chiave che gli pende dal collo.");
-        Room bathroom1 = new Room(29, "Bagno", "É un normale bagno. Water, bidet, lavandino e vasca. Niente di particolare. A ovest c'è la porta da cui sei entrato.");
-        Room yard = new Room(30, "Cortile", "Al suo interno vedi alberi, cespugli, fiori e siepi.");
+        Room bathroom1 = new Room(29, "Bagno", roomDescription[29]);
+        Room yard = new Room(30, "Cortile", roomDescription[30]);
         yard.setLook("Guardando meglio, la prima cosa che ti balza all’occhio è un enorme cilindro che sembra alto circa 3 metri al cui interno c’è una chiave esposta. Ti rendi conto anche che una parte del cortile"
                 + " è coperta da un balcone che sembra essere l’affaccio di qualche stanza del primo piano.");
         
         //secondo piano
-        Room stairs_2 = new Room(31, "Scale", "Salendo ti ritrovi un’ampia stanza da cui, ben presto, capisci che si tratta di un corridoio che circonda l’intero palazzo.\n"
-                + "(Ovviamente ci sono le scale che scendono al piano inferiore)");
+        Room stairs_2 = new Room(31, "Scale", roomDescription[31]);
         stairs_2.setLook("C'è ben poco arredamento: un tappeto posizionato al centro della stanza sembra percorrere l’intero corridoio, ci sono delle sculture.");
-        Room hall2_2 = new Room(32, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri. C'è anche una finestra."
-                + " A ovest e a nord il corridoio prosegue. A sud vai verso le scale.");
-        Room hall3_2 = new Room(33, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
-                + " A ovest e a est il corridoio prosegue. A sud vai verso le scale.");
-        Room hall4_2 = new Room(34, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri. C'è anche una finestra."
-                + " A ovest e a est il corridoio prosegue. A nord vi è l'ingresso di una stanza.");
-        Room hall5_2 = new Room(35, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso. A sud, dove dovrebbe esserci l'ingresso per la torre c’è una scultura. "
-                + " A ovest e a est il corridoio prosegue.");
+        Room hall2_2 = new Room(32, "Corridoio", roomDescription[32]);
+        Room hall3_2 = new Room(33, "Corridoio", roomDescription[33]);
+        Room hall4_2 = new Room(34, "Corridoio", roomDescription[34]);
+        Room hall5_2 = new Room(35, "Corridoio", roomDescription[35]);
         hall5_2.setLook("La scultura raffigura un dio Ares, il dio greco della guerra, in una posa particolare: è in piedi con il braccio sinistro che regge uno scudo, mentre il"
                 + " braccio desto mantiene una spada sollevata.");
-        Room hall6_2 = new Room(36, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
-                + " A nord e a est il corridoio prosegue. ");
-        Room hall7_2 = new Room(37, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
-                + " A nord e a sud il corridoio prosegue. ");
-        Room hall8_2 = new Room(38, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri. C'è anche una finesta s, rigorosamente sbarrata."
-                + " A nord e a sud il corridoio prosegue. ");
-        Room hall9_2 = new Room(39, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
-                + " A nord e a sud il corridoio prosegue. A est entri in una stanza");
-        Room hall10_2 = new Room(40, "Corridoio", "Sei nel corridoio. L'ambiente è pressochè lo stesso: ci sono delle sculture e dei quadri."
-                + " A nord e a sud il corridoio prosegue.");
-        Room hall11_2 = new Room(41, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
-                + " A nord e a sud il corridoio prosegue. A est c'è una porta chiusa");
-        Room hall12_2 = new Room(42, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
-                + " A sud e a est il corridoio prosegue.");
-        Room hall13_2 = new Room(43, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
-                + " A ovest e a est il corridoio prosegue.");
-        Room hall14_2 = new Room(44, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
-                + " A ovest il corridoio prosegue. A sud c'è lingresso ad una stanza. A est vedi il nulla: il cielo risplende. Difronte a te c'è "
-                + "un precipizio. Probabilmente questa parte della casa è crollata un po' di tempo fa. ");
-        Room hall18_2 = new Room(45, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
-                + " A sud il corridoio prosegue. A nord vedi il nulla: il cielo risplende. Difronte a te c'è un precipizio. Probabilmente questa "
-                + "parte della casa è crollata un po' di tempo fa.");
-        Room hall19_2 = new Room(46, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
-                + " A nord e a sud il corridoio prosegue. A ovest c'è l'ingresso di una stanza. ");
-        Room hall20_2 = new Room(48, "Corridoio", "Sei nel corridoio. L'ambiente rimane pressochè lo stesso: ci sono delle sculture e dei quadri."
-                + " A nord e a sud il corridoio prosegue.");
-        Room anteroom = new Room(49, "Anticamera", "La prima cosa che ti colpisce entrando è l’enorme finestrone aperto che affaccia sul cortile. "
-                + "Ad entrambi i lati della stanza ci sono delle porte, una chiusa e l’altra aperta. Al centro ci sono dei divani posti intorno ad un tavolino da caffè su cui ci sono delle riviste di abiti da sposa. ");
-        Room bedroomBoy = new Room(50, "Camera da letto del figlio", "Sei nella camera da letto di un bambino.\n Non ci sono altri ingressi a parte quello cui sei entrato, c'è un armadio, un letto, un comodino e una scrivania.");
+        Room hall6_2 = new Room(36, "Corridoio", roomDescription[36]);
+        Room hall7_2 = new Room(37, "Corridoio", roomDescription[37]);
+        Room hall8_2 = new Room(38, "Corridoio", roomDescription[38]);
+        Room hall9_2 = new Room(39, "Corridoio", roomDescription[39]);
+        Room hall10_2 = new Room(40, "Corridoio", roomDescription[40]);
+        Room hall11_2 = new Room(41, "Corridoio", roomDescription[41]);
+        Room hall12_2 = new Room(42, "Corridoio", roomDescription[42]);
+        Room hall13_2 = new Room(43, "Corridoio", roomDescription[43]);
+        Room hall14_2 = new Room(44, "Corridoio", roomDescription[44]);
+        Room hall18_2 = new Room(45, "Corridoio", roomDescription[45]);
+        Room hall19_2 = new Room(46, "Corridoio", roomDescription[46]);
+        Room hall20_2 = new Room(47, "Corridoio", roomDescription[47]);
+        Room anteroom = new Room(48, "Anticamera", roomDescription[48]);
+        Room bedroomBoy = new Room(49, "Camera da letto del figlio", roomDescription[49]);
         bedroomBoy.setLook("Osservando meglio la stanza la tua attenzione cade sulla scrivania: noti che ci sono delle foto.");
-        Room bedroomGirl = new Room(51, "Camera da letto della figlia", "Sei nella camera da letto di una bambina.\n Non ci sono altri ingressi se non quello da cui sei entrato, vedi un letto con il comodino,"
-                + " un armadio la cui anta è aperta: si intravedono abiti da bambina. Infine c'è un mobile con uno specchio.");
-        Room bathroom_2 = new Room(52, "Bagno", "Normale bagno. Contiene un quadro che raffigura una persona che si arrampica dal piano terra al balcone con una corda. A est c'è l'ingresso da cui sei entrato");
-        Room studio = new Room(53, "Studio", "C’è una scrivania centrale con dei documenti. Davanti ad essa ci sono delle sedie, mentre dietro c’è un piccolo camino. A nord c’è una piccola vetrinetta al cui interno ci sono dei "
-                + "liquori e dei bicchieri di vetro. Accanto alla porta di ingresso c’è un quadro che raffigura due bambini accanto alla statua che c’è all’ingresso.");
+        Room bedroomGirl = new Room(50, "Camera da letto della figlia", roomDescription[50]);
+        Room bathroom_2 = new Room(51, "Bagno", roomDescription[51]);
+        Room studio = new Room(52, "Studio", roomDescription[52]);
         studio.setLook("Osservando meglio i documenti si nota in cima una lettera. L'attenzione maggiore, però, l’attira il quadro appeso alla parete: noti, infatti, che alle spalle di Ares si intravede un ingresso e a differenza"
                 + " della statua vista in precedenza questa ha il braccio destro con la lama che punta verso il basso.");
-        Room mainRoom_1 = new Room(54, "Camera padronale", "Entrando nella stanza ti rendi conto che questa doveva essere la stanza da letto dei proprietari della casa. È enorme!! Al centro c’è un enorme letto a baldacchino. Su "
-                + "lato est c’è un enorme cabina armadio, ma parte della stanza, sul lato nord/est, è piena di macerie. C’è anche qui un enorme camino con poste sulla cappa due spade da cavalieri. Davanti al letto c’è un baule "
-                + "chiuso. Tutta la stanza è tappezzata di quadri che rappresentano ambienti della casa, o i proprietari o i figli. A sud c’è un enorme finestra chiusa che dà su un balcone che si affaccia sul cortile. (Ovviamente "
-                + "a nord c'è lingresso da cui sei entrato) ");
+        Room mainRoom_1 = new Room(53, "Camera padronale", roomDescription[53]);
         mainRoom_1.setLook("Avvicinandoti al letto noti che c'è qualcuno che sembra dormire. Non appena ti avvicini, l'uomo si alza...");
-        Room mainRoom_2 = new Room(55, "Camera padronale", "Entrando nella stanza ti rendi conto che questa doveva essere la stanza da letto dei proprietari della casa. È enorme!! Al centro c’è un enorme letto a baldacchino. Su "
-                + "lato est c’è un enorme cabina armadio, ma parte della stanza, sul lato nord/est, è piena di macerie. C’è anche qui un enorme camino con poste sulla cappa due spade da cavalieri. Davanti al letto c’è un baule "
-                + "chiuso. Tutta la stanza è tappezzata di quadri che rappresentano ambienti della casa, o i proprietari o i figli. Ovviamente a sud c'è lingresso da cui sei entrato. ");
-        Room tower = new Room(56, "TOrre", "Attraversato l'ingresso dietro la statua ti trovi in uno stretto corridoio. Al termine una luce ti attende. Man mano che ti avvicini senti la rabbia che sale, ma allo stesso"
-                + " tempo paura nel temere per quello che può aver fatto quel pazzo alla tua amata Stecy. É li che è tenuta nascosta? Come stara? Arrivato alla fine del corridoio ti trovi difronte colui che ha "
-                + "organizzato tutto: Mister X. Il luogo in cui si nasconde, la torre, è una specie di ripostiglio. sembra che ci siano dei mobili, ma questi sono tutti coperti da teli bianchi. L'unico oggetto scoperto,"
-                + " una sedia, è quella su cui è legata Stecy. Mister X, invece, è appoggiato a quella che sembra una scrivania.");
-        Room balconyAnteroom = new Room(57, "Balcone anticamera", "Affacciandoti dal balcone riesci a vdere l'intero cortile e il balcone difronte. li però la finestra sembra chiusa."
-                + "A sud trovi l'ingresso alla stanza.");
-        Room edge = new Room(58, "Precipizio", "É stato bello conoscerti. Mentre cadi vedi trascorrere tutta la tua vita. Ogni tanto colpisci qualche pietra. Mi dispiace, sei morto");
-        Room balconyMainRoom = new Room(59, "Balcone camera padronale", "Affacciandoti dal balcone riesci a vdere l'intero cortile e il balcone difronte. Li però la finestra sembra aperta."
-                + "A nord trovi l'ingresso alla stanza.");
+        Room mainRoom_2 = new Room(54, "Camera padronale", roomDescription[54]);
+        Room tower = new Room(55, "TOrre", roomDescription[55]);
+        Room balconyAnteroom = new Room(56, "Balcone anticamera", roomDescription[56]);
+        Room edge = new Room(57, "Precipizio", roomDescription[57]);
+        Room balconyMainRoom = new Room(58, "Balcone camera padronale", roomDescription[58]);
         
         //map
         stairs.setNorth(hall2);
@@ -647,19 +609,24 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         stairs.getObjects().add(gate);
         hall2.getObjects().add(gate);
         
-        
         //TODO: le chiavi devono essere distinte in qualche maniera altrimenti una volta messe nell'inventario daranno problemi.
         //corridioio secondo piano
-        ObjectAdv ares = new ObjectAdv(49, "scultura", "un scultura molto bella che raffigura ares il dio della guerra, Ares");
-        ares.setAlias(new String[]{"statua"});
-        ares.setPushable(true);
+        ObjectAdv ares = new ObjectAdv(49, "Statua", "Una statua molto bella che raffigura il dio della guerra, Ares. La sua posa è molto particolare: il braccio destro mantiemne lo scudo, mentre il braccio sinistro punta il lampadario con la spada.");
+        ares.setAlias(new String[]{"scultura"});
+        ares.setPickupable(false);
         hall5_2.getObjects().add(ares);
         
+        ObjectAdv aresArm = new ObjectAdv(49, "Braccio di Ares", "Il braccio sinistro della statua di Ares Punta il lampadario con la spada.");
+        aresArm.setAlias(new String[]{"braccio"});
+        aresArm.setVisible(false);
+        aresArm.setPushable(true);
+        hall5_2.getObjects().add(aresArm);
+        
         //studio secondo piano
-        ObjectAdv mail2 = new ObjectAdv(50, "lettera", "Caro james, se stai leggendo questa lettera vuole dire che sono fuggito, mi avevano quasi preso quei maledetti cosacchi,"
-                + " menumale che mio nonno fece costruire un passaggio segreto per fuggire dal castello dove sgattaiolava da sua moglie per andare a trovare le sue giovani amiche del bordello,"
-                + "inoltre questo passaggio portava in cima ad una torre dove nascondeva la sua collezione di vini, il passaggio è raffigurato in un quadro, trova l'ingresso e portami una di quelle bottiglie,"
-                + "ti aspetto fuori dalle mura del castello, mi raccomando james non dimenticarti le bottiglie!");
+        ObjectAdv mail2 = new ObjectAdv(50, "Lettera", "Caro James, se stai leggendo questa lettera vuole dire che sono fuggito, mi avevano quasi preso quei maledetti cosacchi."
+                + " Menomale che mio nonno fece costruire un passaggio segreto: lo usava per fuggire dal castello dove sgattaiolava per raggiungere le sue giovani amiche del bordello. "
+                + "Inoltre questo passaggio portava in cima ad una torre dove nascondeva la sua collezione di vini. Il passaggio è raffigurato in un quadro, trova l'ingresso e portami una di quelle bottiglie."
+                + "Ti aspetto fuori dalle mura del castello: mi raccomando James non dimenticarti le bottiglie!");
         mail2.setAlias(new String[]{"biglietto"});
         studio.getObjects().add(mail2);
         
@@ -713,10 +680,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         tower.getObjects().add(stecy);
         
         //set starting room
-        setCurrentRoom(closet);
-        
-        //TODO: prova
-        //Engine2.appendToScreenEngine(getRooms().get(getRooms().indexOf(hall2)).getName());
+        setCurrentRoom(entryway);
         
     }
     
@@ -782,7 +746,6 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                         Engine2.appendToScreenEngine(getCurrentRoom().getLook());
                     }
                     if (!getCurrentRoom().getObjects().isEmpty()) {
-                        Engine2.appendToScreenEngine("Nella stanza vedi le seguenti cose: ");
                         showObjects(getCurrentRoom().getObjects(), getCurrentRoom().getName()); 
                     }
                 } else {
@@ -1217,8 +1180,8 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
     }
     
     private void showObjects(List<ObjectAdv> objectList, String name) {
-        if (objectList.isEmpty()) {
-            Engine2.appendToScreenEngine("Gli oggetti che vedi in " + name + " sono: \n");
+        if (!objectList.isEmpty()) {
+            Engine2.appendToScreenEngine("Gli oggetti che vedi in " + name + " sono:");
             objectList.stream()
                     .filter(o -> o.isVisible() == true)
                     .map(o -> o.getName())
