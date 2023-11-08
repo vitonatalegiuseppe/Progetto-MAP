@@ -12,6 +12,9 @@ import java.util.List;
  * @author giuse
  */
     
+import java.util.ArrayList;
+import java.util.List;
+
     public class Inventory {
 
     private List<ObjectAdv> list = new ArrayList<>();

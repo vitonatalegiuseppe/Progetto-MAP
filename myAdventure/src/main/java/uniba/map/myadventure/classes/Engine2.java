@@ -4,10 +4,14 @@
  */
 package uniba.map.myadventure.classes;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import uniba.map.myadventure.interfaces.Grafica;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
+import uniba.map.myadventure.interfaces.StartGame;
 
 /**
  *
@@ -19,14 +23,29 @@ public class Engine2 {
 
     private Parser parser;
     
-    static Grafica grafica = new Grafica();
+    static Grafica grafica;
+   // private static Grafica grafica = new Grafica();
+    private boolean UtenteExiste;
 
+    public boolean isUtenteExiste() {
+        return UtenteExiste;
+    }
+
+    public void setUtenteExiste(boolean UtenteExiste) {
+        this.UtenteExiste = UtenteExiste;
+    }
+    
+    
+    
+    
+    
     static public void appendToScreenEngine(String text) {
         grafica.appendToScreen(text);
     }
 
-    public Engine2(GameDescription game) {
+    public Engine2(GameDescription game,Grafica grafica) {
         this.game = game;
+        this.grafica = grafica;
         try {
             this.game.init();
         } catch (Exception ex) {
@@ -41,9 +60,18 @@ public class Engine2 {
     }
 
     public void inizialized() {
+         databaseManagement databaseManagement = new databaseManagement();
+         
         grafica.appendToScreen("================================ ");
         grafica.appendToScreen("* Adventure Castle Game v. 0.3 - 2022-2023 * ");
         grafica.appendToScreen("================================ ");
+        
+        if (UtenteExiste == true){
+            // Ottieni la lista di oggetti utente
+            List<ObjectAdv> oggettiUtenti = databaseManagement.getOggettiUtente();
+            game.getInventory().addAll(oggettiUtenti);
+        }
+        
         grafica.appendToScreen(game.getCurrentRoom().getName());
         grafica.appendToScreen("");
         grafica.appendToScreen(game.getCurrentRoom().getDescription());
@@ -63,11 +91,39 @@ public class Engine2 {
             grafica.appendToScreen("");
         }
     }
+    public void start2() {
+        
+     
+       StartGame startGame = new StartGame(grafica.engine);
+        
+        startGame.setVisible(true);
+        
+        // Aggiungi un WindowListener per attendere la chiusura di StartGame
+        startGame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                // StartGame è stato chiuso, puoi eseguire il resto del codice qui
+        //        engine.start(engine.isUtenteExiste());
+        
+                grafica.setVisible(true);
+                inizialized();
+            }
+        });   
+        
+    }
     
-    public static void main(String[] args) {
-        Engine2 engine = new Engine2(new AdventureCastleGame());
-        grafica.setVisible(true);
-        engine.inizialized();
+    
+    private void start(boolean flag) {
+        
+        databaseManagement databaseManagement = new databaseManagement();
+        
+        if (flag == true){
+            // Ottieni la lista di oggetti utente
+            List<ObjectAdv> oggettiUtenti = databaseManagement.getOggettiUtente();
+            game.getInventory().addAll(oggettiUtenti);
+        }else{
+        }
+        
     }
     
     /*TODO: creazione database e salvataggio di partita corrente solo per salvaggio in caso di morte
