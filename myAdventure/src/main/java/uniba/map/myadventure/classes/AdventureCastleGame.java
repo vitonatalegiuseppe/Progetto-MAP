@@ -5,6 +5,7 @@
 */
 package uniba.map.myadventure.classes;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +17,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
     
     @Override
     public void init() throws Exception {
-        FileManagement fileHandler = new FileManagement("./resources/descriptionRoom.txt");
+        FileManagement fileHandler = new FileManagement("./resources/File/descriptionRoom.txt");
         final int NUM_ROOM = 58;
         String[] roomDescription = new String[NUM_ROOM];
         
@@ -86,7 +87,6 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         Room exit = new Room(0, "Esterno", roomDescription[0]);
         Room stairs = new Room(1, "Scale", roomDescription[1]);
         Room hall2 = new Room(2, "Corridoio", roomDescription[2]);
-        
         Room hall3 = new Room(3, "Corridoio", roomDescription[3]);
         Room hall4 = new Room(4, "Corridoio", roomDescription[4]);
         Room hall5 = new Room(5, "Corridoio", roomDescription[5]);
@@ -121,8 +121,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         armory.setLook("Una panca, in particolare, attira la tua attenzione: su di essa c’è un uomo che dorme. Appena lo focalizzi ti balza all’occhio la chiave che gli pende dal collo.");
         Room bathroom1 = new Room(29, "Bagno", roomDescription[29]);
         Room yard = new Room(30, "Cortile", roomDescription[30]);
-        yard.setLook("Guardando meglio, la prima cosa che ti balza all’occhio è un enorme cilindro che sembra alto circa 3 metri al cui interno c’è una chiave esposta. Ti rendi conto anche che una parte del cortile"
-                + " è coperta da un balcone che sembra essere l’affaccio di qualche stanza del primo piano.");
+        yard.setLook("Ti rendi conto che una parte del cortile è coperta da un balcone che sembra essere l’affaccio di qualche stanza del primo piano.");
         
         //secondo piano
         Room stairs_2 = new Room(31, "Scale", roomDescription[31]);
@@ -179,7 +178,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         hall5.setEast(hall4);
         hall5.setWest(hall6);
         hall6.setSouth(hall19);
-        hall6.setEast(hall15);
+        hall6.setEast(hall5);
         hall6.setNorth(hall7);
         hall7.setNorth(hall8);
         hall7.setSouth(hall6);
@@ -356,7 +355,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         // ingresso
         ObjectAdv doorExit = new ObjectAdv(64, "Portone", "Sembrerebbe la porta di ingresso, chissà se si può aprire");
         doorExit.setPickupable(false);
-        doorExit.setOpenable(true);
+        doorExit.setOpenable(false);
         doorExit.setAlias(new String[]{"porta", "uscita"});
         entryway.getObjects().add(doorExit);
         exit.getObjects().add(doorExit);
@@ -588,10 +587,6 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         //TODO: cambiare le vite dei nemici
         
         // oggetti bagno
-        //TODO: da capire se serve la chiave
-        ObjectAdv key6 = new ObjectAdv(47, "chiave", "una chiave utile per aprire una serratura, chissà quale");
-        key6.setAlias(new String[]{"chiave"});
-        bathroom1.getObjects().add(key6);
         
         //TODO: capire se tenerlo
         ObjectAdvContainer bathroomTap = new ObjectAdvContainer(73, "Rubinetto", "Nei basgni è normale trovare questo oggetto: spesso utilizzato per "
@@ -620,9 +615,11 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         aresArm.setAlias(new String[]{"braccio"});
         aresArm.setVisible(false);
         aresArm.setPushable(true);
+        aresArm.setPickupable(false);
         hall5_2.getObjects().add(aresArm);
         
         //studio secondo piano
+        //TODO: l'ho modificata 
         ObjectAdv mail2 = new ObjectAdv(50, "Lettera", "Caro James, se stai leggendo questa lettera vuole dire che sono fuggito, mi avevano quasi preso quei maledetti cosacchi."
                 + " Menomale che mio nonno fece costruire un passaggio segreto: lo usava per fuggire dal castello dove sgattaiolava per raggiungere le sue giovani amiche del bordello. "
                 + "Inoltre questo passaggio portava in cima ad una torre dove nascondeva la sua collezione di vini. Il passaggio è raffigurato in un quadro, trova l'ingresso e portami una di quelle bottiglie."
@@ -630,13 +627,17 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         mail2.setAlias(new String[]{"biglietto"});
         studio.getObjects().add(mail2);
         
+        //TODO: l'ho modificata 
         ObjectAdv square = new ObjectAdv(51, "quadro", "il quadro raffigura la statua di ares il dio della guerra con un braccio abbassato");
         square.setAlias(new String[]{"dipinto"});
+        square.setPickupable(false);
         studio.getObjects().add(square);
         
         //bagno secondo piano
+         //TODO: l'ho modificata
         ObjectAdv square2 = new ObjectAdv(52, "quadro", "il quadro raffigura una persona che si arrampica sul balcone dal cortile del castello, usando un rampino, un tizio molto abile");
         square2.setAlias(new String[]{"dipinto"});
+        square2.setPickupable(false);
         bathroom_2.getObjects().add(square2);
         
         // oggetti camera padronaria
@@ -662,6 +663,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         AdvPerson henchman = new AdvPerson(44, "Scagnozzo", "un uomo che sembra stia dormendo... Non far rumore altrimenti lo svegli.", 7);
         henchman.setAlias(new String[]{"lacche", "tirapiedi"});
         henchman.setPushable(true);
+        henchman.setPickupable(true);
         mainRoom_1.getObjects().add(henchman);
         
         ObjectAdv chest = new ObjectAdv(59, "Baule", "Un baule della stessa larghezza del letto. sembra chiuso... Vuoi sapere cosa contiene, razza di ficcanaso?!!!");
@@ -673,14 +675,16 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         //oggetti torre
         AdvPerson misterX = new AdvPerson(53, "MisterX", "si presenta con una benda all'occhio, un barbone non curata e un fare minaccioso, il classico tipo losco da non farti mai nemico", 10);
         misterX.setAlias(new String[]{"boss", "cattivo"});
+        misterX.setPickupable(true);
         tower.getObjects().add(misterX);
         
         AdvPerson stecy = new AdvPerson(54, "Stecy", "una bella ragazza con dei lineamenti del viso armoniosi e proporzionati con occhi grandi e luminosi, la classica ragazza acqua e sapone", 3);
         stecy.setAlias(new String[]{"ragazza"});
+        stecy.setPickupable(true);
         tower.getObjects().add(stecy);
         
         //set starting room
-        setCurrentRoom(entryway);
+        setCurrentRoom(closet);
         
     }
     
@@ -696,8 +700,8 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         } else {
             //move
             if (p.getCommand().getType() == CommandType.NORD) {
-                setCurrentRoom(getCurrentRoom().changeRoom("North", getCurrentRoom()));
                 identifyObject(getCurrentRoom(), null, null);
+                setCurrentRoom(getCurrentRoom().changeRoom("North", getCurrentRoom()));
             } else if (p.getCommand().getType() == CommandType.SOUTH) {
                 setCurrentRoom(getCurrentRoom().changeRoom("South", getCurrentRoom()));
                 identifyObject(getCurrentRoom(), null, null);
@@ -1103,10 +1107,6 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
             switch(idRoom){
                 case 58: //è l'ID del precipizio
                     end(); 
-                    break; 
-                case 4: 
-                    Engine2.appendToScreenEngine("Aprendo la porta ti trovi sotto a un porticato che percorre tutto il perimetro del cortile. "
-                        + "Da dove ti trovi riesci a vedere che da sotto il porticato si trovano diversi ingressi a varie stanze."); 
                     break;
             }
         }else if(object1 != null && object2 != null){
@@ -1158,6 +1158,22 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                         Engine2.appendToScreenEngine("Prenmendo il bottone, il camino si spegne rivelando al suo interno tra la cenere una chiave.");
                     }
                     break;
+                case 64: 
+                    if(checkObjectInInv(36)){
+                        object1.setOpenable(true);
+                        object1.setOpen(true);
+                        Engine2.grafica.appendToScreen("Hai aperto " + object1.getName() + " utilizzando la chiave giusta nell'inventario");
+                    } else
+                        Engine2.grafica.appendToScreen("Non puoi aprire " + object1.getName() + " perchè non hai la chiave giusta nell'inventario");
+                    break;
+                case 48: 
+                    if(checkObjectInInv(43)){
+                        object1.setOpenable(true);
+                        object1.setOpen(true);
+                        Engine2.grafica.appendToScreen("Hai aperto " + object1.getName() + " utilizzando la chiave giusta nell'inventario");
+                    } else
+                        Engine2.grafica.appendToScreen("Non puoi aprire " + object1.getName() + " perchè non hai la chiave giusta nell'inventario");
+                    break;
             }
         }
     }
@@ -1187,5 +1203,18 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                     .map(o -> o.getName())
                     .forEach(o -> Engine2.appendToScreenEngine(o));
         }
+    }
+    
+    private boolean checkObjectInInv(int id){
+        boolean found = false;
+        Iterator<ObjectAdv> iterator = getInventory().iterator();
+
+        while (iterator.hasNext() && found == false) {
+            if (iterator.next().getId() == id) {
+                found = true;
+            }
+        }
+        
+        return found;
     }
 }
