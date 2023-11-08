@@ -57,7 +57,6 @@ public class Grafica extends javax.swing.JFrame {
         writer = new javax.swing.JTextField();
         panelButton = new javax.swing.JPanel();
         help = new javax.swing.JButton();
-        suggerimento = new javax.swing.JButton();
         mappa1 = new javax.swing.JButton();
         mappa2 = new javax.swing.JButton();
         scrollPane = new javax.swing.JScrollPane();
@@ -100,9 +99,6 @@ public class Grafica extends javax.swing.JFrame {
             }
         });
 
-        suggerimento.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        suggerimento.setText("Suggerimento");
-
         mappa1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         mappa1.setText(" Mappa 1");
         mappa1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -123,22 +119,20 @@ public class Grafica extends javax.swing.JFrame {
         panelButton.setLayout(panelButtonLayout);
         panelButtonLayout.setHorizontalGroup(
             panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(suggerimento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(mappa1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mappa1, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
             .addComponent(mappa2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(help, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelButtonLayout.setVerticalGroup(
             panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelButtonLayout.createSequentialGroup()
+                .addGap(113, 113, 113)
                 .addComponent(mappa1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(mappa2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(suggerimento, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(help, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(189, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelButton, java.awt.BorderLayout.LINE_END);
@@ -172,8 +166,8 @@ public class Grafica extends javax.swing.JFrame {
     
     private void mappa1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mappa1MouseClicked
         // Recupera il percorso dell'immagine della mappa come stringa
-        String mappaImagePath = "C:\\Users\\giuse\\OneDrive\\Desktop\\prove di codici\\Progetto-MAP\\Mappe\\1 piano da visualizzare.png";
-
+        String mappaImagePath = "./resources/Mappe/piano1.png";
+ 
         if (mappaFrame1 != null && mappaFrame1.isVisible()) {
             // Se la finestra della mappa è già aperta, chiudila e annulla il riferimento
             mappaFrame1.dispose();
@@ -218,8 +212,8 @@ public class Grafica extends javax.swing.JFrame {
 
     private void mappa2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mappa2MouseClicked
         // Recupera il percorso dell'immagine della mappa come stringa
-        String mappaImagePath = "C:\\Users\\giuse\\OneDrive\\Desktop\\prove di codici\\Progetto-MAP\\Mappe\\2 piano da visualizzare.png";
-
+        String mappaImagePath = "./resources/Mappe/piano2.png";
+        
         if (mappaFrame2 != null && mappaFrame2.isVisible()) {
             // Se la finestra della mappa è già aperta, chiudila e annulla il riferimento
             mappaFrame2.dispose();
@@ -262,13 +256,17 @@ public class Grafica extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mappa2MouseClicked
 
+
     private void helpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_helpMouseClicked
         JOptionPane.showMessageDialog(this, " Comandi disponibili: \n FINE, INVENTARIO, NORD, SUD, EST, OVEST" +
 "    OSSERVA, RIEMPI, COLPISCI, LANCIA, SALI,\n" +
 "    APRI,SCENDI, BEVI, SVUOTA, GIOCA", "Comandi utilizzabili", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_helpMouseClicked
+    } //GEN-LAST:event_helpMouseClicked
 
-    public static void main(String args[]) {
+    /**
+     * @param args the command line arguments
+     */
+  public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -312,7 +310,6 @@ public class Grafica extends javax.swing.JFrame {
     private javax.swing.JPanel panelText;
     private javax.swing.JTextArea screen;
     private javax.swing.JScrollPane scrollPane;
-    private javax.swing.JButton suggerimento;
     private javax.swing.JTextField writer;
     // End of variables declaration//GEN-END:variables
 }
