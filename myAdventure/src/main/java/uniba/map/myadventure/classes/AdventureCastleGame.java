@@ -451,9 +451,9 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         butler.setPickupable(false);
         diningroom.getObjects().add(butler);
         //TOTO: da rivedere sto fatto della chiave posseduta dal maggiorndomo
-        /*ObjectAdv key1 = new ObjectAdv(21, "chiave", "una chiave che probabilmente può aprire una serratura");
+        ObjectAdv key1 = new ObjectAdv(21, "chiave", "una chiave che probabilmente può aprire una serratura");
         key1.setAlias(new String[]{"chiavi"});
-        butler.add(key1);*/
+        butler.add(key1);
         //TODO: creare una classe persona sottoclasse di oggetti. tra gli attributi c'è vita che indica la vita del personaggio. se la vita arriva a zero la persona muore.
         // il giocatore per recuperare la vita deve mangiare o bere qualcosa.
         
@@ -521,7 +521,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         winebottle.setFilled(true);
         winebottle.setAlias(new String[]{"vino"});
         larder.getObjects().add(winebottle);
-        ObjectAdv key4 = new ObjectAdv(35, "chiave", "una chiave utile per aprire una serratura, chissà quale");
+        ObjectAdv key4 = new ObjectAdv(36, "chiave", "una chiave utile per aprire una serratura, chissà quale");
         key4.setAlias(new String[]{"chiave"});
         winebottle.add(key4);
         //TODO: per simulare che il tizio è ubriaco dopo aver bevuto il vino, si tolgono alcuni punti vita.
@@ -537,12 +537,12 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         //TODO: gestire l'accesso alla stanza con la chiave.
         
         //ogetti armeria
-        ObjectAdv rifle = new ObjectAdv(39, "fucile", "un ottima arma per incutere timore a chi hai di fronte, inutile se mancano le munizioni");
-        rifle.setAlias(new String[]{"carabina"});
-        armory.getObjects().add(rifle);
-        ObjectAdv glock17 = new ObjectAdv(40, "pistola", "un arma abbastanza pratica per eliminare i tuoi nemici, ma a senza munizione puoi usarla come martello");
-        glock17.setAlias(new String[]{"revolver"});
-        armory.getObjects().add(glock17);
+        ObjectAdv ax = new ObjectAdv(39, "accetta", "Un arma molto pratica per mozzare teste");
+        ax.setAlias(new String[]{"ascia"});
+        armory.getObjects().add(ax);
+        ObjectAdv glaive = new ObjectAdv(40, "falcione", "L'arma prediletta dalla signora morte, molto amata anche dagli agricoltori");
+        glaive.setAlias(new String[]{"falce"});
+        armory.getObjects().add(glaive);
         ObjectAdv spear = new ObjectAdv(41, "lancia", "un arma usata nell'era glaciale per abbattere i mammut, ottima per il suo periodo storico");
         spear.setAlias(new String[]{"giavellotto"});
         armory.getObjects().add(spear);
@@ -562,13 +562,6 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         //TODO: cambiare le vite dei nemici
         
         // oggetti bagno
-        ObjectAdv ghost = new ObjectAdv(46, "fantasma", "un anima in pena che sembra sia molto affezzionata a questa stanza, chissa cosa c'è che richiama la sua attenzione");
-        ghost.setAlias(new String[]{"spettro"});
-        ghost.setPickupable(false);
-        bathroom1.getObjects().add(ghost);
-        ObjectAdv key6 = new ObjectAdv(47, "chiave", "una chiave utile per aprire una serratura, chissà quale");
-        key6.setAlias(new String[]{"chiave"});
-        bathroom1.getObjects().add(key6);
         
         //scale che portano al secondo piano
         ObjectAdv gate = new ObjectAdv(48, "cancello", "Questo cancello ti blocca la strada, trova la chiave che lo apre o trova un altro modo per oltrepassarlo");
@@ -587,6 +580,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         hall5_2.getObjects().add(ares);
         
         //studio secondo piano
+        //todo: inserire lettera nel databsae
         ObjectAdv mail2 = new ObjectAdv(50, "lettera", "Caro james, se stai leggendo questa lettera vuole dire che sono fuggito, mi avevano quasi preso quei maledetti cosacchi,"
                 + " menumale che mio nonno fece costruire un passaggio segreto per fuggire dal castello dove sgattaiolava da sua moglie per andare a trovare le sue giovani amiche del bordello,"
                 + "inoltre questo passaggio portava in cima ad una torre dove nascondeva la sua collezione di vini, il passaggio è raffigurato in un quadro, trova l'ingresso e portami una di quelle bottiglie,"
@@ -637,7 +631,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         tower.getObjects().add(stecy);
         
         //set starting room
-        setCurrentRoom(hall18_2);
+        setCurrentRoom(closet);
     }
     
     @Override
@@ -670,6 +664,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                 setCurrentRoom(getCurrentRoom().changeRoom("goDown", getCurrentRoom()));
                 identifyObject(getCurrentRoom());
             } else if (p.getCommand().getType() == CommandType.INVENTORY) {
+              
                 if(!getInventory().isEmpty()){
                     Engine2.appendToScreenEngine("Nel tuo inventario ci sono:");
                     for (ObjectAdv o : getInventory()) {
@@ -976,7 +971,11 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
 
     @Override
     public void run() {
+        
         try {
+            //aggiungere il metodo che salva gli oggetti nell'inventario al database
+            databaseManagement databaseManagement = new databaseManagement();
+            databaseManagement.saveObjectsToDatabase(getInventory());
             Engine2.appendToScreenEngine("Addioooo...!");
             Thread.sleep(5000);
             System.exit(0);

@@ -4,6 +4,16 @@
  */
 package uniba.map.myadventure.interfaces;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import uniba.map.myadventure.classes.AdventureCastleGame;
+import uniba.map.myadventure.classes.Engine2;
+import uniba.map.myadventure.classes.GameDescription;
+import uniba.map.myadventure.classes.databaseManagement;
+import static uniba.map.myadventure.classes.databaseManagement.setUsername;
+
 /**
  *
  * @author giuse
@@ -13,10 +23,17 @@ public class StartGame extends javax.swing.JFrame {
     /**
      * Creates new form StartGame
      */
-    public StartGame() {
+   
+    
+    private Engine2 engine;
+
+   
+    public StartGame(Engine2 engine) {
         initComponents();
+        this.engine = engine;
         setLocationRelativeTo(null);
     }
+    //todo:gestire la chiusura con la x visto che il gioco parte da engine quindi se si clicca la x il gioco termina
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,14 +45,19 @@ public class StartGame extends javax.swing.JFrame {
     private void initComponents() {
 
         PanelText = new javax.swing.JPanel();
-        Username = new javax.swing.JTextField();
+        username = new javax.swing.JTextField();
         login = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Adventur Castel Game");
 
-        Username.setText("Username");
+        username.setText("Username");
+        username.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usernameMouseClicked(evt);
+            }
+        });
 
         login.setText("LOGIN");
         login.addActionListener(new java.awt.event.ActionListener() {
@@ -58,7 +80,7 @@ public class StartGame extends javax.swing.JFrame {
                 .addGroup(PanelTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelTextLayout.createSequentialGroup()
                         .addGap(72, 72, 72)
-                        .addComponent(Username, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(PanelTextLayout.createSequentialGroup()
                         .addGap(133, 133, 133)
                         .addComponent(login)))
@@ -70,7 +92,7 @@ public class StartGame extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(Username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(65, 65, 65)
                 .addComponent(login)
                 .addContainerGap(65, Short.MAX_VALUE))
@@ -83,48 +105,56 @@ public class StartGame extends javax.swing.JFrame {
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
 
+          
+        databaseManagement databaseManagement = new databaseManagement();
+       
+        if(username.getText().isEmpty()){
+            
+            JOptionPane.showMessageDialog(this, "il campo è vuoto", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            setUsername(username.getText());
+            try {
+                if(databaseManagement.isUsernameExists()){
+
+                    int option = JOptionPane.showConfirmDialog(this, "Il nome utente è esistente, vuoi caricare i dati di gioco?", "Ripristino dati", JOptionPane.YES_NO_OPTION);
+                    if(option == JOptionPane.YES_OPTION){
+                        engine.setUtenteExiste(true);
+                        JOptionPane.showMessageDialog(this, "Dati caricati con successo, buon divertimento !", "Successo", JOptionPane.INFORMATION_MESSAGE);
+
+                    }else{
+                        //sovrascrivi i nuovi dati
+                         engine.setUtenteExiste(false);
+                       JOptionPane.showMessageDialog(this, "Stai per iniziare una nuova partita", "", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                }else{
+                    if(databaseManagement.insertNewUser()){
+                     engine.setUtenteExiste(false);
+                     JOptionPane.showMessageDialog(this, "Registrazione avvenuta con successo", "", JOptionPane.INFORMATION_MESSAGE);
+
+                    } 
+                }
+               
+            } catch (SQLException ex) {
+                Logger.getLogger(StartGame.class.getName()).log(Level.SEVERE, null, ex);
+           //TODO: gestire l'eccezione in maniera piu chiara
+            }
+            
+            dispose();
+        }
      
     }//GEN-LAST:event_loginActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StartGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StartGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StartGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StartGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new StartGame().setVisible(true);
-            }
-        });
-    }
-
+    private void usernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usernameMouseClicked
+        username.setText("");
+    }//GEN-LAST:event_usernameMouseClicked
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelText;
-    private javax.swing.JTextField Username;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton login;
+    private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }

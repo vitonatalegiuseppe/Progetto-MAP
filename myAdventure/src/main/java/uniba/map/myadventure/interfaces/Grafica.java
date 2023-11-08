@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import uniba.map.myadventure.classes.AdventureCastleGame;
 import uniba.map.myadventure.classes.Engine2;
 
@@ -21,12 +22,13 @@ public class Grafica extends javax.swing.JFrame {
     /**
      * Creates new form Grafica
      */
-    Engine2 engine = new Engine2(new AdventureCastleGame());
+    public final Engine2 engine = new Engine2(new AdventureCastleGame(),this);
     private JFrame mappaFrame1 = null;
     private JFrame mappaFrame2 = null;
 
     public Grafica() {
         initComponents();
+        engine.start2();
     }
     
     public void appendToScreen(String text) {
@@ -92,6 +94,11 @@ public class Grafica extends javax.swing.JFrame {
 
         help.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         help.setText("Help");
+        help.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                helpMouseClicked(evt);
+            }
+        });
 
         suggerimento.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         suggerimento.setText("Suggerimento");
@@ -255,16 +262,19 @@ public class Grafica extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mappa2MouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
+    private void helpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_helpMouseClicked
+        JOptionPane.showMessageDialog(this, " Comandi disponibili: \n FINE, INVENTARIO, NORD, SUD, EST, OVEST" +
+"    OSSERVA, RIEMPI, COLPISCI, LANCIA, SALI,\n" +
+"    APRI,SCENDI, BEVI, SVUOTA, GIOCA", "Comandi utilizzabili", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_helpMouseClicked
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
+       try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -282,15 +292,17 @@ public class Grafica extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+ 
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Grafica().setVisible(true);
+                new Grafica().setVisible(false);
             }
         });
-
     }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton help;
