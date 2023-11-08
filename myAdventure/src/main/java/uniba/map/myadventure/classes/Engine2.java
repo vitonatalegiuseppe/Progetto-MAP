@@ -33,7 +33,7 @@ public class Engine2 {
             System.err.println(ex);
         }
         try {
-            Set<String> stopwords = Utils.loadFileListInSet(new File("./resources/stopwords"));
+            Set<String> stopwords = Utils.loadFileListInSet(new File("./resources/File/stopwords"));
             parser = new Parser(stopwords);
         } catch (IOException ex) {
             System.err.println(ex);

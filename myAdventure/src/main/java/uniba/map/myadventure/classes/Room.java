@@ -203,7 +203,8 @@ public class Room {
                 newRoom.changePersonStatus(true);
                 newRoom.startInitiativePearsons();
             } else {
-                Engine2.appendToScreenEngine("Sembra che la porta sia chiusa, percaso ti ritrovi qualche chiave nell'inventario?");
+                Engine2.appendToScreenEngine("Sembra che la porta sia chiusa. per aprirla devi avere nell'inventario la chiave giusta. \nAdesso non la hai.");
+                newRoom = room;
             }
         }else{
             Engine2.appendToScreenEngine("Da quella parte non si può andare c'è un muro!\nNon hai ancora acquisito i poteri per oltrepassare i muri...");
