@@ -3,10 +3,12 @@
 * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
 */
 
-package uniba.map.myadventure.classes;
+package uniba.map.myadventure.type;
 
 import java.util.ArrayList;
 import java.util.List;
+import uniba.map.myadventure.classes.Controller;
+import uniba.map.myadventure.classes.Engine;
 /**
  *
  * @author giuse
@@ -36,7 +38,6 @@ public class Room {
     private Room goDown = null;
     
     private final List<ObjectAdv> objects = new ArrayList<>();
-    
     
     public Room(int id) {
         this.id = id;
@@ -136,12 +137,12 @@ public class Room {
         return objects;
     }
     
-    public List<AdvPerson> getPersonInRoom(){
-        List<AdvPerson> listPersonInRoom = new ArrayList<>();
+    public List<PersonAdv> getPersonInRoom(){
+        List<PersonAdv> listPersonInRoom = new ArrayList<>();
         if(!this.getObjects().isEmpty()){
             for(ObjectAdv o : this.getObjects()){
-                if(o instanceof AdvPerson){
-                    listPersonInRoom.add((AdvPerson) o);
+                if(o instanceof PersonAdv){
+                    listPersonInRoom.add((PersonAdv) o);
                 }
             }
         }
@@ -171,13 +172,13 @@ public class Room {
     }
     
     public void changePersonStatus(boolean live){
-        for(AdvPerson p : this.getPersonInRoom()){
+        for(PersonAdv p : this.getPersonInRoom()){
             p.setLive(live);
         }
     }
     
     public void startInitiativePearsons(){
-        for(AdvPerson p : this.getPersonInRoom()){
+        for(PersonAdv p : this.getPersonInRoom()){
             (new Thread(p)).start();
         }
     }
@@ -197,17 +198,17 @@ public class Room {
         if (newRoom != null){
             if (controller.doorController(room, newRoom)) {
                 room.changePersonStatus(false);
-                Engine2.appendToScreenEngine(newRoom.getName());
-                Engine2.appendToScreenEngine("================================================");
-                Engine2.appendToScreenEngine(newRoom.getDescription());
+                Engine.appendToScreenEngine(newRoom.getName());
+                Engine.appendToScreenEngine("================================================");
+                Engine.appendToScreenEngine(newRoom.getDescription());
                 newRoom.changePersonStatus(true);
                 newRoom.startInitiativePearsons();
             } else {
-                Engine2.appendToScreenEngine("Sembra che la porta sia chiusa. per aprirla devi avere nell'inventario la chiave giusta. \nAdesso non la hai.");
+                Engine.appendToScreenEngine("Sembra che la porta sia chiusa. Devi aprirla");
                 newRoom = room;
             }
         }else{
-            Engine2.appendToScreenEngine("Da quella parte non si può andare c'è un muro!\nNon hai ancora acquisito i poteri per oltrepassare i muri...");
+            Engine.appendToScreenEngine("Da quella parte non si può andare c'è un muro!\nNon hai ancora acquisito i poteri per oltrepassare i muri...");
             newRoom = room;
         }
         

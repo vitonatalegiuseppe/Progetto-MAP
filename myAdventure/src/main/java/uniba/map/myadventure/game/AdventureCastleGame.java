@@ -3,13 +3,27 @@
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
 */
-package uniba.map.myadventure.classes;
+package uniba.map.myadventure.game;
 
+import uniba.map.myadventure.interfaces.IndovinelloUI;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import uniba.map.myadventure.classes.SeAvanzaTempo.h2;
+import uniba.map.myadventure.type.Command;
+import uniba.map.myadventure.type.CommandType;
+import uniba.map.myadventure.classes.Controller;
+import uniba.map.myadventure.classes.Engine;
+import uniba.map.myadventure.storage.FileManagement;
+import uniba.map.myadventure.classes.GameDescription;
+import uniba.map.myadventure.type.ObjectAdv;
+import uniba.map.myadventure.type.ObjectAdvContainer;
+import uniba.map.myadventure.parser.ParserOutput;
+import uniba.map.myadventure.type.PersonAdv;
+import uniba.map.myadventure.type.Room;
+import uniba.map.myadventure.storage.DatabaseManagement;
 
 /**
  * @author pierpaolo
@@ -77,9 +91,6 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         Command empty = new Command(CommandType.EMPTY, "svuota");
         empty.setAlias(new String[]{"vuota", "libera"});
         getCommands().add(empty);
-        Command play = new Command(CommandType.PLAY, "gioca");
-        play.setAlias(new String[]{"inizia"});
-        getCommands().add(play);
         
         //Rooms 
         roomDescription = fileHandler.readString(NUM_ROOM);
@@ -108,18 +119,15 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         Room entryway = new Room(20, "Ingresso", roomDescription[20]);
         Room closet = new Room(21, "Ripostiglio", roomDescription[21]);
         Room library = new Room(22, "Biblioteca", roomDescription[22]);
-        library.setLook("L'intera libreria è divisa in 5 scaffali. Non tutti gli scaffali sono pieni e sembra che manchi qualche libro. Noti, infatti, che ci sono degli spazi vuoti. Infine, noti che sul tavolo c'è un"
-                + " bigliettino con su scritto qualcosa.");
+        library.setLook("Osservando meglio la stanza noti che sul tavolo ci sono diverse carete. quella che ti attire di più è un bigliettino con su lo stemma di Mister X");
         Room livingroom = new Room(23, "Soggiorno", roomDescription[23]);
-        livingroom.setLook("Osservando meglio sulla scrivania si intravedono dei fogli. Mentre appese alla kappa del camino noti delle fiaccole spente.");
+        livingroom.setLook("Osservando meglio sulla scrivania si intravedono dei fogli.");
         Room diningroom = new Room(24, "Sala da pranzo", roomDescription[24]);
         Room kitchen = new Room(25, "Cucina", roomDescription[25]);
         Room larder = new Room(26, "Dispensa", roomDescription[26]);
-        larder.setLook("Guardandoti in giro il tuo sguardo viene attirato dalla piccola cantina di vini. In particolare, noti una bottiglia \n"
-                + "di vino al cui interno brilla qualcosa.");
+        larder.setLook("Guardandoti in giro il tuo sguardo viene attirato dalla piccola cantina di vini. In particolare, noti una bottiglia di vino al cui interno brilla qualcosa.");
         Room roomOfDebris = new Room(27, "Stanza crollata", roomDescription[27]);
         Room armory = new Room(28, "Armeria", roomDescription[28]);
-        armory.setLook("Una panca, in particolare, attira la tua attenzione: su di essa c’è un uomo che dorme. Appena lo focalizzi ti balza all’occhio la chiave che gli pende dal collo.");
         Room bathroom1 = new Room(29, "Bagno", roomDescription[29]);
         Room yard = new Room(30, "Cortile", roomDescription[30]);
         yard.setLook("Ti rendi conto che una parte del cortile è coperta da un balcone che sembra essere l’affaccio di qualche stanza del primo piano.");
@@ -147,16 +155,14 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         Room hall20_2 = new Room(47, "Corridoio", roomDescription[47]);
         Room anteroom = new Room(48, "Anticamera", roomDescription[48]);
         Room bedroomBoy = new Room(49, "Camera da letto del figlio", roomDescription[49]);
-        bedroomBoy.setLook("Osservando meglio la stanza la tua attenzione cade sulla scrivania: noti che ci sono delle foto.");
         Room bedroomGirl = new Room(50, "Camera da letto della figlia", roomDescription[50]);
         Room bathroom_2 = new Room(51, "Bagno", roomDescription[51]);
         Room studio = new Room(52, "Studio", roomDescription[52]);
         studio.setLook("Osservando meglio i documenti si nota in cima una lettera. L'attenzione maggiore, però, l’attira il quadro appeso alla parete: noti, infatti, che alle spalle di Ares si intravede un ingresso e a differenza"
-                + " della statua vista in precedenza questa ha il braccio destro con la lama che punta verso il basso.");
+                + " della statua vista in precedenza questa ha il braccio sinistro con la lama che punta dietro");
         Room mainRoom_1 = new Room(53, "Camera padronale", roomDescription[53]);
-        mainRoom_1.setLook("Avvicinandoti al letto noti che c'è qualcuno che sembra dormire. Non appena ti avvicini, l'uomo si alza...");
         Room mainRoom_2 = new Room(54, "Camera padronale", roomDescription[54]);
-        Room tower = new Room(55, "TOrre", roomDescription[55]);
+        Room tower = new Room(55, "Torre", roomDescription[55]);
         Room balconyAnteroom = new Room(56, "Balcone anticamera", roomDescription[56]);
         Room edge = new Room(57, "Precipizio", roomDescription[57]);
         Room balconyMainRoom = new Room(58, "Balcone camera padronale", roomDescription[58]);
@@ -222,8 +228,6 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         diningroom.setNorth(kitchen);
         diningroom.setEast(hall10);
         kitchen.setSouth(diningroom);
-        kitchen.setEast(larder);
-        larder.setWest(kitchen);
         larder.setSouth(hall13);
         armory.setWest(hall17);
         bathroom1.setWest(hall2);
@@ -246,7 +250,6 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         hall4_2.setNorth(anteroom);
         hall5_2.setWest(hall6_2);
         hall5_2.setEast(hall4_2);
-        hall5_2.setSouth(tower);
         hall6_2.setEast(hall5_2);
         hall6_2.setNorth(hall7_2);
         hall7_2.setSouth(hall6_2);
@@ -354,7 +357,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         
         //obejcts primo piano
         // ingresso
-        ObjectAdv doorExit = new ObjectAdv(64, "Portone", "Sembrerebbe la porta di ingresso, chissà se si può aprire");
+        ObjectAdv doorExit = new ObjectAdv(60, "Portone", "Sembrerebbe la porta di ingresso, chissà se si può aprire");
         doorExit.setPickupable(false);
         doorExit.setOpenable(false);
         doorExit.setAlias(new String[]{"porta", "uscita"});
@@ -362,256 +365,187 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         exit.getObjects().add(doorExit);
         
         // ripostiglio
-        ObjectAdvContainer armoire = new ObjectAdvContainer(6, "Armadio", "uno scaffale dove al suo interno sembra ci sono chiodi, martello, corda, nastro, carburante, secchio, palanghino");
+        ObjectAdvContainer armoire = new ObjectAdvContainer(61, "Armadio", "uno scaffale dove al suo interno sembra ci sono chiodi, martello, corda, nastro, carburante, secchio, palanghino");
         armoire.setPickupable(false);
         armoire.setOpenable(true);
         armoire.setAlias(new String[]{"mobile", "guardaroba"});
         closet.getObjects().add(armoire);
         
-        ObjectAdv rope = new ObjectAdv(7, "corda", "una corda molto resistente");
+        ObjectAdv rope = new ObjectAdv(62, "corda", "una corda molto resistente");
         rope.setAlias(new String[]{"laccio", "fune"});
         armoire.add(rope);
         
-        ObjectAdv scotch = new ObjectAdv(8, "scotch", "un semplice nastro adesivo");
+        ObjectAdv scotch = new ObjectAdv(63, "scotch", "un semplice nastro adesivo");
         scotch.setFragile(true);
         scotch.setAlias(new String[]{"nastro"});
         armoire.add(scotch);
         
-        ObjectAdv fuel = new ObjectAdv(9, "benzina", "una tanica di benzina piena");
+        ObjectAdv fuel = new ObjectAdv(64, "benzina", "una tanica di benzina piena");
         fuel.setAlias(new String[]{"carburante", "tanica", "combustibile"});
         armoire.add(fuel);
         
-        ObjectAdv hammer = new ObjectAdv(10, "martello", "un martello molto pratico per ottime martellate");
+        ObjectAdv hammer = new ObjectAdv(65, "martello", "un martello molto pratico per ottime martellate");
         hammer.setAlias(new String[]{"mazzola"});
         armoire.add(hammer);
         
-        ObjectAdv nails = new ObjectAdv(11, "chiodi", "Dei chiodi molto utili se si ha un martello");
+        ObjectAdv nails = new ObjectAdv(66, "chiodi", "Dei chiodi molto utili se si ha un martello");
         nails.setAlias(new String[]{"puntine", "viti"});
         armoire.add(nails);
         
-        //TODO: capire se tenerlo
-        ObjectAdvContainer bucket = new ObjectAdvContainer(12, "Secchio vuoto", "un secchio pieno d'acqua");
-        bucket.setOpenable(true);
-        bucket.setOpen(true);
-        bucket.setFillable(true);
-        bucket.setAlias(new String[]{"bidone", "secchio"});
-        armoire.add(bucket);
-        
-        ObjectAdv crowbar = new ObjectAdv(13, "palanghino", "un palanghino utile per qualsiasi idea di scasso vi passi per la testa");
+        ObjectAdv crowbar = new ObjectAdv(67, "palanghino", "un palanghino utile per qualsiasi idea di scasso vi passi per la testa");
         crowbar.setAlias(new String[]{"leva"});
         armoire.add(crowbar);
         
         // sala da pranzo
-        // TODO: se avanza il tempo: il cibo all'interno dei piatti è avvelenato e il personaggio perde una vita se lo mangia.
-        ObjectAdv dish = new ObjectAdv(15, "piatto", "Un piatto con ancora del cibo al loro interno, chissà se è buono");
+        ObjectAdv dish = new ObjectAdv(68, "piatto", "Un piatto vuoto");
         dish.setAlias(new String[]{"stoviglia", "porcellana"});
         dish.setFragile(true);
         diningroom.getObjects().add(dish);
         
-        ObjectAdv silverware = new ObjectAdv(16, "posata", "Utili per afferrare cosa c'è nel piatto");
+        ObjectAdv silverware = new ObjectAdv(69, "posata", "Utili per afferrare cosa c'è nel piatto");
         silverware.setAlias(new String[]{"argenteria"});
         diningroom.getObjects().add(silverware);
         
-        ObjectAdv glass = new ObjectAdv(17, "bicchiere", "Utili per bere qualsiasi fluido ");
+        ObjectAdv glass = new ObjectAdv(70, "bicchiere", "Utili per bere qualsiasi fluido ");
         glass.setAlias(new String[]{"calice", "tazza"});
         glass.setFragile(true);
         diningroom.getObjects().add(glass);
         
-        ObjectAdv candle = new ObjectAdv(19, "candela", "Ottime per illuminare e scaldare un ambiente");
+        ObjectAdv candle = new ObjectAdv(71, "candela", "Ottime per illuminare e scaldare un ambiente");
         candle.setAlias(new String[]{"lumino"});
         candle.setFragile(true);
         diningroom.getObjects().add(candle);
         
-        AdvPerson butler = new AdvPerson(2, "Ambrogio", "É il magiordomo di questo castello. gurdandolo bene noti due cose: "
+        ObjectAdv dish2 = new ObjectAdv(72, "piatto2", "Un piatto vuoto");
+        dish.setAlias(new String[]{"stoviglia2", "porcellana2"});
+        dish.setFragile(true);
+        diningroom.getObjects().add(dish2);
+        
+        ObjectAdv silverware2 = new ObjectAdv(73, "posata2", "Utili per afferrare cosa c'è nel piatto");
+        silverware.setAlias(new String[]{"argenteria2"});
+        diningroom.getObjects().add(silverware2);
+        
+        ObjectAdv glass2 = new ObjectAdv(74, "bicchiere2", "Utili per bere qualsiasi fluido ");
+        glass.setAlias(new String[]{"calice2", "tazza2"});
+        glass.setFragile(true);
+        diningroom.getObjects().add(glass2);
+        
+        ObjectAdv candle2 = new ObjectAdv(75, "candela2", "Ottime per illuminare e scaldare un ambiente");
+        candle.setAlias(new String[]{"lumino2"});
+        candle.setFragile(true);
+        diningroom.getObjects().add(candle2);
+        
+        PersonAdv butler = new PersonAdv(76, "Ambrogio", "É il magiordomo di questo castello. gurdandolo bene noti due cose: "
                 + "al collo ha appesa una chiave e dal suo volto traspare la lieve, se pur marcata, intenzione di farti fuori...", 1);
         butler.setAlias(new String[]{"cameriere", "maggiordomo"});
         butler.setPickupable(false);
         diningroom.getObjects().add(butler);
-        //TOTO: da rivedere sto fatto della chiave posseduta dal maggiorndomo
-        ObjectAdv key1 = new ObjectAdv(21, "chiave", "una chiave che probabilmente può aprire una serratura");
-        key1.setAlias(new String[]{"chiavi"});
+        
+        ObjectAdv key1 = new ObjectAdv(77, "chiave1", "una chiave che probabilmente può aprire una serratura");
+        key1.setAlias(new String[]{"chiave1"});
         butler.add(key1);
-        //TODO: creare una classe persona sottoclasse di oggetti. tra gli attributi c'è vita che indica la vita del personaggio. se la vita arriva a zero la persona muore.
-        // il giocatore per recuperare la vita deve mangiare o bere qualcosa.
         
         //oggetti biblioteca
-        ObjectAdv card = new ObjectAdv(22, "bigliettino", ""); //TODO: da inserire la descrizione del foglietto
+        ObjectAdv card = new ObjectAdv(78, "bigliettino", "Sembra molto interessante"); 
         card.setAlias(new String[]{"foglio", "lettera"});
-        //TODO: inserire gli indovinelli che ti conducono alla chiave
         library.getObjects().add(card);
-        //TODO: se c'è tempo ampliare i libri dello scaffale e aggiungere nome del libro
         
-        ObjectAdvContainer bookcase = new ObjectAdvContainer(23, "scaffale", "nome libro");
-        bookcase.setPickupable(false);
-        bookcase.setAlias(new String[]{"libreria",});
-        library.getObjects().add(bookcase);
-        
-        ObjectAdv book1 = new ObjectAdv(24, "libro", "questo libro sembra essere piu pulito rispetto a gli altri");
-        book1.setPickupable(true);
-        book1.setAlias(new String[]{"testo"});
-        bookcase.add(book1);
-        
-        ObjectAdvContainer secretbox = new ObjectAdvContainer(31, "scompartimento", "al suo interno c'è una chiave insieme ad un odore di qualcosa andato a male,"
-                + " sembra che qualcuno ci abbia lasciato il pranzo");
-        secretbox.setAlias(new String[]{"ripostiglio", "nascondiglio"});
-        library.getObjects().add(secretbox);
-        
-        ObjectAdv key2 = new ObjectAdv(36, "chiave", "una chiave utile per aprire una serratura, chissà quale");
-        key2.setAlias(new String[]{"chiave"});
-        secretbox.add(key2);
+        ObjectAdv key2 = new ObjectAdv(79, "chiave2", "una chiave utile per aprire una serratura, chissà quale");
+        key2.setAlias(new String[]{"chiave2"});
+        key2.setVisible(false);
+        key2.setPickupable(false);
+        library.getObjects().add(key2);
         
         //ogetti soggiorno
-        //TODO: codificare il fatto di svuotare il secchio sul fuoco
-        ObjectAdvContainer chimney = new ObjectAdvContainer(28, "Camino", "Un bel caminetto con del fuoco accesso, al cui lato noti un bottone. Se hai con te delle salsicce puoi fare un ottimo spuntino.");
+        ObjectAdvContainer chimney = new ObjectAdvContainer(80, "Camino", "Un bel caminetto con del fuoco accesso, al cui lato noti un bottone. Se hai con te delle salsicce puoi fare un ottimo spuntino.");
         chimney.setAlias(new String[]{"stufa", "caminetto"});
         chimney.setPickupable(false);
         livingroom.getObjects().add(chimney);
         
-        //TODO: capire se tenerlo
-        ObjectAdv flame = new ObjectAdv(70, "Fuoco", "Senti un forte calore che provengono dalle fiamme alte e luninose presenti nel camino.");
-        flame.setAlias(new String[]{"fiamme"});
-        flame.setPickupable(false);
-        
-        ObjectAdv mail = new ObjectAdv(29, "Bigliettino", "Uno dei fogli sembra essere diversa dalle altre. Osservandola "
+        ObjectAdv mail = new ObjectAdv(81, "Lettera", "Uno dei fogli sembra essere diversa dalle altre. Osservandola "
                 + "noti la sua firma: MIster X. Lo prendi e leggi meglio quello che c'è scritto:"
                 + "Se vuoi rivedere la tua amica, devi venirmi a trovare al piano superiore. Ti do una mano: qualcosa che potrebbe aiutarti"
                 + "è all'interno del camino... TI aspetto!!!");
         mail.setAlias(new String[]{"busta", "foglio"});
         livingroom.getObjects().add(mail);
         
-        ObjectAdv key3 = new ObjectAdv(30, "chiave", "una chiave utile per aprire una serratura, chissà quale");
-        key3.setAlias(new String[]{"3"});
+        ObjectAdv key3 = new ObjectAdv(82, "chiave3", "Una chiave utile per aprire una serratura, chissà quale");
+        key3.setAlias(new String[]{"chiave3"});
         chimney.add(key3);
         
-        ObjectAdv gasButton = new ObjectAdv(76, "Bottone del gas", "Sul bottone è scritto \"Gas ON/OF\". Probabilmente premendolo farà spegnere o accendere il camino.");
+        ObjectAdv gasButton = new ObjectAdv(83, "Bottone del gas", "Sul bottone è scritto \"Gas ON/OF\". Probabilmente premendolo farà spegnere o accendere il camino.");
         gasButton.setAlias(new String[]{"Bottone", "Interruttore", "manopola"});
         gasButton.setPushable(true);
         gasButton.setVisible(false);
         gasButton.setPickupable(false);
         livingroom.getObjects().add(gasButton);
         
-        //oggetti cucina
-        //TODO: capire se tenerlo
-        ObjectAdvContainer kitchenTap = new ObjectAdvContainer(71, "Rubinetto", "Nelle cunice è normale trovare questo oggetto: spesso utilizzato per "
-                + "far uscire dell'acqua utile a lavare altri oggetti, a cuocere pietanze e a dissetari.");
-        kitchenTap.setOpenable(true);
-        kitchenTap.setAlias(new String[] {"Miscelatore"});
-        kitchen.getObjects().add(kitchenTap);
-        
-        //TODO: capire se tenerlo
-        ObjectAdvContainer pot = new ObjectAdvContainer(74, "Pentola vuota", "Nelle cunice è normale trovare questo oggetto: spesso utilizzato per "
-                + "cuocere pietanze. in genere viene riempito di liquidi e messo a scaldare sul fuoco.");
-        pot.setAlias(new String[]{"pentola", "tegame"});
-        pot.setOpenable(true);
-        pot.setOpen(true);
-        pot.setFillable(true);
-        kitchen.getObjects().add(pot);
-        
-        //TODO: capire se tenerlo
-        ObjectAdv water = new ObjectAdv(72, "Acqua", "Composto chimico di formula H2O, assai diffuso in natura nei suoi tre stati d’aggregazione: solido, liquido e aeriforme.");
-        water.setPickupable(false);
-        water.setAlias(new String[] {"h2o"});
-        kitchenTap.add(water);
-        
-        //TODO: inserire degli oggetti nella cucina che permettano di recuperare la vita
-        //TODO: se avanza tempo mettere altri oggetti che può prendere.
-        //TODO: rivedere la gestione della porta tra cucina e dispensa
-        
         //oggetti dispensa
-        ObjectAdv doorlarder = new ObjectAdv(25, "porta dispensa", "una porta che collega a qualche stanza, chissa se si può aprire");
-        doorlarder.setOpenable(true);
-        doorlarder.setPickupable(false);
-        doorlarder.setAlias(new String[]{"porta"});
-        larder.getObjects().add(doorlarder);
-        kitchen.getObjects().add(doorlarder);
-        
-        ObjectAdv foodstocks = new ObjectAdv(33, "scorte", "qui c'è del cibo per sfamare l'africa");
-        foodstocks.setAlias(new String[]{"viveri", "dispensa"});
-        larder.getObjects().add(foodstocks);
-        
-        ObjectAdv winecellar = new ObjectAdv(34, "cantina", "una preziosa scorta di vini profumati ed inebrianti ottimi per le migliori feste da palazzo");
+        ObjectAdvContainer winecellar = new ObjectAdvContainer(84, "cantina", "una preziosa scorta di vini profumati ed inebrianti ottimi per le migliori feste da palazzo");
         winecellar.setAlias(new String[]{"deposito", "scantinato"});
         winecellar.setPickupable(false);
         larder.getObjects().add(winecellar);
-       
-        ObjectAdvContainer winebottle = new ObjectAdvContainer(35, "bottiglia", "Una normale bottiglia al cui interno sembra esserci una chiave");
+        
+        ObjectAdvContainer winebottle = new ObjectAdvContainer(85, "bottiglia", "Una normale bottiglia al cui interno sembra esserci una chiave");
         winebottle.setOpenable(true);
         winebottle.setFragile(true);
         winebottle.setFilled(true);
         winebottle.setAlias(new String[]{"vino"});
-        larder.getObjects().add(winebottle);
+        winecellar.add(winebottle);
 
-        ObjectAdv key4 = new ObjectAdv(36, "chiave", "una chiave utile per aprire una serratura, chissà quale");
-        key4.setAlias(new String[]{"chiave"});
+        ObjectAdv key4 = new ObjectAdv(86, "chiave4", "una chiave utile per aprire una serratura, chissà quale");
+        key4.setAlias(new String[]{"chiave4"});
         winebottle.add(key4);
-        //TODO: per simulare che il tizio è ubriaco dopo aver bevuto il vino, si tolgono alcuni punti vita.
-        //TODO: se avanza tempo gestire un thread che faccia recuperare la vita dopo che si è ubricacato.
         
         //oggetti stanza crollata
-        ObjectAdv doorDebris = new ObjectAdv(26, "portaservitu", "Una porta... Chissa se puo essere aperta??!!!");
+        ObjectAdv doorDebris = new ObjectAdv(87, "portaservitu", "Una porta... Chissa se puo essere aperta??!!!");
         doorDebris.setOpenable(true);
         doorDebris.setPickupable(false);
         doorDebris.setAlias(new String[]{"porta"});
         roomOfDebris.getObjects().add(doorDebris);
         hall14.getObjects().add(doorDebris);
-        //TODO: gestire l'accesso alla stanza con la chiave.
         
         //ogetti armeria
-        ObjectAdv ax = new ObjectAdv(39, "accetta", "Un arma molto pratica per mozzare teste");
+        ObjectAdv ax = new ObjectAdv(88, "accetta", "Un arma molto pratica per mozzare teste");
         ax.setAlias(new String[]{"ascia"});
         armory.getObjects().add(ax);
         
-        ObjectAdv glaive = new ObjectAdv(40, "falcione", "L'arma prediletta dalla signora morte, molto amata anche dagli agricoltori");
+        ObjectAdv glaive = new ObjectAdv(89, "falcione", "L'arma prediletta dalla signora morte, molto amata anche dagli agricoltori");
         glaive.setAlias(new String[]{"falce"});
         armory.getObjects().add(glaive);
         
-        ObjectAdv spear = new ObjectAdv(41, "lancia", "un arma usata nell'era glaciale per abbattere i mammut, ottima per il suo periodo storico");
+        ObjectAdv spear = new ObjectAdv(90, "lancia", "un arma usata nell'era glaciale per abbattere i mammut, ottima per il suo periodo storico");
         spear.setAlias(new String[]{"giavellotto"});
         armory.getObjects().add(spear);
         
-        ObjectAdv sword = new ObjectAdv(42, "spada", "ottima nelle grandi battaglie, questa sembra sia salda al muro");
+        ObjectAdv sword = new ObjectAdv(91, "spada", "ottima nelle grandi battaglie, questa sembra sia salda al muro");
         sword.setAlias(new String[]{"lama"});
         armory.getObjects().add(sword);
         
-        ObjectAdv key5 = new ObjectAdv(43, "chiave", "una chiave utile per aprire una serratura, chissà quale");
-        key5.setAlias(new String[]{"chiave"});
+        ObjectAdv key5 = new ObjectAdv(92, "chiave5", "una chiave utile per aprire una serratura, chissà quale");
+        key5.setAlias(new String[]{"chiave5"});
         armory.getObjects().add(key5);
         
-        AdvPerson guardian = new AdvPerson(44, "Guardiano", "Lui è Robert il guardiano di questo castello, a lui non sfugge nulla, neanche quando dorme", 7);
+        PersonAdv guardian = new PersonAdv(93, "Guardiano", "Lui è Robert il guardiano di questo castello, a lui non sfugge nulla, neanche quando dorme", 7);
         guardian.setAlias(new String[]{"custode", "sorvegliante"});
         guardian.setPickupable(false);
         armory.getObjects().add(guardian);
         
-        ObjectAdv grapplingHook = new ObjectAdv(45, "rampino", "un oggetto che se lanciato si aggrappa ovunque, ma inutile senza una corda");
-        //TODO: inserire l'azione che unisce gli oggetti e modificare la descrizione del rampino
-        armory.getObjects().add(grapplingHook);
-        //TODO: cambiare le vite dei nemici
-        
-        // oggetti bagno
-        //TODO: capire se tenerlo
-        ObjectAdvContainer bathroomTap = new ObjectAdvContainer(73, "Rubinetto", "Nei basgni è normale trovare questo oggetto: spesso utilizzato per "
-                + "far uscire dell'acqua, utile a lavare i denti e le mani.");
-        bathroomTap.setOpenable(true);
-        bathroomTap.setAlias(new String[] {"Miscelatore"});
-        bathroom1.getObjects().add(bathroomTap);
-        bathroomTap.add(water);
-        
         //scale che portano al secondo piano
-        ObjectAdv gate = new ObjectAdv(48, "cancello", "Questo cancello ti blocca la strada, trova la chiave che lo apre o trova un altro modo per oltrepassarlo");
+        ObjectAdv gate = new ObjectAdv(94, "cancello", "Questo cancello ti blocca la strada, trova la chiave che lo apre o trova un altro modo per oltrepassarlo");
         gate.setOpenable(true);
         gate.setPickupable(false);
         gate.setAlias(new String[]{"inferiata"});
         stairs.getObjects().add(gate);
         hall2.getObjects().add(gate);
         
-        //TODO: le chiavi devono essere distinte in qualche maniera altrimenti una volta messe nell'inventario daranno problemi.
         //corridioio secondo piano
-        ObjectAdv ares = new ObjectAdv(49, "Statua", "Una statua molto bella che raffigura il dio della guerra, Ares. La sua posa è molto particolare: il braccio destro mantiemne lo scudo, mentre il braccio sinistro punta il lampadario con la spada.");
+        ObjectAdv ares = new ObjectAdv(95, "Statua", "Una statua molto bella che raffigura il dio della guerra, Ares. La sua posa è molto particolare: il braccio destro mantiemne lo scudo, mentre il braccio sinistro punta il pavimento con la spada.");
         ares.setAlias(new String[]{"scultura"});
         ares.setPickupable(false);
         hall5_2.getObjects().add(ares);
         
-        ObjectAdv aresArm = new ObjectAdv(49, "Braccio di Ares", "Il braccio sinistro della statua di Ares Punta il lampadario con la spada.");
+        ObjectAdv aresArm = new ObjectAdv(96, "Braccio di Ares", "Il braccio sinistro della statua di Ares Punta il pavimento con la spada.");
         aresArm.setAlias(new String[]{"braccio"});
         aresArm.setVisible(false);
         aresArm.setPushable(true);
@@ -619,71 +553,55 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         hall5_2.getObjects().add(aresArm);
         
         //studio secondo piano
-        ObjectAdv mail2 = new ObjectAdv(50, "Lettera", "Caro James, se stai leggendo questa lettera vuole dire che sono fuggito, mi avevano quasi preso quei maledetti cosacchi."
+        ObjectAdv mail2 = new ObjectAdv(97, "Lettera2", "Caro James, se stai leggendo questa lettera vuole dire che sono fuggito, mi avevano quasi preso quei maledetti cosacchi."
                 + " Menomale che mio nonno fece costruire un passaggio segreto: lo usava per fuggire dal castello dove sgattaiolava per raggiungere le sue giovani amiche del bordello. "
                 + "Inoltre questo passaggio portava in cima ad una torre dove nascondeva la sua collezione di vini. Il passaggio è raffigurato in un quadro, trova l'ingresso e portami una di quelle bottiglie."
                 + "Ti aspetto fuori dalle mura del castello: mi raccomando James non dimenticarti le bottiglie!");
         mail2.setAlias(new String[]{"biglietto"});
         studio.getObjects().add(mail2);
         
-        //TODO: l'ho modificata 
-        ObjectAdv square = new ObjectAdv(51, "quadro", "il quadro raffigura la statua di ares il dio della guerra con un braccio abbassato");
+        ObjectAdv square = new ObjectAdv(98, "quadro1", "il quadro raffigura la statua di ares il dio della guerra con il braccio sinistro che punta verso dietro. Alle spalle della statua si intravede un corridoio.");
         square.setAlias(new String[]{"dipinto"});
         square.setPickupable(false);
         studio.getObjects().add(square);
         
-        //bagno secondo piano
-         //TODO: l'ho modificata
-        ObjectAdv square2 = new ObjectAdv(52, "quadro", "il quadro raffigura una persona che si arrampica sul balcone dal cortile del castello, usando un rampino, un tizio molto abile");
-        square2.setAlias(new String[]{"dipinto"});
-        square2.setPickupable(false);
-        bathroom_2.getObjects().add(square2);
-        
         // oggetti camera padronaria
-        ObjectAdv sword1 = new ObjectAdv(53, "Spada", "Arma da combattimento ravvicinato");
-        sword1.setAlias(new String[]{"lama", "fioretto", "scimitarra"});
+        ObjectAdv sword1 = new ObjectAdv(99, "Spada2", "Arma da combattimento ravvicinato");
+        sword1.setAlias(new String[]{"lama2", "fioretto2", "scimitarra2"});
         mainRoom_2.getObjects().add(sword1);
         
-        ObjectAdv sword2 = new ObjectAdv(55, "Spada", "Arma da combattimento ravvicinato");
-        sword2.setAlias(new String[]{"lama", "fioretto", "scimitarra"});
+        ObjectAdv sword2 = new ObjectAdv(100, "Spada3", "Arma da combattimento ravvicinato");
+        sword2.setAlias(new String[]{"lama3", "fioretto3", "scimitarra3"});
         mainRoom_2.getObjects().add(sword2);
         
-        ObjectAdv doorWardrobe = new ObjectAdv(57, "Porta cabina armadio", "Una porta... Chissa se puo essere aperta??!!!");
-        doorWardrobe.setPickupable(false);
-        doorWardrobe.setAlias(new String[]{"porta"});
-        mainRoom_1.getObjects().add(doorWardrobe);
-        
-        ObjectAdv window = new ObjectAdv(58, "Finestrone", "Un enorme Finestrone che affaccia sul balcone. Chissa se puo essere aperta??!!!");
+        ObjectAdv window = new ObjectAdv(101, "Finestrone", "Un enorme Finestrone che affaccia sul balcone. Chissa se puo essere aperta??!!!");
         window.setPickupable(false);
+        window.setOpen(true);
+        window.setOpenable(true);
         window.setAlias(new String[]{"finestra", "lucernario"});
         mainRoom_1.getObjects().add(window);
         balconyMainRoom.getObjects().add(window);
         
-        AdvPerson henchman = new AdvPerson(44, "Scagnozzo", "un uomo che sembra stia dormendo... Non far rumore altrimenti lo svegli.", 7);
+        PersonAdv henchman = new PersonAdv(102, "Scagnozzo", "un uomo che sembra stia dormendo... Non far rumore altrimenti lo svegli.", 7);
         henchman.setAlias(new String[]{"lacche", "tirapiedi"});
         henchman.setPushable(true);
         henchman.setPickupable(true);
         mainRoom_1.getObjects().add(henchman);
         
-        ObjectAdv chest = new ObjectAdv(59, "Baule", "Un baule della stessa larghezza del letto. sembra chiuso... Vuoi sapere cosa contiene, razza di ficcanaso?!!!");
+        ObjectAdv chest = new ObjectAdv(103, "Baule", "Un baule della stessa larghezza del letto. sembra chiuso... Vuoi sapere cosa contiene, razza di ficcanaso?!!!");
         chest.setPickupable(false);
         chest.setOpenable(true);
         chest.setAlias(new String[]{"Cassapanca", "forziere"});
         mainRoom_1.getObjects().add(chest);
         
         //oggetti torre
-        AdvPerson misterX = new AdvPerson(53, "MisterX", "si presenta con una benda all'occhio, un barbone non curata e un fare minaccioso, il classico tipo losco da non farti mai nemico", 10);
+        PersonAdv misterX = new PersonAdv(104, "MisterX", "si presenta con una benda all'occhio, un barbone non curata e un fare minaccioso, il classico tipo losco da non farti mai nemico", 10);
         misterX.setAlias(new String[]{"boss", "cattivo"});
-        misterX.setPickupable(true);
+        misterX.setPickupable(false);
         tower.getObjects().add(misterX);
         
-        AdvPerson stecy = new AdvPerson(54, "Stecy", "una bella ragazza con dei lineamenti del viso armoniosi e proporzionati con occhi grandi e luminosi, la classica ragazza acqua e sapone", 3);
-        stecy.setAlias(new String[]{"ragazza"});
-        stecy.setPickupable(true);
-        tower.getObjects().add(stecy);
-        
         //set starting room
-        setCurrentRoom(closet);
+        setCurrentRoom(hall5_2);
     }
     
     @Override
@@ -691,44 +609,43 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         
         Controller controller = new Controller();
         boolean opened = false;
-        boolean filledContainer = false;
         
         if (p.getCommand() == null) {
-            Engine2.appendToScreenEngine("Non ho capito cosa devo fare! Prova con un altro comando.");
+            Engine.appendToScreenEngine("Non ho capito cosa devo fare! Prova con un altro comando.");
         } else {
             //move
             if (p.getCommand().getType() == CommandType.NORD) {
-                identifyObject(getCurrentRoom(), null, null);
+                identifyObject(getCurrentRoom(), null);
                 setCurrentRoom(getCurrentRoom().changeRoom("North", getCurrentRoom()));
             } else if (p.getCommand().getType() == CommandType.SOUTH) {
                 setCurrentRoom(getCurrentRoom().changeRoom("South", getCurrentRoom()));
-                identifyObject(getCurrentRoom(), null, null);
+                identifyObject(getCurrentRoom(), null);
             } else if (p.getCommand().getType() == CommandType.EAST) {
                 setCurrentRoom(getCurrentRoom().changeRoom("East", getCurrentRoom()));
-                identifyObject(getCurrentRoom(), null, null);
+                identifyObject(getCurrentRoom(), null);
             } else if (p.getCommand().getType() == CommandType.WEST) {
                 setCurrentRoom(getCurrentRoom().changeRoom("West", getCurrentRoom()));
-                identifyObject(getCurrentRoom(), null, null);
+                identifyObject(getCurrentRoom(), null);
             } else if (p.getCommand().getType() == CommandType.COME_UP) {
                 setCurrentRoom(getCurrentRoom().changeRoom("comeUp", getCurrentRoom()));
-                identifyObject(getCurrentRoom(), null, null);
+                identifyObject(getCurrentRoom(), null);
             } else if (p.getCommand().getType() == CommandType.GO_DOWN) {
                 setCurrentRoom(getCurrentRoom().changeRoom("goDown", getCurrentRoom()));
-                identifyObject(getCurrentRoom(), null, null);
+                identifyObject(getCurrentRoom(), null);
             } else if (p.getCommand().getType() == CommandType.INVENTORY) {
               
                 if(!getInventory().isEmpty()){
-                    Engine2.appendToScreenEngine("Nel tuo inventario ci sono:");
+                    Engine.appendToScreenEngine("Nel tuo inventario ci sono:");
                     for (ObjectAdv o : getInventory()) {
-                        Engine2.appendToScreenEngine(o.getName() + ": " + o.getDescription());
+                        Engine.appendToScreenEngine(o.getName() + ": " + o.getDescription());
                     }
                 }else{
-                    Engine2.appendToScreenEngine("Non ha alcun oggetto nel tuo inventario");
+                    Engine.appendToScreenEngine("Non ha alcun oggetto nel tuo inventario");
                 }
             } else if (p.getCommand().getType() == CommandType.LOOK_AT) {
                 if (p.getObject() != null) {
-                    Engine2.appendToScreenEngine(p.getObject().getDescription());
-                    identifyObject(null, p.getObject(), null);
+                    Engine.appendToScreenEngine(p.getObject().getDescription());
+                    identifyObject(null, p.getObject());
                     if(p.getObject() instanceof ObjectAdvContainer){
                         if (p.getObject().isOpen()){
                             ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
@@ -736,8 +653,8 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                         }
                     }
                 } else if (p.getInvObject() != null) {
-                    Engine2.appendToScreenEngine(p.getInvObject().getDescription());
-                    identifyObject(null, p.getInvObject(), null);
+                    Engine.appendToScreenEngine(p.getInvObject().getDescription());
+                    identifyObject(null, p.getInvObject());
                     if(p.getInvObject() instanceof ObjectAdvContainer){
                         if (p.getInvObject().isOpen()){
                             ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
@@ -746,25 +663,25 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                     }  
                 }else if (getCurrentRoom().getLook() != null || getCurrentRoom().getObjects().isEmpty() == false) {
                     if (getCurrentRoom().getLook() != null) {
-                        Engine2.appendToScreenEngine(getCurrentRoom().getLook());
+                        Engine.appendToScreenEngine(getCurrentRoom().getLook());
                     }
                     if (!getCurrentRoom().getObjects().isEmpty()) {
                         showObjects(getCurrentRoom().getObjects(), getCurrentRoom().getName()); 
                     }
                 } else {
-                    Engine2.appendToScreenEngine("Non c'è nulla di rillevante qui.");
+                    Engine.appendToScreenEngine("Non c'è nulla di rillevante qui.");
                 }
             } else if (p.getCommand().getType() == CommandType.PICK_UP) {
                 if (p.getObject() != null) {
                     if (p.getObject().isPickupable()) {
                         getInventory().add(p.getObject());
                         getCurrentRoom().getObjects().remove(p.getObject());
-                        Engine2.appendToScreenEngine("Hai raccolto: " + p.getObject().getName() + " - " + p.getObject().getDescription());
+                        Engine.appendToScreenEngine("Hai raccolto: " + p.getObject().getName() + " - " + p.getObject().getDescription());
                     } else {
-                        Engine2.appendToScreenEngine("Non puoi raccogliere questo oggetto.");
+                        Engine.appendToScreenEngine("Non puoi raccogliere questo oggetto.");
                     }
                 } else {
-                    Engine2.appendToScreenEngine("Non c'è niente da raccogliere qui.");
+                    Engine.appendToScreenEngine("Non c'è niente da raccogliere qui.");
                 }
             } else if (p.getCommand().getType() == CommandType.OPEN) {
                 /*TODO: ATTENZIONE: quando un oggetto contenitore viene aperto, tutti gli oggetti contenuti
@@ -772,445 +689,388 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
                 * Potrebbe non esssere la soluzione ottimale.
                 */
                 if (p.getObject() == null && p.getInvObject() == null) {
-                    Engine2.appendToScreenEngine("Non c'è niente da aprire qui.");
+                    Engine.appendToScreenEngine("Non c'è niente da aprire qui.");
                 } else if (p.getObject() != null) {
                     if (p.getObject().isOpenable() && p.getObject().isOpen() == false) {
                         p.getObject().setOpen(true);
                         opened = true;
-                        Engine2.appendToScreenEngine("Hai aperto: " + p.getObject().getName());
+                        Engine.appendToScreenEngine("Hai aperto: " + p.getObject().getName());
                         if (p.getObject() instanceof ObjectAdvContainer) {
                             ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
                             getCurrentRoom().getObjects().addAll(c.getList());
                             showObjects(c.getList(), c.getName());
                         }
-                        identifyObject(null, p.getObject(), null);
+                        identifyObject(null, p.getObject());
                     }
                 }else if (p.getInvObject() != null) {
                     if (p.getInvObject().isOpenable() && p.getInvObject().isOpen() == false) {
                         p.getInvObject().setOpen(true);
                         opened = true;
-                        Engine2.appendToScreenEngine("Hai aperto nel tuo inventario: " + p.getInvObject().getName());
+                        Engine.appendToScreenEngine("Hai aperto nel tuo inventario: " + p.getInvObject().getName());
                         if (p.getInvObject() instanceof ObjectAdvContainer) {
                             ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
                             getCurrentRoom().getObjects().addAll(c.getList());
                             showObjects(c.getList(), c.getName());
                         }
-                        identifyObject(null, p.getInvObject(), null);
+                        identifyObject(null, p.getInvObject());
                     }
                 }
                 if(!opened){
-                    Engine2.appendToScreenEngine("Non puoi aprire questo oggetto.");
+                    Engine.appendToScreenEngine("Non puoi aprire questo oggetto.");
                 }
             } else if (p.getCommand().getType() == CommandType.CLOSE) {
                 if (p.getObject() == null && p.getInvObject() == null) {
-                    Engine2.appendToScreenEngine("Non c'è niente da chiudere qui.");
+                    Engine.appendToScreenEngine("Non c'è niente da chiudere qui.");
                 } else if (p.getObject() != null) {
                     if (p.getObject().isOpenable() && p.getObject().isOpen() == true) {
                         p.getObject().setOpen(false);
-                        Engine2.appendToScreenEngine("Hai chiuso: " + p.getObject().getName());
+                        Engine.appendToScreenEngine("Hai chiuso: " + p.getObject().getName());
                     } else {
                         opened = true;
                     }
                 } else if (p.getInvObject() != null) {
                     if (p.getInvObject().isOpenable() && p.getInvObject().isOpen() == false) {
                         p.getInvObject().setOpen(true);
-                        Engine2.appendToScreenEngine("Hai chiuso nel tuo inventario: " + p.getInvObject().getName());
+                        Engine.appendToScreenEngine("Hai chiuso nel tuo inventario: " + p.getInvObject().getName());
                     } else {
                         opened = true;
                     }
                 }
                 if(opened){
-                    Engine2.appendToScreenEngine("Non puoi chiudere questo oggetto.");
+                    Engine.appendToScreenEngine("Non puoi chiudere questo oggetto.");
                 }
             } else if (p.getCommand().getType() == CommandType.PUSH) {
                 if (p.getObject() != null && p.getObject().isPushable()) {
-                    Engine2.appendToScreenEngine("Hai premuto: " + p.getObject().getName());
-                    identifyObject(null, p.getObject(), null);
+                    Engine.appendToScreenEngine("Hai premuto: " + p.getObject().getName());
+                    identifyObject(null, p.getObject());
                 } else if (p.getInvObject() != null && p.getInvObject().isPushable()) {
-                    Engine2.appendToScreenEngine("Hai premuto: " + p.getInvObject().getName());
+                    Engine.appendToScreenEngine("Hai premuto: " + p.getInvObject().getName());
+                    identifyObject(null, p.getInvObject());
                 } else {
-                    Engine2.appendToScreenEngine("Non ci sono oggetti che puoi premere qui.");
+                    Engine.appendToScreenEngine("Non ci sono oggetti che puoi premere qui.");
                 }
             } else if (p.getCommand().getType() == CommandType.HURL) {
                 if (p.getObject() != null) {
                     if (p.getInvObject() != null) {
                         if (controller.objectHit()) {
-                            Engine2.appendToScreenEngine("Hai lanciato: " + p.getInvObject().getName() + " contro " + p.getObject().getName() + " colpendolo");
-                            if (p.getObject() instanceof AdvPerson) {
-                                AdvPerson person = (AdvPerson) p.getObject();
+                            Engine.appendToScreenEngine("Hai lanciato: " + p.getInvObject().getName() + " contro " + p.getObject().getName() + " colpendolo");
+                            if (p.getObject() instanceof PersonAdv) {
+                                PersonAdv person = (PersonAdv) p.getObject();
                                 person.setLife(person.getLife() - 1);
                                 if (person.getLife() == 0) {
-                                    Engine2.appendToScreenEngine("Hai sconfitto " + person.getName() + ".");
+                                    Engine.appendToScreenEngine("Hai sconfitto " + person.getName() + ".");
                                     getCurrentRoom().getObjects().addAll(person.getList());
                                     showObjects(person.getList(), person.getName());
                                     getCurrentRoom().getObjects().remove(person); //remove the person that is dead
+                                    identifyObject(null, person);
                                 } else {
-                                    Engine2.appendToScreenEngine(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
+                                    Engine.appendToScreenEngine(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
                                 }
                             } else {
                                 if (controller.consequenceOfHurl(p.getObject(), getCurrentRoom(), getInventory())) {
-                                    Engine2.appendToScreenEngine("L'oggetto " + p.getObject().getName() + " si è distrutto a seguito dello schianto.");
+                                    Engine.appendToScreenEngine("L'oggetto " + p.getObject().getName() + " si è distrutto a seguito dello schianto.");
                                     if (p.getObject() instanceof ObjectAdvContainer) {
                                         ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
                                         showObjects(c.getList(), c.getName());
                                     }
                                 } else {
-                                    Engine2.appendToScreenEngine("L'oggetto " + p.getObject().getName() + " non si è distrutto a seguito dello schianto.");
+                                    Engine.appendToScreenEngine("L'oggetto " + p.getObject().getName() + " non si è distrutto a seguito dello schianto.");
                                 }
                             }
                         } else {
-                            Engine2.appendToScreenEngine("Hai lanciato: " + p.getInvObject().getName() + " contro " + p.getObject().getName() + " ma non lo hai colpito");
+                            Engine.appendToScreenEngine("Hai lanciato: " + p.getInvObject().getName() + " contro " + p.getObject().getName() + " ma non lo hai colpito");
                         }
                         if (controller.consequenceOfHurl(p.getObject(), getCurrentRoom(), getInventory())) {
-                            Engine2.appendToScreenEngine("L'oggetto " + p.getInvObject().getName() + " si è distrutto a seguito dello schianto.");
+                            Engine.appendToScreenEngine("L'oggetto " + p.getInvObject().getName() + " si è distrutto a seguito dello schianto.");
                             if (p.getInvObject() instanceof ObjectAdvContainer) {
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
                                 showObjects(c.getList(), c.getName());
                             }
                         } else {
-                            Engine2.appendToScreenEngine("L'oggetto " + p.getInvObject().getName() + " non si è distrutto a seguito dello schianto.");
+                            Engine.appendToScreenEngine("L'oggetto " + p.getInvObject().getName() + " non si è distrutto a seguito dello schianto.");
                         }
                     } else {
-                        Engine2.appendToScreenEngine("Tabbaccone, non hai nulla da lanciare");
-                        Engine2.appendToScreenEngine("Per poter lanciare un oggetto, lo devi prima prendere.");
+                        Engine.appendToScreenEngine("Tabbaccone, non hai nulla da lanciare");
+                        Engine.appendToScreenEngine("Per poter lanciare un oggetto, lo devi prima prendere.");
                     }
                 } else if (p.getInvObject() != null) {
-                    Engine2.appendToScreenEngine("Hai lanciato " + p.getInvObject().getName());
+                    Engine.appendToScreenEngine("Hai lanciato " + p.getInvObject().getName());
                     if (controller.consequenceOfHurl(p.getInvObject(), getCurrentRoom(), getInventory())) {
-                        Engine2.appendToScreenEngine("L'oggetto " + p.getInvObject().getName() + " si è distrutto a seguito dello schianto.");
+                        Engine.appendToScreenEngine("L'oggetto " + p.getInvObject().getName() + " si è distrutto a seguito dello schianto.");
                         if (p.getInvObject() instanceof ObjectAdvContainer) {
                             ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
                             showObjects(c.getList(), c.getName());
                         }
                     } else {
-                        Engine2.appendToScreenEngine("L'oggetto " + p.getInvObject().getName() + " non si è distrutto a seguito dello schianto.");
+                        Engine.appendToScreenEngine("L'oggetto " + p.getInvObject().getName() + " non si è distrutto a seguito dello schianto.");
                     }
                 } else {
-                    Engine2.appendToScreenEngine("Non ci sono oggetti che puoi lanciare");
+                    Engine.appendToScreenEngine("Non ci sono oggetti che puoi lanciare");
                 }
             } else if (p.getCommand().getType() == CommandType.HIT) {
                 if (p.getInvObject() != null) {
                     if (p.getObject() != null) {
                         if (controller.objectHit()) {
-                            Engine2.appendToScreenEngine("Sei riuscito a colpire " + p.getObject().getName() + " con " + p.getInvObject().getName());
-                            if (p.getObject() instanceof AdvPerson) {
-                                AdvPerson person = (AdvPerson) p.getObject();
+                            Engine.appendToScreenEngine("Sei riuscito a colpire " + p.getObject().getName() + " con " + p.getInvObject().getName());
+                            if (p.getObject() instanceof PersonAdv) {
+                                PersonAdv person = (PersonAdv) p.getObject();
                                 person.setLife(person.getLife() - 1);
                                 if (person.getLife() == 0) {
-                                    Engine2.appendToScreenEngine("Hai sconfitto " + person.getName() + ".");
+                                    Engine.appendToScreenEngine("Hai sconfitto " + person.getName() + ".");
                                     getCurrentRoom().getObjects().addAll(person.getList());
                                     showObjects(person.getList(), person.getName());
                                     getCurrentRoom().getObjects().remove(person); //remove the person that is dead
+                                    identifyObject(null, person);
                                 } else {
-                                    Engine2.appendToScreenEngine(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
+                                    Engine.appendToScreenEngine(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
                                 }
-                                Engine2.appendToScreenEngine(controller.consequenceOfHit(null, p.getInvObject(), getCurrentRoom(), getInventory()));
+                                Engine.appendToScreenEngine(controller.consequenceOfHit(null, p.getInvObject(), getCurrentRoom(), getInventory()));
                             } else {
-                                Engine2.appendToScreenEngine(controller.consequenceOfHit(p.getObject(), p.getInvObject(), getCurrentRoom(), getInventory()));
+                                Engine.appendToScreenEngine(controller.consequenceOfHit(p.getObject(), p.getInvObject(), getCurrentRoom(), getInventory()));
                             }
                         } else {
-                            Engine2.appendToScreenEngine("Non sei riuscito a colpire " + p.getObject().getName() + " con " + p.getInvObject().getName());
+                            Engine.appendToScreenEngine("Non sei riuscito a colpire " + p.getObject().getName() + " con " + p.getInvObject().getName());
                         }
                     } else {
-                        Engine2.appendToScreenEngine("Hai colpito l'aria con " + p.getInvObject().getName());
+                        Engine.appendToScreenEngine("Hai colpito l'aria con " + p.getInvObject().getName());
                     }
                 } else if (p.getObject() != null) {
                     if (controller.objectHit()) {
-                        Engine2.appendToScreenEngine("Non hai preso alcun oggetto, perciò usi le mani. (Ricorda che devi prima prendere un oggetto e poi utilizzarlo)");
-                        Engine2.appendToScreenEngine("Sei riuscito a colpire " + p.getObject().getName() + " a mani nude.");
-                        if (p.getObject() instanceof AdvPerson) {
-                            AdvPerson person = (AdvPerson) p.getObject();
+                        Engine.appendToScreenEngine("Non hai preso alcun oggetto, perciò usi le mani. (Ricorda che devi prima prendere un oggetto e poi utilizzarlo)");
+                        Engine.appendToScreenEngine("Sei riuscito a colpire " + p.getObject().getName() + " a mani nude.");
+                        if (p.getObject() instanceof PersonAdv) {
+                            PersonAdv person = (PersonAdv) p.getObject();
                             person.setLife(person.getLife() - 1);
                             if (person.getLife() == 0) {
-                                Engine2.appendToScreenEngine("Hai sconfitto " + person.getName() + ".");
+                                Engine.appendToScreenEngine("Hai sconfitto " + person.getName() + ".");
                                 getCurrentRoom().getObjects().addAll(person.getList());
                                 showObjects(person.getList(), person.getName());
                                 getCurrentRoom().getObjects().remove(person); //remove the person that is dead
+                                identifyObject(null, person);
                             } else {
-                                Engine2.appendToScreenEngine(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
+                                Engine.appendToScreenEngine(person.getName() + " è ferito. Continua così e ti libererai di lui. (Ha ancora " + person.getLife() + " vite)");
                             }
                         } else {
-                            Engine2.appendToScreenEngine(controller.consequenceOfHit(p.getObject(), null, getCurrentRoom(), getInventory()));
+                            Engine.appendToScreenEngine(controller.consequenceOfHit(p.getObject(), null, getCurrentRoom(), getInventory()));
                         }
                     } else {
-                        Engine2.appendToScreenEngine("Non sei riuscito a colpire " + p.getObject().getName());
+                        Engine.appendToScreenEngine("Non sei riuscito a colpire " + p.getObject().getName());
                     }
                 } else {
-                    Engine2.appendToScreenEngine("Ma come sei bravo a prendere a pugni l'aria!!");
+                    Engine.appendToScreenEngine("Ma come sei bravo a prendere a pugni l'aria!!");
                 }
             } else if (p.getCommand().getType() == CommandType.DRINK) {
                 if (p.getObject() == null && p.getInvObject() == null) {
-                    Engine2.appendToScreenEngine("Non c'è niente da bere qui.");
+                    Engine.appendToScreenEngine("Non c'è niente da bere qui.");
                 } else {
                     if (p.getObject() != null) {
                         if (p.getObject().isFillable() && p.getObject().getFilled()) {
                             p.getObject().setFilled(false);
                             if (p.getObject() instanceof ObjectAdvContainer) {
-                                Engine2.appendToScreenEngine("Hai bevuto: " + p.getObject().getName() + " liberando il contenuto.");
+                                Engine.appendToScreenEngine("Hai bevuto: " + p.getObject().getName() + " liberando il contenuto.");
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
-                                identifyObject(null, c, null);
+                                identifyObject(null, c);
                             } else {
-                                Engine2.appendToScreenEngine("Hai bevuto: " + p.getObject().getName());
-                            }//TODO: quali sono le conseguenza dell'essere ubriaco?
+                                Engine.appendToScreenEngine("Hai bevuto: " + p.getObject().getName());
+                            }
                         } else {
-                            Engine2.appendToScreenEngine("Non puoi bere il contenuto di questo oggetto.");
+                            Engine.appendToScreenEngine("Non puoi bere il contenuto di questo oggetto.");
                         }
                     }
                     if (p.getInvObject() != null) {
                         if (p.getInvObject().isFillable() && p.getInvObject().getFilled()) {
                             p.getInvObject().setFilled(false);
                             if (p.getInvObject() instanceof ObjectAdvContainer) {
-                                Engine2.appendToScreenEngine("Hai bevuto: " + p.getObject().getName() + " liberando il contenuto.");
+                                Engine.appendToScreenEngine("Hai bevuto: " + p.getObject().getName() + " liberando il contenuto.");
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
                                 getInventory().addAll(c.getList());
                                 showObjects(c.getList(), c.getName());
                             } else {
-                                Engine2.appendToScreenEngine("Hai bevuto: " + p.getInvObject().getName());
-                                //TODO: se avanza tempo distinguere gli oggetti edibili da quelli non edibili
+                                Engine.appendToScreenEngine("Hai bevuto: " + p.getInvObject().getName());
                             }
                         } else {
-                            Engine2.appendToScreenEngine("Non puoi aprire bere il contenuto di questo oggetto.");
+                            Engine.appendToScreenEngine("Non puoi aprire bere il contenuto di questo oggetto.");
                         }
                     }
                 }
             } else if (p.getCommand().getType() == CommandType.EMPTY) {
                 if (p.getObject() == null && p.getInvObject() == null) {
-                    Engine2.appendToScreenEngine("Non c'è niente da svuotare qui.");
+                    Engine.appendToScreenEngine("Non c'è niente da svuotare qui.");
                 } else {
                     if (p.getObject() != null) {
                         if (p.getObject().isFillable() && p.getObject().getFilled()) {
                             p.getObject().setFilled(false);
                             if (p.getObject() instanceof ObjectAdvContainer) {
-                                Engine2.appendToScreenEngine("Hai svuotato: " + p.getObject().getName() + " liberando il contenuto.");
+                                Engine.appendToScreenEngine("Hai svuotato: " + p.getObject().getName() + " liberando il contenuto.");
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getObject();
                                 getCurrentRoom().getObjects().addAll(c.getList());
                                 showObjects(c.getList(), c.getName());
                             } else {
-                                Engine2.appendToScreenEngine("Hai svuotato: " + p.getObject().getName());
+                                Engine.appendToScreenEngine("Hai svuotato: " + p.getObject().getName());
                             }
                         } else {
-                            Engine2.appendToScreenEngine("Non puoi svuotare questo oggetto.");
+                            Engine.appendToScreenEngine("Non puoi svuotare questo oggetto.");
                         }
                     }
                     if (p.getInvObject() != null) {
                         if (p.getInvObject().isFillable() && p.getInvObject().getFilled()) {
                             p.getInvObject().setFilled(false);
                             if (p.getInvObject() instanceof ObjectAdvContainer) {
-                                Engine2.appendToScreenEngine("Hai svuotato: " + p.getObject().getName() + " liberando il contenuto.");
+                                Engine.appendToScreenEngine("Hai svuotato: " + p.getObject().getName() + " liberando il contenuto.");
                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
                                 getInventory().addAll(c.getList());
                                 showObjects(c.getList(), c.getName());
                             } else {
-                                Engine2.appendToScreenEngine("Hai svuotato: " + p.getInvObject().getName());
+                                Engine.appendToScreenEngine("Hai svuotato: " + p.getInvObject().getName());
                             }
                         } else {
-                            Engine2.appendToScreenEngine("Non puoi svuotare questo oggetto.");
+                            Engine.appendToScreenEngine("Non puoi svuotare questo oggetto.");
                         }
                     }
                 }
-            }  else if (p.getCommand().getType() == CommandType.FILL) {
-                //TODO: se avanza tempo aggiungere degli attributi sulla dimesione dell'oggetto e controllare se un oggetto può essere riempito o no
-                //TODO: attributi fill e fillable devono essere di objectContainer e non di ObjectAdv
-                /*if (p.getInvObject() != null) {
-                    if (p.getObject() != null) {
-                        if(p.getInvObject().isFillable() && p.getInvObject().getFilled() == false){
-                            if (p.getInvObject() instanceof ObjectAdvContainer) {
-                                 ObjectAdvContainer c = (ObjectAdvContainer) p.getInvObject();
-                                 c.add(object2);
-                                 Engine2.appendToScreenEngine("Hai riempito " + object1.getName() + " con " + object2.getName());
-                                identifyObject(null, p.getInvObject(), p.getObject());
-                            } else{
-                                Engine2.appendToScreenEngine(p.getInvObject().getName() + " non può essere riempito perchè non è un contenitore.");
-                            }
-                        } else{
-                            Engine2.appendToScreenEngine(p.getInvObject().getName() + " non può essere riempito prchè già pieno");
-                        }
-                    } else {
-                        Engine2.appendToScreenEngine("Quello che deve essere inserito nel contenitore deve essere un oggetto"
-                                + " preciso e deve essere presente nella stanza (non nell'inventario).");
-                    }
-                } else if (p.getInvObject() != null) {
-                    if (p.getObject() != null) {
-                        if(p.getInvObject().isFillable() && p.getInvObject().getFilled() == false){
-                            if (p.getInvObject() instanceof ObjectAdvContainer) {
-                                identifyObject(null, p.getInvObject(), p.getObject());
-                            } else{
-                                Engine2.appendToScreenEngine(p.getInvObject().getName() + " non può essere riempito perchè non è un contenitore.");
-                            }
-                        } else{
-                            Engine2.appendToScreenEngine(p.getInvObject().getName() + " non può essere riempito prchè già pieno");
-                        }
-                    } else {
-                        Engine2.appendToScreenEngine("Quello che deve essere inserito nel contenitore deve essere un oggetto"
-                                + " preciso e deve essere presente nella stanza (non nell'inventario).");
-                    }
-                } else {
-                    Engine2.appendToScreenEngine("Un'oggetto per essere riempito deve essere nell'inventario.");
-                }
-                
-                if (p.getObject() != null && p.getInvObject() != null) {
-                    if(p.getInvObject() instanceof ObjectAdvContainer){
-                        if (p.getInvObject().isFillable()){
-                            if (p.getInvObject().getFilled() == false) {
-                                identifyObject(null, p.getInvObject(), p.getObject());
-                            } else{
-                                Engine2.appendToScreenEngine(p.getInvObject().getName() + " è già piebo. per poterlo utilizzare svuotalo..");
-                            }
-                        } else{
-                            Engine2.appendToScreenEngine(p.getInvObject().getName() + " non può essere riempito.");
-                        }
-                    } else if(p.getObject().isFillable() && p.getObject().getFilled() == false){
-                        if (p.getObject() instanceof ObjectAdvContainer) {
-                            identifyObject(null, p.getInvObject(), p.getObject());
-                        } else{
-                            Engine2.appendToScreenEngine(p.getObject().getName() + " non può essere riempito.");
-                        }
-                    }else{
-                        Engine2.appendToScreenEngine(p.getInvObject().getName() + " non può essere riempito.");
-                    }
-                }
-                
-                if (p.getObject() != null && p.getInvObject() != null) {
-                    if(p.getObject().isFillable() && p.getObject().getFilled() == false){
-                        if (p.getObject() instanceof ObjectAdvContainer) {
-                            identifyObject(null, p.getInvObject(), p.getObject());
-                        } else{
-                            Engine2.appendToScreenEngine(p.getObject().getName() + " non può essere riempito.");
-                        }
-                    } else{
-                        Engine2.appendToScreenEngine(p.getInvObject().getName() + " non può essere riempito.");
-                    }
-                }*/
-            } else if (p.getCommand().getType() == CommandType.PLAY) {
-                Engine2.appendToScreenEngine(" \n benvenuto nel gioco");
             } else if (p.getCommand().getType() == CommandType.END) {
                 end();
             }
         }
     }
     
-    private void identifyObject(Room room, ObjectAdv object1, ObjectAdv object2){
+    private void identifyObject(Room room, ObjectAdv object1){
         Integer idRoom;
         Integer idObject1;
-        Integer idObject2;
         
-        if(room != null && object1 != null && object2 != null){
-            idRoom = room.getId();
-            idObject2 = object2.getId();
-            idObject1 = object1.getId();
-        }else if(room != null && object1 != null){
-            idRoom = room.getId();
-            idObject1 = object1.getId();
-        }else if(room != null){
+        if(room != null){
             idRoom = room.getId();
             switch(idRoom){
                 case 58: //è l'ID del precipizio
                     end(); 
                     break;
             }
-        }else if(object1 != null && object2 != null){
-            idObject1 = object1.getId();
-            idObject2 = object2.getId();
-            
-            //TODO: capire se serve ancora
-            switch (idObject1) {
-                case 71:
-                    Engine2.appendToScreenEngine("Hai riempito " + object1.getName() + " con " + object2.getName());
-                    break;
-                case 73:
-                    Engine2.appendToScreenEngine("Hai riempito " + object1.getName() + " con " + object2.getName());
-                    break;
-            }
         }else if(object1 != null){
             idObject1 = object1.getId();
             switch(idObject1){
-                /*TODO: capire se ervono ancora 
-                case 71: 
-                    Engine2.appendToScreenEngine("Sta scorrendo dell'acqua. Sprecone!!! L'acqua è un bene prezioso."); 
+                case 78:
+                    Engine.getGrafica().setEnabled(false);
+                    Engine.getGrafica().setVisible(false);
+                    IndovinelloUI ind = new IndovinelloUI();
+                    ind.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosed(WindowEvent e) {
+                            if(ind.isCompelteRiddles()){
+                                Engine.appendToScreenEngine("Dopo aver indovinato l'ultimo libro, senti un rumore alle tue spalle. LA libreria dietro di te si sta aprendo lasciando cadere a terra una chiave. \n");
+                                ObjectAdv o = obtainObjectById(getCurrentRoom().getObjects(), 79);
+                                if(o.getId() != -1){
+                                    o.setPickupable(true);
+                                    o.setVisible(true);
+                                }
+                            }
+                            Engine.getGrafica().setEnabled(true);
+                            Engine.getGrafica().setVisible(true);
+                        }
+                    });
                     break;
-                case 73: 
-                    Engine2.appendToScreenEngine("Sta scorrendo dell'acqua. Sprecone!!! L'acqua è un bene prezioso."); 
-                    break;
-                case 35: 
-                    ObjectAdvContainer c = (ObjectAdvContainer) object1;
-                    getCurrentRoom().getObjects().addAll(c.getList());
-                    c.showObjects();
-                    break;*/
-                case 28:
+                case 80: //camino
                     for (ObjectAdv ob : getCurrentRoom().getObjects()) {
-                        if(ob.getId() == 76)
+                        if(ob.getId() == 83)
                             ob.setVisible(true);
                     }
                     break;
-                case 76:
+                case 83: //bottone del gas
                     ObjectAdvContainer chimneyForButton = (ObjectAdvContainer) getCurrentRoom().getObjects().get(28);
                     if (chimneyForButton.getName().equals("Camino Spento")){
                         chimneyForButton.setName("Camino");
                         chimneyForButton.setDescription("Un bel caminetto con del fuoco accesso, al cui lato noti un bottone. Se hai con te delle salsicce puoi fare un ottimo spuntino.");
-                        Engine2.appendToScreenEngine("Prenmendo il bottone, il camino si accende.");
+                        Engine.appendToScreenEngine("Prenmendo il bottone, il camino si accende.");
+                        chimneyForButton.setOpen(false);
                     } else {
                         chimneyForButton.setName("Camino spento");
                         chimneyForButton.setDescription("Un bel caminetto, al cui lato noti un bottone. Se hai con te delle salsicce purtroppo non puoi fare un ottimo spuntino.");
                         chimneyForButton.setOpen(true);
                         getCurrentRoom().getObjects().add(chimneyForButton.getList().get(30));
                         chimneyForButton.getList().remove(chimneyForButton.getList().get(30));
-                        Engine2.appendToScreenEngine("Prenmendo il bottone, il camino si spegne rivelando al suo interno tra la cenere una chiave.");
+                        Engine.appendToScreenEngine("Prenmendo il bottone, il camino si spegne rivelando al suo interno tra la cenere una chiave.");
                     }
                     break;
-                case 64: 
-                    if(checkObjectInInv(36)){
+                case 60: //portone
+                    if(foundObject(getInventory(), 86)){
                         object1.setOpenable(true);
                         object1.setOpen(true);
-                        Engine2.grafica.appendToScreen("Hai aperto " + object1.getName() + " utilizzando la chiave giusta nell'inventario");
+                        Engine.appendToScreenEngine("Hai aperto " + object1.getName() + " utilizzando la chiave giusta nell'inventario");
                     } else
-                        Engine2.grafica.appendToScreen("Non puoi aprire " + object1.getName() + " perchè non hai la chiave giusta nell'inventario");
+                        Engine.appendToScreenEngine("Non puoi aprire " + object1.getName() + " perchè non hai la chiave giusta nell'inventario");
                     break;
-                case 48: 
-                    if(checkObjectInInv(43)){
+                case 94: // cancello sclale
+                    if(foundObject(getInventory(), 79)){
                         object1.setOpenable(true);
                         object1.setOpen(true);
-                        Engine2.grafica.appendToScreen("Hai aperto " + object1.getName() + " utilizzando la chiave giusta nell'inventario");
+                        Engine.appendToScreenEngine("Hai aperto " + object1.getName() + " utilizzando la chiave giusta nell'inventario");
                     } else
-                        Engine2.grafica.appendToScreen("Non puoi aprire " + object1.getName() + " perchè non hai la chiave giusta nell'inventario");
+                        Engine.appendToScreenEngine("Non puoi aprire " + object1.getName() + " perchè non hai la chiave giusta nell'inventario");
+                    break;
+                case 95: //statua di Ares
+                    for (ObjectAdv ob : getCurrentRoom().getObjects()) {
+                        if(ob.getId() == 96) //Braccio di Ares
+                            ob.setVisible(true);
+                    }
+                    break;
+                case 87: // porta camera crollata
+                    if(foundObject(getInventory(),77)){
+                        object1.setOpenable(true);
+                        object1.setOpen(true);
+                        Engine.appendToScreenEngine("Hai aperto " + object1.getName() + " utilizzando la chiave giusta nell'inventario");
+                    } else
+                        Engine.appendToScreenEngine("Non puoi aprire " + object1.getName() + " perchè non hai la chiave giusta nell'inventario");
+                    break;
+                case 96: //Braccio di Ares
+                    Engine.appendToScreenEngine("Spingendo il braccio della statua di Ares, dietro la statua si sposta un muro rivelando un passaggio.");
+                    Room r = obtainRoomById(getRooms(), 55);
+                    if(r.getId() != -1){
+                        getCurrentRoom().setSouth(r);
+                        setCurrentRoom(getCurrentRoom().changeRoom("South", getCurrentRoom()));
+                    }
+                    break;
+                case 104: //Morte Mister X
+                    Engine.appendToScreenEngine("Finalmente Mister X ha tirato le cuoia!!!!!!!");
+                    Engine.appendToScreenEngine("Hai salvato Stecy, ora puoi fare quel che ti pare...");
+                    Engine.appendToScreenEngine("Prendi Stecy per mano e camminate insieme verso il tramonto.");
+                    Engine.appendToScreenEngine("E vissero per sempre felici e contenti.");
+                    Engine.appendToScreenEngine("Ci siamo divertiti... Forse");
+                    end();
                     break;
             }
         }
     }
     
-    //TODO: Se si riesce a trovare un metodo migliore ben venga
     private void end() {
         (new Thread(this)).start();
     }
     
     @Override
     public void run() {
-        
         try {
-            //aggiungere il metodo che salva gli oggetti nell'inventario al database
-            h2 databaseManagement = new h2();
+            DatabaseManagement databaseManagement = new DatabaseManagement();
             databaseManagement.saveObjectsToDatabase(getInventory());
-            Engine2.appendToScreenEngine("Addioooo...!");
+            Engine.appendToScreenEngine("Addioooo...!");
             Thread.sleep(5000);
             System.exit(0);
         } catch (InterruptedException e) {
             // Gestisci eventuali eccezioni dovute all'interruzione del sonno
-            Logger.getLogger(AdvPerson.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(PersonAdv.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
     private void showObjects(List<ObjectAdv> objectList, String name) {
         if (!objectList.isEmpty()) {
-            Engine2.appendToScreenEngine("Gli oggetti che vedi in " + name + " sono:");
+            Engine.appendToScreenEngine("Gli oggetti che vedi in " + name + " sono:");
             objectList.stream()
                     .filter(o -> o.isVisible() == true)
                     .map(o -> o.getName())
-                    .forEach(o -> Engine2.appendToScreenEngine(o));
+                    .forEach(o -> Engine.appendToScreenEngine(o));
         }
     }
     
-    private boolean checkObjectInInv(int id){
+    private boolean foundObject(List<ObjectAdv> objects, int id){
         boolean found = false;
-        Iterator<ObjectAdv> iterator = getInventory().iterator();
+        Iterator<ObjectAdv> iterator = objects.iterator();
 
         while (iterator.hasNext() && found == false) {
             if (iterator.next().getId() == id) {
@@ -1219,5 +1079,33 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         }
         
         return found;
+    }
+    
+    private ObjectAdv obtainObjectById(List<ObjectAdv> objects, int id){
+        ObjectAdv object = new ObjectAdv(-1);
+        boolean found = false;
+        Iterator<ObjectAdv> iterator = objects.iterator();
+
+        while (iterator.hasNext() && found == false) {
+            object = iterator.next();
+            if (object.getId() == id) {
+                found = true;
+            }
+        }
+        return object;
+    }
+    
+    private Room obtainRoomById(List<Room> rooms, int id){
+        Room room = new Room(-1);
+        boolean found = false;
+        Iterator<Room> iterator = rooms.iterator();
+
+        while (iterator.hasNext() && found == false) {
+            room = iterator.next();
+            if (room.getId() == id) {
+                found = true;
+            }
+        }
+        return room;
     }
 }

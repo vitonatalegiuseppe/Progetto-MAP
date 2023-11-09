@@ -19,7 +19,6 @@ import java.util.Set;
  */
 public class Utils {
     
-    
     public static Set<String> loadFileListInSet(File file) throws IOException {
         Set<String> set = new HashSet<>();
         BufferedReader reader = new BufferedReader(new FileReader(file));

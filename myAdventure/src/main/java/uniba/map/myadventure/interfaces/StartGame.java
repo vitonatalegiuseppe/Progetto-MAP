@@ -4,15 +4,15 @@
  */
 package uniba.map.myadventure.interfaces;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import uniba.map.myadventure.classes.AdventureCastleGame;
-import uniba.map.myadventure.classes.Engine2;
-import uniba.map.myadventure.classes.GameDescription;
-import uniba.map.myadventure.classes.SeAvanzaTempo.h2;
-import static uniba.map.myadventure.classes.SeAvanzaTempo.h2.setUsername;
+import uniba.map.myadventure.classes.Engine;
+import uniba.map.myadventure.storage.DatabaseManagement;
+import static uniba.map.myadventure.storage.DatabaseManagement.setUsername;
 
 /**
  *
@@ -20,20 +20,26 @@ import static uniba.map.myadventure.classes.SeAvanzaTempo.h2.setUsername;
  */
 public class StartGame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form StartGame
-     */
-   
-    
-    private Engine2 engine;
+    private Engine engine;
 
-   
-    public StartGame(Engine2 engine) {
+    public StartGame(Engine engine) {
         initComponents();
         this.engine = engine;
         setLocationRelativeTo(null);
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Personalizza qui la logica da eseguire quando la finestra viene chiusa
+                int choice = JOptionPane.showConfirmDialog(StartGame.this, "Vuoi davvero uscire?", "Conferma uscita", JOptionPane.YES_NO_OPTION);
+                if (choice == JOptionPane.YES_OPTION) {
+                    // Se l'utente conferma, esci dall'applicazione
+                    System.exit(0);
+                }
+                // Se l'utente sceglie di non uscire, ignora l'evento di chiusura
+            }
+        });
     }
-    //todo:gestire la chiusura con la x visto che il gioco parte da engine quindi se si clicca la x il gioco termina
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -104,43 +110,33 @@ public class StartGame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
-
-          
-        h2 databaseManagement = new h2();
+        DatabaseManagement databaseManagement = new DatabaseManagement();
        
         if(username.getText().isEmpty()){
-            
             JOptionPane.showMessageDialog(this, "il campo è vuoto", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
             setUsername(username.getText());
             try {
                 if(databaseManagement.isUsernameExists()){
-
                     int option = JOptionPane.showConfirmDialog(this, "Il nome utente è esistente, vuoi caricare i dati di gioco?", "Ripristino dati", JOptionPane.YES_NO_OPTION);
                     if(option == JOptionPane.YES_OPTION){
                         engine.setUtenteExiste(true);
                         JOptionPane.showMessageDialog(this, "Dati caricati con successo, buon divertimento !", "Successo", JOptionPane.INFORMATION_MESSAGE);
-
                     }else{
                         //sovrascrivi i nuovi dati
-                         engine.setUtenteExiste(false);
-                       JOptionPane.showMessageDialog(this, "Stai per iniziare una nuova partita", "", JOptionPane.INFORMATION_MESSAGE);
-
+                        engine.setUtenteExiste(false);
+                        JOptionPane.showMessageDialog(this, "Stai per iniziare una nuova partita", "", JOptionPane.INFORMATION_MESSAGE);
                     }
-
                 }else{
                     if(databaseManagement.insertNewUser()){
-                     engine.setUtenteExiste(false);
-                     JOptionPane.showMessageDialog(this, "Registrazione avvenuta con successo", "", JOptionPane.INFORMATION_MESSAGE);
-
+                        engine.setUtenteExiste(false);
+                        JOptionPane.showMessageDialog(this, "Registrazione avvenuta con successo", "", JOptionPane.INFORMATION_MESSAGE);
                     } 
-                }
-               
+                } 
             } catch (SQLException ex) {
                 Logger.getLogger(StartGame.class.getName()).log(Level.SEVERE, null, ex);
-           //TODO: gestire l'eccezione in maniera piu chiara
+                System.err.println(ex.getSQLState() + ": " + ex.getMessage());
             }
-            
             dispose();
         }
      
@@ -149,7 +145,7 @@ public class StartGame extends javax.swing.JFrame {
     private void usernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usernameMouseClicked
         username.setText("");
     }//GEN-LAST:event_usernameMouseClicked
-    
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelText;

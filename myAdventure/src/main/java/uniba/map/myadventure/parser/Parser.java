@@ -1,8 +1,12 @@
 
-package uniba.map.myadventure.classes;
+package uniba.map.myadventure.parser;
 
+import uniba.map.myadventure.parser.ParserOutput;
 import java.util.List;
 import java.util.Set;
+import uniba.map.myadventure.type.Command;
+import uniba.map.myadventure.type.ObjectAdv;
+import uniba.map.myadventure.classes.Utils;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license

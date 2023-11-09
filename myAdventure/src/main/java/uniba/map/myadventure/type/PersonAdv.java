@@ -2,41 +2,40 @@
 * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
 */
-package uniba.map.myadventure.classes;
+package uniba.map.myadventure.type;
 
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import uniba.map.myadventure.classes.Engine;
 
 /**
  *
  * @author giuse
  */
-public class AdvPerson extends ObjectAdvContainer implements Runnable{
+public class PersonAdv extends ObjectAdvContainer implements Runnable{
     
     private int life = 0;
     
     private boolean live = false;
     
-    static private int playerLife = 10;
+    private static int playerLife = 15;
     
-    public AdvPerson(int id, int life) {
+    public PersonAdv(int id, int life) {
         super(id);
         this.life = life;
     }
     
-    public AdvPerson(int id, String name, int life) {
+    public PersonAdv(int id, String name, int life) {
         super(id, name);
         this.life = life;
     }
     
-    public AdvPerson(int id, String name, String description, int life) {
+    public PersonAdv(int id, String name, String description, int life) {
         super(id, name, description);
         this.life = life;
     }
     
-    public AdvPerson(int id, String name, String description, Set<String> alias, int life) {
+    public PersonAdv(int id, String name, String description, Set<String> alias, int life) {
         super(id, name, description, alias);
         this.life = life;
     }
@@ -47,7 +46,7 @@ public class AdvPerson extends ObjectAdvContainer implements Runnable{
     
     public void setLife(int life) {
         this.life = life;
-        if(life == 0)
+        if(this.life == 0)
             this.setLive(false);
     }
     
@@ -68,13 +67,17 @@ public class AdvPerson extends ObjectAdvContainer implements Runnable{
     }
     
     public static void setPlayerLife(int playerLife) {
-        AdvPerson.playerLife = playerLife;
+        PersonAdv.playerLife = playerLife;
+        
+        if(getPlayerLife() == 0){
+            System.exit(0);
+        }
     }
     
     public void attack(){
         if(this.isLive()){
             setPlayerLife(playerLife-1);
-            Engine2.appendToScreenEngine("Sei stato colpito. La tua vita è pari a: " + getPlayerLife());
+            Engine.appendToScreenEngine("Sei stato colpito. La tua vita è pari a: " + getPlayerLife());
         }
     }
     
@@ -83,18 +86,13 @@ public class AdvPerson extends ObjectAdvContainer implements Runnable{
     public void run() {
         while(this.isLive()){
             try {
-                // Metti il programma in pausa per 5 secondi
-                TimeUnit.SECONDS.sleep(5);
+                // Metti il programma in pausa per 10 secondi
+                TimeUnit.SECONDS.sleep(20);
+                this.attack();
             } catch (InterruptedException e) {
                 // Gestisci eventuali eccezioni dovute all'interruzione del sonno
-                e.printStackTrace();
-            }
-            /*try {
-            Thread.sleep(20000);
-            } catch (InterruptedException ex) {
-            Logger.getLogger(AdvPerson.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
-            this.attack();
+                System.err.println(e.getCause()+ ": " + e.getMessage());
+            } 
         }
     }
 }

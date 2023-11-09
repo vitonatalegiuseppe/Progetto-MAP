@@ -5,6 +5,10 @@
 
 package uniba.map.myadventure.classes;
 
+import uniba.map.myadventure.type.Command;
+import uniba.map.myadventure.type.ObjectAdv;
+import uniba.map.myadventure.type.Room;
+import uniba.map.myadventure.parser.ParserOutput;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -4,6 +4,9 @@
  */
 package uniba.map.myadventure.classes;
 
+import uniba.map.myadventure.type.ObjectAdvContainer;
+import uniba.map.myadventure.type.ObjectAdv;
+import uniba.map.myadventure.type.Room;
 import java.util.List;
 import java.util.Random;
 
@@ -23,9 +26,9 @@ public class Controller {
             for (ObjectAdv b : nextRoom.getObjects()) {
                 if (o.equals(b)) {
                     if (!b.isOpen()) {
-                        return stato = false;
+                        stato = false;
                     } else {
-                        return stato;
+                        stato = true;
                     }
                 }
             }
@@ -60,7 +63,6 @@ public class Controller {
         return destroyed;
     }
 
-//TODO: sistemare sotto come sopra
     public String consequenceOfHit(ObjectAdv objectHit, ObjectAdv strikingObject, Room currentRoom, List<ObjectAdv> inv) {
         String message = null;
 
