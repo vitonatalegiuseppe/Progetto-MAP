@@ -1,5 +1,5 @@
 
-package uniba.map.myadventure.classes;
+package uniba.map.myadventure.type;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -63,7 +63,7 @@ public class ObjectAdv {
         this.description = description;
         this.alias = alias;
     }
-
+    
     public ObjectAdv(int id, String nome, String descrizione, Set<String> aliasSet, boolean openable, boolean pickupable, boolean pushable, boolean aperto, boolean push, boolean fillable, boolean filled, boolean fragile, boolean visible) {
         this.id = id;
         this.name = nome;

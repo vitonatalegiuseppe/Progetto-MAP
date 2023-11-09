@@ -3,7 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package uniba.map.myadventure.classes;
+package uniba.map.myadventure.parser;
+
+import uniba.map.myadventure.type.Command;
+import uniba.map.myadventure.type.ObjectAdv;
 
 /**
  *

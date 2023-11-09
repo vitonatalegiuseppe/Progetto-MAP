@@ -6,8 +6,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import uniba.map.myadventure.classes.AdventureCastleGame;
-import uniba.map.myadventure.classes.Engine2;
+import uniba.map.myadventure.game.AdventureCastleGame;
+import uniba.map.myadventure.classes.Engine;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -22,13 +22,19 @@ public class Grafica extends javax.swing.JFrame {
     /**
      * Creates new form Grafica
      */
-    public final Engine2 engine = new Engine2(new AdventureCastleGame(),this);
+    private final Engine engine = new Engine(new AdventureCastleGame(),this);
+
     private JFrame mappaFrame1 = null;
+    
     private JFrame mappaFrame2 = null;
 
     public Grafica() {
         initComponents();
-        engine.start2();
+        engine.start();
+    }
+    
+    public Engine getEngine() {
+        return engine;
     }
     
     public void appendToScreen(String text) {
@@ -43,7 +49,7 @@ public class Grafica extends javax.swing.JFrame {
     public boolean isEnterPressed() {
         return writer.getText().endsWith("\n");
     }
-    //TODO: modificare lo scroll in maniera che faccia sempre vedere l'ultima riga
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -80,7 +86,7 @@ public class Grafica extends javax.swing.JFrame {
         panelText.setLayout(panelTextLayout);
         panelTextLayout.setHorizontalGroup(
             panelTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(writer, javax.swing.GroupLayout.DEFAULT_SIZE, 836, Short.MAX_VALUE)
+            .addComponent(writer, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE)
         );
         panelTextLayout.setVerticalGroup(
             panelTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,7 +125,7 @@ public class Grafica extends javax.swing.JFrame {
         panelButton.setLayout(panelButtonLayout);
         panelButtonLayout.setHorizontalGroup(
             panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mappa1, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+            .addComponent(mappa1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(mappa2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(help, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -132,7 +138,7 @@ public class Grafica extends javax.swing.JFrame {
                 .addComponent(mappa2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(help, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(125, Short.MAX_VALUE))
         );
 
         getContentPane().add(panelButton, java.awt.BorderLayout.LINE_END);
@@ -149,7 +155,7 @@ public class Grafica extends javax.swing.JFrame {
         screen.setAlignmentX(1.0F);
         screen.setAlignmentY(2.0F);
         screen.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        screen.setMargin(new java.awt.Insets(2, 8, 2, 6));
+        screen.setMargin(new java.awt.Insets(2, 8, 2, 8));
         scrollPane.setViewportView(screen);
 
         getContentPane().add(scrollPane, java.awt.BorderLayout.CENTER);
@@ -256,12 +262,13 @@ public class Grafica extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mappa2MouseClicked
 
-
+//TODO: sistemare facendli più specifici
     private void helpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_helpMouseClicked
-        JOptionPane.showMessageDialog(this, " Comandi disponibili: \n FINE, INVENTARIO, NORD, SUD, EST, OVEST" +
-"    OSSERVA, RIEMPI, COLPISCI, LANCIA, SALI,\n" +
-"    APRI,SCENDI, BEVI, SVUOTA, GIOCA", "Comandi utilizzabili", JOptionPane.INFORMATION_MESSAGE);
-    } //GEN-LAST:event_helpMouseClicked
+        JOptionPane.showMessageDialog(this, "Comandi disponibili: \n "
+                + "END, INVENTARIO, NORD, SUD, EST, OVEST, \n" 
+                + "OSSERVA, RIEMPI, COLPISCI, LANCIA, SALI,\n"
+                + "APRI, SCENDI, BEVI, SVUOTA, GIOCA", "Comandi utilizzabili", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_helpMouseClicked
 
     /**
      * @param args the command line arguments
