@@ -64,7 +64,7 @@ public class ObjectAdv {
         this.alias = alias;
     }
 
-    public ObjectAdv(int id, String nome, String descrizione, Set<String> aliasSet, boolean openable, boolean pickupable, boolean pushable, boolean aperto, boolean push, boolean fillable, boolean filled, boolean fragile) {
+    public ObjectAdv(int id, String nome, String descrizione, Set<String> aliasSet, boolean openable, boolean pickupable, boolean pushable, boolean aperto, boolean push, boolean fillable, boolean filled, boolean fragile, boolean visible) {
         this.id = id;
         this.name = nome;
         this.description = descrizione;
@@ -77,6 +77,7 @@ public class ObjectAdv {
         this.fillable = fillable;
         this.filled = filled;
         this.fragile = fragile;
+        this.visible = visible;
     }
 
     public String getName() {
