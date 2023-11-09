@@ -231,6 +231,26 @@ public class DatabaseManagement {
         return oggetti;
     }
     
+    public void savePositionRoomToDatabase(String nameRoom) {
+        Connection conn = null;
+        PreparedStatement statement = null;
+        
+        try {
+            conn = connectToDatabase();
+            
+            // Query per aggiornare la posizione del giocatore nel database
+            String query = "UPDATE Giocatore SET posizioneGioco = ? WHERE nomeUtente = ?";
+            statement = conn.prepareStatement(query);
+            statement.setString(1, nameRoom);
+            statement.setString(2, username);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getSQLState() + ": " + e.getMessage());
+        } finally {
+            closeResources(conn, statement, null);
+        }
+    }
+    
     public void saveObjectsToDatabase(List<ObjectAdv> objects) {
         Connection conn = null;
         PreparedStatement deleteStatement = null;

@@ -601,7 +601,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         tower.getObjects().add(misterX);
         
         //set starting room
-        setCurrentRoom(hall5_2);
+        setCurrentRoom(entryway);
     }
     
     @Override
@@ -1049,6 +1049,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         try {
             DatabaseManagement databaseManagement = new DatabaseManagement();
             databaseManagement.saveObjectsToDatabase(getInventory());
+            databaseManagement.savePositionRoomToDatabase(getCurrentRoom().getName());
             Engine.appendToScreenEngine("Addioooo...!");
             Thread.sleep(5000);
             System.exit(0);
