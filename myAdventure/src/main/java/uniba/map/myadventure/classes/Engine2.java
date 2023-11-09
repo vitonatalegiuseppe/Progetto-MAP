@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import uniba.map.myadventure.classes.SeAvanzaTempo.h2;
 import uniba.map.myadventure.interfaces.StartGame;
 
 /**
@@ -60,7 +61,7 @@ public class Engine2 {
     }
 
     public void inizialized() {
-         databaseManagement databaseManagement = new databaseManagement();
+        h2 databaseManagement = new h2();
          
         grafica.appendToScreen("================================ ");
         grafica.appendToScreen("* Adventure Castle Game v. 0.3 - 2022-2023 * ");
@@ -115,7 +116,7 @@ public class Engine2 {
     
     private void start(boolean flag) {
         
-        databaseManagement databaseManagement = new databaseManagement();
+        h2 databaseManagement = new h2();
         
         if (flag == true){
             // Ottieni la lista di oggetti utente

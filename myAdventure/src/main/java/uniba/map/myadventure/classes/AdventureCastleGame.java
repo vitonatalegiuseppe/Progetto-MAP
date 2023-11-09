@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import uniba.map.myadventure.classes.SeAvanzaTempo.h2;
 
 /**
  * @author pierpaolo
@@ -1186,7 +1187,7 @@ public class AdventureCastleGame extends GameDescription implements Runnable{
         
         try {
             //aggiungere il metodo che salva gli oggetti nell'inventario al database
-            databaseManagement databaseManagement = new databaseManagement();
+            h2 databaseManagement = new h2();
             databaseManagement.saveObjectsToDatabase(getInventory());
             Engine2.appendToScreenEngine("Addioooo...!");
             Thread.sleep(5000);

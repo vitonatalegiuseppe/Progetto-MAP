@@ -11,8 +11,8 @@ import javax.swing.JOptionPane;
 import uniba.map.myadventure.classes.AdventureCastleGame;
 import uniba.map.myadventure.classes.Engine2;
 import uniba.map.myadventure.classes.GameDescription;
-import uniba.map.myadventure.classes.databaseManagement;
-import static uniba.map.myadventure.classes.databaseManagement.setUsername;
+import uniba.map.myadventure.classes.SeAvanzaTempo.h2;
+import static uniba.map.myadventure.classes.SeAvanzaTempo.h2.setUsername;
 
 /**
  *
@@ -106,7 +106,7 @@ public class StartGame extends javax.swing.JFrame {
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
 
           
-        databaseManagement databaseManagement = new databaseManagement();
+        h2 databaseManagement = new h2();
        
         if(username.getText().isEmpty()){
             
